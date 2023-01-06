@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import '/view/page/profile.dart';
+import '/view/page/login.dart';
+import '/view/page/registration.dart';
 
 class HomePage extends StatelessWidget{
   const HomePage({super.key});
@@ -52,12 +55,20 @@ class HomePage extends StatelessWidget{
               name: "Profile",
               icon: Icons.person_outline,
               onTap: (){
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context)=> const ProfilePage())
+                );
               }
             ),
             MenuItem(
               name: "Logout",
               icon: Icons.logout_outlined,
               onTap: (){
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context)=> const LoginPage())
+                );
               }
             ),
             const Divider(color: Colors.black,),
@@ -65,6 +76,10 @@ class HomePage extends StatelessWidget{
               name: "Register",
               icon: Icons.add_outlined,
               onTap: (){
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context)=> const RegistrationPage())
+                );
               }
             ),
           ],
