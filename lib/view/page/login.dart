@@ -19,13 +19,27 @@ class LoginPage extends StatelessWidget {
               child: Column(
                 children: [
                   Expanded(
-                    child: Container(                      
+                    child: Container(     
+                      alignment: Alignment.center,                 
                       decoration: const BoxDecoration(
                         gradient: LinearGradient(
-                          colors: [Colors.blue, Color.fromARGB(255, 115, 30, 227)],
+                          colors: [
+                            Colors.blue, 
+                            Color.fromARGB(255, 115, 30, 227)
+                          ],
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,
                         )
+                      ),
+                      child: Container(
+                        height: 100,
+                        margin: const EdgeInsets.only(bottom: 40),
+                        child: const FittedBox(
+                          child: CircleAvatar(                            
+                            backgroundColor: Colors.white,
+                            child: Icon(Icons.home),
+                          ),
+                        ),
                       ),
                     )
                   ),
@@ -117,10 +131,7 @@ class LoginPage extends StatelessWidget {
                       child: const Text("Forgot password?"),
                     )
                   ),
-          
-                ],
-                
-                // alignment: Alignment.center,
+                ],                
               ),
             ),
           ] 
