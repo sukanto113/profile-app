@@ -6,7 +6,7 @@ import '/view/page/registration.dart';
 class HomePage extends StatelessWidget{
   const HomePage({super.key});
 
-  void openOnDrawerItemTap(BuildContext context, Widget page){
+  void openPageOnDrawerItemTap(BuildContext context, Widget page){
     Navigator.pop(context);
     Navigator.push(
       context,
@@ -63,14 +63,14 @@ class HomePage extends StatelessWidget{
               name: "Profile",
               icon: Icons.person_outline,
               onTap: (){
-                openOnDrawerItemTap(context, const ProfilePage());
+                openPageOnDrawerItemTap(context, const ProfilePage());
               }
             ),
             MenuItem(
               name: "Logout",
               icon: Icons.logout_outlined,
               onTap: (){
-                openOnDrawerItemTap(context, const LoginPage());
+                openPageOnDrawerItemTap(context, const LoginPage());
               }
             ),
             const Divider(color: Colors.black,),
@@ -78,7 +78,7 @@ class HomePage extends StatelessWidget{
               name: "Register",
               icon: Icons.add_outlined,
               onTap: (){
-                openOnDrawerItemTap(context, const RegistrationPage());
+                openPageOnDrawerItemTap(context, const RegistrationPage());
               }
             ),
           ],
