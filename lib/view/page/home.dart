@@ -8,6 +8,10 @@ class HomePage extends StatelessWidget{
 
   void openPageOnDrawerItemTap(BuildContext context, Widget page){
     Navigator.pop(context);
+    openPage(context, page);
+  }
+
+  void openPage(BuildContext context, Widget page){
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context)=> page)
