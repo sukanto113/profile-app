@@ -103,7 +103,7 @@ class HomePage extends StatelessWidget{
               margin: const EdgeInsets.all(10),
               child: ElevatedButton(
                 onPressed: (){
-
+                  openPage(context, const ProfilePage());
                 },
                 child: const Text("View Profile"),
               ),
