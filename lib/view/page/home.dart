@@ -61,6 +61,7 @@ class HomePage extends StatelessWidget{
               name: "Home",
               icon: Icons.home_outlined,
               onTap: (){
+                Navigator.pop(context);
               }
             ),
             MenuItem(
