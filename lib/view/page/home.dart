@@ -7,6 +7,7 @@ class HomePage extends StatelessWidget{
   const HomePage({super.key});
 
   void openOnDrawerItemTap(BuildContext context, Widget page){
+    Navigator.pop(context);
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context)=> page)
