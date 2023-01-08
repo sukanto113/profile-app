@@ -84,8 +84,28 @@ class HomePage extends StatelessWidget{
           ],
         ),
       ),
-      body: const Center(
-        child: Text("Welcome to home"),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text(
+              "WELCOME TO HOME",
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 20
+              ),
+            ),
+            Container(
+              margin: const EdgeInsets.all(10),
+              child: ElevatedButton(
+                onPressed: (){
+
+                },
+                child: const Text("View Profile"),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
