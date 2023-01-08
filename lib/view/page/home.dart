@@ -6,6 +6,13 @@ import '/view/page/registration.dart';
 class HomePage extends StatelessWidget{
   const HomePage({super.key});
 
+  void openOnDrawerItemTap(BuildContext context, Widget page){
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context)=> page)
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,20 +62,14 @@ class HomePage extends StatelessWidget{
               name: "Profile",
               icon: Icons.person_outline,
               onTap: (){
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context)=> const ProfilePage())
-                );
+                openOnDrawerItemTap(context, const ProfilePage());
               }
             ),
             MenuItem(
               name: "Logout",
               icon: Icons.logout_outlined,
               onTap: (){
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context)=> const LoginPage())
-                );
+                openOnDrawerItemTap(context, const LoginPage());
               }
             ),
             const Divider(color: Colors.black,),
@@ -76,10 +77,7 @@ class HomePage extends StatelessWidget{
               name: "Register",
               icon: Icons.add_outlined,
               onTap: (){
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context)=> const RegistrationPage())
-                );
+                openOnDrawerItemTap(context, const RegistrationPage());
               }
             ),
           ],
