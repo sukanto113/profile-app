@@ -22,7 +22,7 @@ class HomePage extends StatelessWidget{
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Home"),
+        title: const Center(child: Text("Home")),
       ),
       endDrawer: Drawer(
         child: ListView(

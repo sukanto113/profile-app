@@ -7,7 +7,7 @@ class ProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Profile"),
+        title: const Center(child: Text("Profile")),
         automaticallyImplyLeading: false,
       ),
       body:  Center(
@@ -40,8 +40,8 @@ class ProfilePage extends StatelessWidget {
               margin: const EdgeInsets.all(25),
               child: const Text(
                 "Hi, I'm Sukanto saha, I'm M.Sc. student of Rajshahi "
-                "University. I completed my graguation in pure "
-                "mathematics from Rajshahi University.",
+                "University. I completed my graduation in "
+                "Mathematics from Rajshahi University.",
                 textAlign: TextAlign.justify,
                 style: TextStyle(
                   fontSize: 18
