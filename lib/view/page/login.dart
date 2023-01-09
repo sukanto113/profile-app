@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:email_validator/email_validator.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
@@ -80,11 +81,15 @@ class LoginPage extends StatelessWidget {
                           TextFormField(
                             autovalidateMode: AutovalidateMode.always,
                             decoration: const InputDecoration(
-                              hintText: 'Your Name',
-                              labelText: 'NAME *',
+                              hintText: 'user@example.com',
+                              labelText: 'EMAIL *',
                             ),
                             validator: (String? value) {
-                              return (value != null && value.contains('@')) ? 'Do not use the @ char.' : null;
+                              if( value == ""){
+                                return null;
+                              }else{
+                                return (value !=null && EmailValidator.validate(value)) ? null : "Please enter a valid email";
+                              }
                             },
                           ),
                           Container(
