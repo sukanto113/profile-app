@@ -17,8 +17,40 @@ class LoginPage extends StatelessWidget {
             _PageBackground(),
             SingleChildScrollView(
               child: _CardStyleForm(
-                // inputes
-                // buttons
+                stackedChild: [
+                  Positioned(
+                    bottom: 60,
+                    left: 60,
+                    right: 60,
+                    child: ElevatedButton(
+                      onPressed: (){},
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: const Size(100, 50),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(25)
+                        )
+                      ),
+                      child: const Text(
+                        "LOGIN",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),
+                      ),
+                    )
+                  ),
+                    
+                  Positioned(
+                    bottom: 0,
+                    left: 60,
+                    right: 60,
+                    child: TextButton(
+                      onPressed: (){},
+                      child: const Text("Forgot password?"),
+                    )
+                  ),
+                ],
+              
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -59,7 +91,6 @@ class LoginPage extends StatelessWidget {
                     ),
                   ],
                 ),
-                // stackedChild: Column,
               ),
             ),
           ] 
@@ -70,16 +101,14 @@ class LoginPage extends StatelessWidget {
 }
 
 class _CardStyleForm extends StatelessWidget {
-   const _CardStyleForm({
+    const _CardStyleForm({
     this.child, 
     this.stackedChild, 
-    // this.n,
     Key? key,
   }) : super(key: key);
 
-  // final int? n;
   final Widget? child;
-  final Widget? stackedChild;
+  final List<Widget>? stackedChild;
 
   @override
   Widget build(BuildContext context) {
@@ -96,38 +125,8 @@ class _CardStyleForm extends StatelessWidget {
             child: child,
           ),
         ),
-        Positioned(
-          bottom: 60,
-          left: 60,
-          right: 60,
-          child: ElevatedButton(
-            onPressed: (){},
-            style: ElevatedButton.styleFrom(
-              minimumSize: const Size(100, 50),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(25)
-              )
-            ),
-            child: const Text(
-              "LOGIN",
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 18,
-              ),
-            ),
-          )
-        ),
-          
-        Positioned(
-          bottom: 0,
-          left: 60,
-          right: 60,
-          child: TextButton(
-            onPressed: (){},
-            child: const Text("Forgot password?"),
-          )
-        ),
-      ],                
+        ...?stackedChild
+      ]                
     );
   }
 }
