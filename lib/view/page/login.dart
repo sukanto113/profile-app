@@ -10,8 +10,8 @@ class LoginPage extends StatelessWidget {
       // appBar: AppBar(
       //   title: const Text("Login"),
       // ),
-      body: FloatingCardForm(
-        background: const _PageBackground(),
+      body: FloatingCardFormScreen(
+        background: const BackgroundWithHomeIcon(),
         margin: const EdgeInsets.fromLTRB(30, 150, 30, 80),
         stackedChild: [
           Positioned(
@@ -92,8 +92,8 @@ class LoginPage extends StatelessWidget {
   }
 }
 
-class FloatingCardForm extends StatelessWidget {
-  const FloatingCardForm({
+class FloatingCardFormScreen extends StatelessWidget {
+  const FloatingCardFormScreen({
     this.background,
     this.child, 
     this.stackedChild, 
@@ -166,8 +166,8 @@ class _CardStyleForm extends StatelessWidget {
   }
 }
 
-class _PageBackground extends StatelessWidget {
-  const _PageBackground({
+class BackgroundWithHomeIcon extends StatelessWidget {
+  const BackgroundWithHomeIcon({
     Key? key,
   }) : super(key: key);
 
