@@ -29,30 +29,35 @@ class HomePage extends StatelessWidget{
           padding: EdgeInsets.zero,
           children:  [
             SizedBox(
-              height: 230,
+              height: 250,
               child: DrawerHeader(
                 decoration: const BoxDecoration(
                   color: Colors.blue,
                 ),
                 child: Column(
-                  children: [
-                    const Expanded(
+                  children: const [
+                    Expanded(
                       child: FittedBox(
                         child: CircleAvatar(
                           backgroundImage: AssetImage("images/sukanto_profile_pic.jpg")
                         ),
                       ),
                     ),
-                    Container(
-                      margin: const EdgeInsets.only(top: 10),
-                      child: const Text(
-                        "Sukanto Saha",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 28,
-                        ),
+                    SizedBox(height: 10,),
+                    Text(
+                      "Sukanto Saha",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 28,
                       ),
                     ),
+                    Text(
+                      "sukanto113@gmail.com",
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
+                    SizedBox(height: 10,),
                   ],
                 ),
               ),
