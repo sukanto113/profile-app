@@ -91,6 +91,7 @@ class RegistrationPage extends StatelessWidget {
             Container(
               margin: const EdgeInsets.only(bottom: 50),
               child: TextFormField(
+                obscureText: true,
                 decoration: const InputDecoration(
                   hintText: 'Password',
                   labelText: 'PASSWORD *',
