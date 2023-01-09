@@ -10,93 +10,115 @@ class LoginPage extends StatelessWidget {
       // appBar: AppBar(
       //   title: const Text("Login"),
       // ),
-      body: Center(
-        child: Stack(
-          alignment: Alignment.center,
-          children:  [
-            _PageBackground(),
-            SingleChildScrollView(
-              child: _CardStyleForm(
-                margin: const EdgeInsets.fromLTRB(30, 150, 30, 80),
-                stackedChild: [
-                  Positioned(
-                    bottom: 60,
-                    left: 60,
-                    right: 60,
-                    child: ElevatedButton(
-                      onPressed: (){},
-                      style: ElevatedButton.styleFrom(
-                        minimumSize: const Size(100, 50),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(25)
-                        )
-                      ),
-                      child: const Text(
-                        "LOGIN",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                        ),
-                      ),
-                    )
-                  ),
-                    
-                  Positioned(
-                    bottom: 0,
-                    left: 60,
-                    right: 60,
-                    child: TextButton(
-                      onPressed: (){},
-                      child: const Text("Forgot password?"),
-                    )
-                  ),
-                ],
-              
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Container(
-                      margin: const EdgeInsets.only(bottom: 40),
-                      child: const Text(
-                        "LOGIN",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20
-                        ),
-                      ),
-                    ),
-                    TextFormField(
-                      autovalidateMode: AutovalidateMode.always,
-                      decoration: const InputDecoration(
-                        hintText: 'user@example.com',
-                        labelText: 'EMAIL *',
-                      ),
-                      validator: (String? value) {
-                        if( value == ""){
-                          return null;
-                        }else{
-                          return (value !=null && EmailValidator.validate(value)) ? null : "Please enter a valid email";
-                        }
-                      },
-                    ),
-                    Container(
-                      margin: const EdgeInsets.only(bottom: 50),
-                      child: TextFormField(
-                        decoration: const InputDecoration(
-                          hintText: 'Password',
-                          labelText: 'PASSWORD *',
-                        ),
-                      ),
-                    ),
-                  ],
+      body: FloatingCardForm(
+        margin: const EdgeInsets.fromLTRB(30, 150, 30, 80),
+        stackedChild: [
+          Positioned(
+            bottom: 60,
+            left: 60,
+            right: 60,
+            child: ElevatedButton(
+              onPressed: (){},
+              style: ElevatedButton.styleFrom(
+                minimumSize: const Size(100, 50),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(25)
+                )
+              ),
+              child: const Text(
+                "LOGIN",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                ),
+              ),
+            )
+          ),
+            
+          Positioned(
+            bottom: 0,
+            left: 60,
+            right: 60,
+            child: TextButton(
+              onPressed: (){},
+              child: const Text("Forgot password?"),
+            )
+          ),
+        ],
+      
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Container(
+              margin: const EdgeInsets.only(bottom: 40),
+              child: const Text(
+                "LOGIN",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20
                 ),
               ),
             ),
-          ] 
-        ),
+            TextFormField(
+              autovalidateMode: AutovalidateMode.always,
+              decoration: const InputDecoration(
+                hintText: 'user@example.com',
+                labelText: 'EMAIL *',
+              ),
+              validator: (String? value) {
+                if( value == ""){
+                  return null;
+                }else{
+                  return (value !=null && EmailValidator.validate(value)) ? null : "Please enter a valid email";
+                }
+              },
+            ),
+            Container(
+              margin: const EdgeInsets.only(bottom: 50),
+              child: TextFormField(
+                decoration: const InputDecoration(
+                  hintText: 'Password',
+                  labelText: 'PASSWORD *',
+                ),
+              ),
+            ),
+          ],
+        ), 
       ),
+    );
+  }
+}
+
+class FloatingCardForm extends StatelessWidget {
+  const FloatingCardForm({
+    this.child, 
+    this.stackedChild, 
+    this.margin,
+    Key? key,
+  }) : super(key: key);
+
+  final Widget? child;
+  final List<Widget>? stackedChild;
+
+  /// use margin to controll positioning of stackedChild
+  final EdgeInsets? margin;
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        const _PageBackground(),
+        SingleChildScrollView(
+          child: _CardStyleForm(
+            margin: margin,
+            stackedChild: stackedChild,
+            child: child,
+          ),
+        ),
+      ] 
     );
   }
 }
@@ -111,7 +133,7 @@ class _CardStyleForm extends StatelessWidget {
 
   final Widget? child;
   final List<Widget>? stackedChild;
-  
+
   /// use margin to controll positioning of stackedChild
   final EdgeInsets? margin;
 
