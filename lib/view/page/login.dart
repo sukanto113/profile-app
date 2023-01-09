@@ -11,6 +11,7 @@ class LoginPage extends StatelessWidget {
       //   title: const Text("Login"),
       // ),
       body: FloatingCardForm(
+        background: const _PageBackground(),
         margin: const EdgeInsets.fromLTRB(30, 150, 30, 80),
         stackedChild: [
           Positioned(
@@ -93,12 +94,14 @@ class LoginPage extends StatelessWidget {
 
 class FloatingCardForm extends StatelessWidget {
   const FloatingCardForm({
+    this.background,
     this.child, 
     this.stackedChild, 
     this.margin,
     Key? key,
   }) : super(key: key);
 
+  final Widget? background;
   final Widget? child;
   final List<Widget>? stackedChild;
 
@@ -107,10 +110,15 @@ class FloatingCardForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Widget currentBackground = Container();
+    if(background != null){
+      currentBackground = background!;
+    } 
+
     return Stack(
       alignment: Alignment.center,
       children: [
-        const _PageBackground(),
+        currentBackground,
         SingleChildScrollView(
           child: _CardStyleForm(
             margin: margin,
