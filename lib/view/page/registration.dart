@@ -40,7 +40,7 @@ class RegistrationPage extends StatelessWidget {
             right: 60,
             child: TextButton(
               onPressed: (){},
-              child: const Text("Already a User? LOGIN"),
+              child: const Text("Already a user? LOGIN"),
             )
           ),
         ],

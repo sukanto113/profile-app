@@ -13,10 +13,10 @@ class LoginPage extends StatelessWidget {
       // ),
       body: FloatingCardFormScreen(
         background: const BackgroundWithHomeIcon(),
-        margin: const EdgeInsets.fromLTRB(30, 150, 30, 80),
+        margin: const EdgeInsets.fromLTRB(30, 150, 30, 120),
         stackedChild: [
           Positioned(
-            bottom: 60,
+            bottom: 100,
             left: 60,
             right: 60,
             child: ElevatedButton(
@@ -38,12 +38,27 @@ class LoginPage extends StatelessWidget {
           ),
             
           Positioned(
+            bottom: 40,
+            left: 60,
+            right: 60,
+            child: TextButton(
+              onPressed: (){},
+              child: const Text("Need an account? REGISTER"),
+            )
+          ),
+            
+          Positioned(
             bottom: 0,
             left: 60,
             right: 60,
             child: TextButton(
               onPressed: (){},
-              child: const Text("Forgot password?"),
+              child: const Text(
+                "Forgot password?",
+                style: TextStyle(
+                  color: Colors.grey
+                ),
+              ),
             )
           ),
         ],
