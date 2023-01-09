@@ -7,16 +7,60 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Login"),
-      ),
+      // appBar: AppBar(
+      //   title: const Text("Login"),
+      // ),
       body: Center(
         child: Stack(
           alignment: Alignment.center,
-          children: const [
+          children:  [
             _PageBackground(),
             SingleChildScrollView(
-              child: _LoginForm(),
+              child: _CardStyleForm(
+                // inputes
+                // buttons
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.only(bottom: 40),
+                      child: const Text(
+                        "LOGIN",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20
+                        ),
+                      ),
+                    ),
+                    TextFormField(
+                      autovalidateMode: AutovalidateMode.always,
+                      decoration: const InputDecoration(
+                        hintText: 'user@example.com',
+                        labelText: 'EMAIL *',
+                      ),
+                      validator: (String? value) {
+                        if( value == ""){
+                          return null;
+                        }else{
+                          return (value !=null && EmailValidator.validate(value)) ? null : "Please enter a valid email";
+                        }
+                      },
+                    ),
+                    Container(
+                      margin: const EdgeInsets.only(bottom: 50),
+                      child: TextFormField(
+                        decoration: const InputDecoration(
+                          hintText: 'Password',
+                          labelText: 'PASSWORD *',
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                // stackedChild: Column,
+              ),
             ),
           ] 
         ),
@@ -25,10 +69,17 @@ class LoginPage extends StatelessWidget {
   }
 }
 
-class _LoginForm extends StatelessWidget {
-  const _LoginForm({
+class _CardStyleForm extends StatelessWidget {
+   const _CardStyleForm({
+    this.child, 
+    this.stackedChild, 
+    // this.n,
     Key? key,
   }) : super(key: key);
+
+  // final int? n;
+  final Widget? child;
+  final Widget? stackedChild;
 
   @override
   Widget build(BuildContext context) {
@@ -42,46 +93,7 @@ class _LoginForm extends StatelessWidget {
           ),
           child: Container(
             padding: const EdgeInsets.all(20),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Container(
-                  margin: const EdgeInsets.only(bottom: 40),
-                  child: const Text(
-                    "LOGIN",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20
-                    ),
-                  ),
-                ),
-                TextFormField(
-                  autovalidateMode: AutovalidateMode.always,
-                  decoration: const InputDecoration(
-                    hintText: 'user@example.com',
-                    labelText: 'EMAIL *',
-                  ),
-                  validator: (String? value) {
-                    if( value == ""){
-                      return null;
-                    }else{
-                      return (value !=null && EmailValidator.validate(value)) ? null : "Please enter a valid email";
-                    }
-                  },
-                ),
-                Container(
-                  margin: const EdgeInsets.only(bottom: 50),
-                  child: TextFormField(
-                    decoration: const InputDecoration(
-                      hintText: 'Password',
-                      labelText: 'PASSWORD *',
-                    ),
-                  ),
-                ),
-              ],
-            ),
+            child: child,
           ),
         ),
         Positioned(
