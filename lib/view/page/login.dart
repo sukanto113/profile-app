@@ -17,6 +17,7 @@ class LoginPage extends StatelessWidget {
             _PageBackground(),
             SingleChildScrollView(
               child: _CardStyleForm(
+                margin: const EdgeInsets.fromLTRB(30, 150, 30, 80),
                 stackedChild: [
                   Positioned(
                     bottom: 60,
@@ -104,18 +105,22 @@ class _CardStyleForm extends StatelessWidget {
     const _CardStyleForm({
     this.child, 
     this.stackedChild, 
+    this.margin,
     Key? key,
   }) : super(key: key);
 
   final Widget? child;
   final List<Widget>? stackedChild;
+  
+  /// use margin to controll positioning of stackedChild
+  final EdgeInsets? margin;
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
         Card(
-          margin: const EdgeInsets.fromLTRB(30, 150, 30, 80),
+          margin: margin,
           elevation: 20,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(5),
