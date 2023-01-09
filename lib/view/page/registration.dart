@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:profile_app/view/page/login.dart';
 import '/view/floating_card_form_screen.dart';
 
 class RegistrationPage extends StatelessWidget {
@@ -39,7 +40,13 @@ class RegistrationPage extends StatelessWidget {
             left: 60,
             right: 60,
             child: TextButton(
-              onPressed: (){},
+              onPressed: (){
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context)=> const LoginPage())
+                );
+              },
               child: const Text("Already a user? LOGIN"),
             )
           ),
