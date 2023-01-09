@@ -20,7 +20,7 @@ class LoginPage extends StatelessWidget {
                 children: [
                   Expanded(
                     child: Container(     
-                      alignment: Alignment.center,                 
+                      alignment: Alignment.topCenter,                 
                       decoration: const BoxDecoration(
                         gradient: LinearGradient(
                           colors: [
@@ -33,7 +33,7 @@ class LoginPage extends StatelessWidget {
                       ),
                       child: Container(
                         height: 100,
-                        margin: const EdgeInsets.only(bottom: 40),
+                        margin: const EdgeInsets.only(top: 50),
                         child: const FittedBox(
                           child: CircleAvatar(                            
                             backgroundColor: Colors.white,
