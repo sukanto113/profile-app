@@ -1,10 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:profile_app/user_manager/user_manager.dart';
 import 'package:profile_app/view/page/registration.dart';
 import '/view/floating_card_form_screen.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
+
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+
+  final userEmailController = TextEditingController();
+  final userPasswordController = TextEditingController();
+
+  void _onLoginButtonPressed(){
+    UserManager.login(
+      context,
+      userEmailController.text,
+      userPasswordController.text
+    );
+  }
+
+  @override
+  void dispose() {
+    userEmailController.dispose();
+    userPasswordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +46,7 @@ class LoginPage extends StatelessWidget {
             left: 60,
             right: 60,
             child: ElevatedButton(
-              onPressed: (){},
+              onPressed: _onLoginButtonPressed,
               style: ElevatedButton.styleFrom(
                 minimumSize: const Size(100, 50),
                 shape: RoundedRectangleBorder(
@@ -86,6 +111,7 @@ class LoginPage extends StatelessWidget {
               ),
             ),
             TextFormField(
+              controller: userEmailController,
               autovalidateMode: AutovalidateMode.always,
               decoration: const InputDecoration(
                 hintText: 'user@example.com',
@@ -102,6 +128,7 @@ class LoginPage extends StatelessWidget {
             Container(
               margin: const EdgeInsets.only(bottom: 50),
               child: TextFormField(
+                controller: userPasswordController,
                 obscureText: true,
                 decoration: const InputDecoration(
                   hintText: 'Password',
