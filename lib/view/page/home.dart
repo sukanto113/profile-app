@@ -80,6 +80,7 @@ class HomePage extends StatelessWidget{
               name: "Logout",
               icon: Icons.logout_outlined,
               onTap: (){
+                Navigator.pop(context);
                 openPageOnDrawerItemTap(context, const LoginPage());
               }
             ),
@@ -88,6 +89,7 @@ class HomePage extends StatelessWidget{
               name: "Register",
               icon: Icons.add_outlined,
               onTap: (){
+                Navigator.pop(context);
                 openPageOnDrawerItemTap(context, const RegistrationPage());
               }
             ),
