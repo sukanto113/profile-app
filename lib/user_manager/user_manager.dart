@@ -17,4 +17,18 @@ class UserManager{
       MaterialPageRoute(builder: (context)=> const HomePage())
     );
   }
+
+  static void _showWLoginFailedDialog(BuildContext context){
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const AlertDialog(
+          content: Text(
+            "Login Failed! \n Wrong email or password",
+           textAlign: TextAlign.center,
+          ),
+        );
+      },
+    );
+  }
 }
