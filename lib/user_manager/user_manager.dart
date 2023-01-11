@@ -28,6 +28,12 @@ class UserManager{
     }
   }
 
+  static Future<void> logout() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove(currentUserEmailSharedPrefKey);
+    await prefs.remove(currentUserNameSharedPrefKey);
+  }
+
   static Future<bool> register(String name, String email, String password) async {
     bool isSuccessfull = await Authenticator.addUser(name, email, password);
     return isSuccessfull;

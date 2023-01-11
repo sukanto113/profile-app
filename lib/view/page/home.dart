@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:profile_app/user_manager/user_manager.dart';
 import '/view/page/profile.dart';
 import '/view/page/login.dart';
 import '/view/page/registration.dart';
 
-class HomePage extends StatelessWidget{
+class HomePage extends StatefulWidget{
   const HomePage({super.key});
 
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
   void openPageOnDrawerItemTap(BuildContext context, Widget page){
     Navigator.pop(context);
     openPage(context, page);
@@ -79,7 +85,10 @@ class HomePage extends StatelessWidget{
             MenuItem(
               name: "Logout",
               icon: Icons.logout_outlined,
-              onTap: (){
+              onTap: () async {
+                await UserManager.logout();
+                if(!mounted) return;
+
                 Navigator.pop(context);
                 openPageOnDrawerItemTap(context, const LoginPage());
               }
