@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:profile_app/user_manager/user_manager.dart';
+import 'package:profile_app/view/page/home.dart';
 import 'package:profile_app/view/page/registration.dart';
 import '/view/floating_card_form_screen.dart';
 
@@ -16,11 +17,42 @@ class _LoginPageState extends State<LoginPage> {
   final userEmailController = TextEditingController();
   final userPasswordController = TextEditingController();
 
-  void _onLoginButtonPressed(){
-    UserManager.login(
-      context,
+  Future<void> _onLoginButtonPressed() async {
+    User? user = await UserManager.login(
       userEmailController.text,
       userPasswordController.text
+    );
+
+    if(user != null){
+      _openHomePage();
+    }else{
+      _showWLoginFailedDialog();
+    }
+  }
+
+  void _openHomePage() {
+    if(!mounted) return;
+
+    Navigator.pop(context);
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context)=> const HomePage())
+    );
+  }
+
+  void _showWLoginFailedDialog(){
+    if(!mounted) return;
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const AlertDialog(
+          content: Text(
+            "Login Failed! \n Wrong email or password",
+           textAlign: TextAlign.center,
+          ),
+        );
+      },
     );
   }
 
