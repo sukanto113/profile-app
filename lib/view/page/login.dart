@@ -18,15 +18,16 @@ class _LoginPageState extends State<LoginPage> {
   final _userPasswordController = TextEditingController();
 
   Future<void> _onLoginButtonPressed() async {
-    User? user = await UserManager.login(
+    final bool isLoginSuccessfull = await UserManager.login(
       _userEmailController.text,
       _userPasswordController.text
     );
 
-    if(user != null){
+    if(isLoginSuccessfull){
+      User user = await UserManager.getCurrentUser();
       _openHomePage(user);
     }else{
-      _showWLoginFailedDialog();
+      _showLoginFailedDialog();
     }
   }
 
@@ -41,7 +42,7 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
   
-  void _openHomePage(User user) {
+  Future<void> _openHomePage(User user) async {
     if(!mounted) return;
     Navigator.pushAndRemoveUntil(
       context,
@@ -50,7 +51,7 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  void _showWLoginFailedDialog(){
+  void _showLoginFailedDialog(){
     if(!mounted) return;
 
     showDialog(

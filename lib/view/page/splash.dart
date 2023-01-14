@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:profile_app/user_manager/user_manager.dart';
 import 'package:profile_app/view/page/login.dart';
-
-import 'home.dart';
+import 'package:profile_app/view/page/home.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
@@ -16,16 +15,18 @@ class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
     Future.delayed(Duration.zero,() async {
-      User? user = await UserManager.getCurrentUser();
-      if(!mounted) return;
+      bool hasUser = await UserManager.hasUser();
       
-      if(user != null){
+      if(hasUser){
+        User user = await UserManager.getCurrentUser();
+        if(!mounted) return;
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(builder: (context)=> HomePage(user: user,)),
           (route) => false
         );
       }else{
+        if(!mounted) return;
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(builder: (context)=> const LoginPage()),

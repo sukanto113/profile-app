@@ -22,18 +22,20 @@ class _RegistrationPageState extends State<RegistrationPage> {
     String name = _userNameController.text ;
     String email = _userEmailController.text;
     String password = _userPasswordController.text;
-    bool isSuccessfull = await UserManager.register(name, email, password);
-
-    if(isSuccessfull){
-       User? user = await UserManager.login(email, password);
-      if(user != null){
+    bool isRegistrationSuccessfull = await UserManager.register(name, email, password);
+    
+    if(isRegistrationSuccessfull){
+      bool isLoginSuccessfull = await UserManager.login(email, password);
+      if(isLoginSuccessfull){
+       User user = await UserManager.getCurrentUser();
         _openHomePage(user);
       }else{
-        _showWLoginFailedDialog();
+        _showLoginFailedDialog();
       }
+    }else{
+      _showRegistrationFailedDialog();
     }
   }
-
 
   void _onLoginPressed() {
     Navigator.pushReplacement(
@@ -53,7 +55,23 @@ class _RegistrationPageState extends State<RegistrationPage> {
     );
   }
 
-  void _showWLoginFailedDialog(){
+  void _showRegistrationFailedDialog(){
+    if(!mounted) return;
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const AlertDialog(
+          content: Text(
+            "Registration Failed! \n Please try again later",
+           textAlign: TextAlign.center,
+          ),
+        );
+      },
+    );
+  }
+
+  void _showLoginFailedDialog(){
     if(!mounted) return;
 
     showDialog(
