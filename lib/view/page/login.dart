@@ -3,7 +3,7 @@ import 'package:email_validator/email_validator.dart';
 import 'package:profile_app/user_manager/user_manager.dart';
 import 'package:profile_app/view/page/home.dart';
 import 'package:profile_app/view/page/registration.dart';
-import '/view/floating_card_form_screen.dart';
+import '../widget/floating_card_form_screen.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
