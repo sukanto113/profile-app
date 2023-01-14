@@ -14,16 +14,69 @@ class HomePage extends StatefulWidget{
 }
 
 class _HomePageState extends State<HomePage> {
-  void openPageOnDrawerItemTap(BuildContext context, Widget page){
-    Navigator.pop(context);
-    openPage(context, page);
+
+  void _onViewProfileTab() {
+    _openProfilePage();
   }
 
-  void openPage(BuildContext context, Widget page){
+  void _onNavHomeTab(){
+    _closeDrawer();
+    _openHomePage();
+  }
+
+  void _onNavProfileTab() {
+    _closeDrawer();
+    _openProfilePage();
+  }
+
+  void _onNavRegisterTab() {
+    _closeDrawer();
+    _openRegisterPage();
+  }
+
+  Future<void> _onNavLogoutTab() async {
+    _closeDrawer();
+
+    await UserManager.logout();
+    if(!mounted) return;
+
+    _openLogoutPage();
+
+  }
+
+
+  void _openHomePage(){
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(builder: (context)=> HomePage(user: widget.user)),
+      (route)=> false
+    );
+  }
+
+  void _openProfilePage(){
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context)=> page)
+      MaterialPageRoute(builder: (context)=> ProfilePage(user: widget.user))
     );
+  }
+
+  void _openLogoutPage() {
+    Navigator.pushAndRemoveUntil(
+      context, 
+      MaterialPageRoute(builder: (context)=> const LoginPage()),
+      (route) => false
+    );
+  }
+
+  void _openRegisterPage() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context)=> const RegistrationPage())
+    );
+  }
+
+  void _closeDrawer(){
+    Navigator.pop(context);
   }
 
   @override
@@ -73,36 +126,23 @@ class _HomePageState extends State<HomePage> {
             MenuItem(
               name: "Home",
               icon: Icons.home_outlined,
-              onTap: (){
-                Navigator.pop(context);
-              }
+              onTap: _onNavHomeTab,
             ),
             MenuItem(
               name: "Profile",
               icon: Icons.person_outline,
-              onTap: (){
-                openPageOnDrawerItemTap(context, ProfilePage(user: widget.user, ));
-              }
+              onTap: _onNavProfileTab,
             ),
             MenuItem(
               name: "Logout",
               icon: Icons.logout_outlined,
-              onTap: () async {
-                await UserManager.logout();
-                if(!mounted) return;
-
-                Navigator.pop(context);
-                openPageOnDrawerItemTap(context, const LoginPage());
-              }
+              onTap: _onNavLogoutTab,
             ),
             const Divider(color: Colors.black,),
             MenuItem(
               name: "Register",
               icon: Icons.add_outlined,
-              onTap: (){
-                Navigator.pop(context);
-                openPageOnDrawerItemTap(context, const RegistrationPage());
-              }
+              onTap: _onNavRegisterTab,
             ),
           ],
         ),
@@ -121,10 +161,7 @@ class _HomePageState extends State<HomePage> {
             Container(
               margin: const EdgeInsets.all(10),
               child: ElevatedButton(
-                onPressed: (){
-                  //todo remove this duplicatie line from this same file
-                  openPage(context, ProfilePage( user: widget.user, ));
-                },
+                onPressed: _onViewProfileTab,
                 child: const Text("View Profile"),
               ),
             )
@@ -133,6 +170,7 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+
 }
 
 class MenuItem extends StatelessWidget{
@@ -154,5 +192,4 @@ class MenuItem extends StatelessWidget{
       onTap: onTap,
     );
   }
-
 }
