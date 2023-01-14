@@ -18,12 +18,13 @@ class _SplashPageState extends State<SplashPage> {
     Future.delayed(Duration.zero,() async {
       User? user = await UserManager.getCurrentUser();
       if(!mounted) return;
-
+      
       if(user != null){
+        HomePage(user: user,);
         Navigator.pop(context);
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context)=> const HomePage())
+          MaterialPageRoute(builder: (context)=>  HomePage(user: user,))
         );
       }else{
         Navigator.pop(context);

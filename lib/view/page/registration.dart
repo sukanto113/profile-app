@@ -27,20 +27,21 @@ class _RegistrationPageState extends State<RegistrationPage> {
     if(isSuccessfull){
        User? user = await UserManager.login(email, password);
       if(user != null){
-        _openHomePage();
+        _openHomePage(user);
       }else{
         _showWLoginFailedDialog();
       }
     }
   }
 
-  void _openHomePage() {
+  //todo remove this duplicate function from this and login file
+  void _openHomePage(User user) {
     if(!mounted) return;
 
     Navigator.pop(context);
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context)=> const HomePage())
+      MaterialPageRoute(builder: (context)=> HomePage(user: user,))
     );
   }
 

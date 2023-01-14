@@ -24,19 +24,18 @@ class _LoginPageState extends State<LoginPage> {
     );
 
     if(user != null){
-      _openHomePage();
+      _openHomePage(user);
     }else{
       _showWLoginFailedDialog();
     }
   }
 
-  void _openHomePage() {
+  void _openHomePage(User user) {
     if(!mounted) return;
-
     Navigator.pop(context);
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context)=> const HomePage())
+      MaterialPageRoute(builder: (context)=> HomePage(user: user,))
     );
   }
 

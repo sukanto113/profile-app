@@ -5,7 +5,9 @@ import '/view/page/login.dart';
 import '/view/page/registration.dart';
 
 class HomePage extends StatefulWidget{
-  const HomePage({super.key});
+  const HomePage({required this.user, super.key});
+
+  final User user;
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -41,29 +43,29 @@ class _HomePageState extends State<HomePage> {
                   color: Colors.blue,
                 ),
                 child: Column(
-                  children: const [
-                    Expanded(
+                  children:  [
+                    const Expanded(
                       child: FittedBox(
                         child: CircleAvatar(
                           backgroundImage: AssetImage("images/sukanto_profile_pic.jpg")
                         ),
                       ),
                     ),
-                    SizedBox(height: 10,),
+                    const SizedBox(height: 10,),
                     Text(
-                      "Sukanto Saha",
-                      style: TextStyle(
+                      widget.user.name,
+                      style: const TextStyle(
                         color: Colors.white,
                         fontSize: 28,
                       ),
                     ),
                     Text(
-                      "sukanto113@gmail.com",
-                      style: TextStyle(
+                      widget.user.email,
+                      style: const TextStyle(
                         color: Colors.white,
                       ),
                     ),
-                    SizedBox(height: 10,),
+                    const SizedBox(height: 10,),
                   ],
                 ),
               ),
@@ -79,7 +81,7 @@ class _HomePageState extends State<HomePage> {
               name: "Profile",
               icon: Icons.person_outline,
               onTap: (){
-                openPageOnDrawerItemTap(context, const ProfilePage());
+                openPageOnDrawerItemTap(context, ProfilePage(user: widget.user, ));
               }
             ),
             MenuItem(
@@ -120,7 +122,8 @@ class _HomePageState extends State<HomePage> {
               margin: const EdgeInsets.all(10),
               child: ElevatedButton(
                 onPressed: (){
-                  openPage(context, const ProfilePage());
+                  //todo remove this duplicatie line from this same file
+                  openPage(context, ProfilePage( user: widget.user, ));
                 },
                 child: const Text("View Profile"),
               ),

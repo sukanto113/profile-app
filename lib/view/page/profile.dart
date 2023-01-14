@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:profile_app/user_manager/user_manager.dart';
 
 class ProfilePage extends StatelessWidget {
-  const ProfilePage({super.key});
+  const ProfilePage({required this.user, super.key});
+
+  final User user;
 
   @override
   Widget build(BuildContext context) {
@@ -27,9 +30,9 @@ class ProfilePage extends StatelessWidget {
             ),
             Container(
               margin: const EdgeInsets.only(top: 10),
-              child: const Text(
-                "Sukanto Saha",
-                style: TextStyle(
+              child: Text(
+                user.name,
+                style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   color: Colors.black,
                   fontSize: 28,
