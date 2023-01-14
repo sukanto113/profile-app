@@ -14,15 +14,15 @@ class RegistrationPage extends StatefulWidget {
 
 class _RegistrationPageState extends State<RegistrationPage> {
 
-  final userNameController = TextEditingController();
-  final userEmailController = TextEditingController();
-  final userPasswordController = TextEditingController();
+  final _userNameController = TextEditingController();
+  final _userEmailController = TextEditingController();
+  final _userPasswordController = TextEditingController();
 
   Future<void> _onRegisterButtonPressed() async {
-    String name = userNameController.text ;
-    String email = userEmailController.text;
-    String password = userPasswordController.text;
-    bool? isSuccessfull = await UserManager.register(name, email, password);
+    String name = _userNameController.text ;
+    String email = _userEmailController.text;
+    String password = _userPasswordController.text;
+    bool isSuccessfull = await UserManager.register(name, email, password);
 
     if(isSuccessfull){
        User? user = await UserManager.login(email, password);
@@ -32,6 +32,14 @@ class _RegistrationPageState extends State<RegistrationPage> {
         _showWLoginFailedDialog();
       }
     }
+  }
+
+
+  void _onLoginPressed() {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context)=> const LoginPage())
+    );
   }
 
   //todo remove this duplicate function from this and login file
@@ -63,9 +71,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
 
   @override
   void dispose() {
-    userNameController.dispose();
-    userEmailController.dispose();
-    userPasswordController.dispose();
+    _userNameController.dispose();
+    _userEmailController.dispose();
+    _userPasswordController.dispose();
     super.dispose();
   }
 
@@ -103,12 +111,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
             left: 60,
             right: 60,
             child: TextButton(
-              onPressed: (){
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context)=> const LoginPage())
-                );
-              },
+              onPressed: _onLoginPressed,
               child: const Text("Already a user? LOGIN"),
             )
           ),
@@ -130,7 +133,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
               ),
             ),
             TextFormField(
-              controller: userNameController,
+              controller: _userNameController,
               autovalidateMode: AutovalidateMode.always,
               decoration: const InputDecoration(
                 hintText: 'John Doe',
@@ -138,7 +141,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
               ),
             ),
             TextFormField(
-              controller: userEmailController,
+              controller: _userEmailController,
               autovalidateMode: AutovalidateMode.always,
               decoration: const InputDecoration(
                 hintText: 'user@example.com',
@@ -155,7 +158,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
             Container(
               margin: const EdgeInsets.only(bottom: 50),
               child: TextFormField(
-                controller: userPasswordController,
+                controller: _userPasswordController,
                 obscureText: true,
                 decoration: const InputDecoration(
                   hintText: 'Password',

@@ -14,13 +14,13 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
 
-  final userEmailController = TextEditingController();
-  final userPasswordController = TextEditingController();
+  final _userEmailController = TextEditingController();
+  final _userPasswordController = TextEditingController();
 
   Future<void> _onLoginButtonPressed() async {
     User? user = await UserManager.login(
-      userEmailController.text,
-      userPasswordController.text
+      _userEmailController.text,
+      _userPasswordController.text
     );
 
     if(user != null){
@@ -30,6 +30,17 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
+  _onRegisterPressed(){
+    _openRegisterPage();
+  }
+
+  void _openRegisterPage(){
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context)=> const RegistrationPage())
+    );
+  }
+  
   void _openHomePage(User user) {
     if(!mounted) return;
     Navigator.pushAndRemoveUntil(
@@ -57,17 +68,14 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   void dispose() {
-    userEmailController.dispose();
-    userPasswordController.dispose();
+    _userEmailController.dispose();
+    _userPasswordController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: const Text("Login"),
-      // ),
       body: FloatingCardFormScreen(
         background: const BackgroundWithHomeIcon(),
         margin: const EdgeInsets.fromLTRB(30, 150, 30, 120),
@@ -99,12 +107,7 @@ class _LoginPageState extends State<LoginPage> {
             left: 60,
             right: 60,
             child: TextButton(
-              onPressed: (){
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context)=> const RegistrationPage())
-                );
-              },
+              onPressed: _onRegisterPressed,
               child: const Text("Need an account? REGISTER"),
             )
           ),
@@ -141,7 +144,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
             TextFormField(
-              controller: userEmailController,
+              controller: _userEmailController,
               autovalidateMode: AutovalidateMode.always,
               decoration: const InputDecoration(
                 hintText: 'user@example.com',
@@ -158,7 +161,7 @@ class _LoginPageState extends State<LoginPage> {
             Container(
               margin: const EdgeInsets.only(bottom: 50),
               child: TextFormField(
-                controller: userPasswordController,
+                controller: _userPasswordController,
                 obscureText: true,
                 decoration: const InputDecoration(
                   hintText: 'Password',
