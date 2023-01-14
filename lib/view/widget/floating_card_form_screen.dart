@@ -11,7 +11,7 @@ class FloatingCardFormScreen extends StatelessWidget {
 
   final Widget? background;
   final Widget? child;
-  final List<Widget>? stackedChild;
+  final Widget? stackedChild;
 
   /// use margin to controll positioning of stackedChild
   final EdgeInsets? margin;
@@ -48,7 +48,7 @@ class _CardStyleForm extends StatelessWidget {
   }) : super(key: key);
 
   final Widget? child;
-  final List<Widget>? stackedChild;
+  final Widget? stackedChild;
 
   /// use margin to controll positioning of stackedChild
   final EdgeInsets? margin;
@@ -68,7 +68,12 @@ class _CardStyleForm extends StatelessWidget {
             child: child,
           ),
         ),
-        ...?stackedChild
+        Positioned(
+          bottom: 0,
+          left: 60,
+          right: 60,
+          child: stackedChild ?? Container(),
+        ),
       ]                
     );
   }

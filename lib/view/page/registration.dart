@@ -100,13 +100,11 @@ class _RegistrationPageState extends State<RegistrationPage> {
     return Scaffold(
       body: FloatingCardFormScreen(
         background: const BackgroundWithHomeIcon(),
-        margin: const EdgeInsets.fromLTRB(30, 150, 30, 80),
-        stackedChild: [
-          Positioned(
-            bottom: 60,
-            left: 60,
-            right: 60,
-            child: ElevatedButton(
+        margin: const EdgeInsets.fromLTRB(30, 150, 30, 70),
+        stackedChild: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            ElevatedButton(
               onPressed: _onRegisterButtonPressed,
               style: ElevatedButton.styleFrom(
                 minimumSize: const Size(100, 50),
@@ -121,20 +119,13 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   fontSize: 18,
                 ),
               ),
-            )
-          ),
-            
-          Positioned(
-            bottom: 0,
-            left: 60,
-            right: 60,
-            child: TextButton(
+            ),
+            TextButton(
               onPressed: _onLoginPressed,
               child: const Text("Already a user? LOGIN"),
             )
-          ),
-        ],
-      
+          ],
+        ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,

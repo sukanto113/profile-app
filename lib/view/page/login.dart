@@ -79,13 +79,11 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       body: FloatingCardFormScreen(
         background: const BackgroundWithHomeIcon(),
-        margin: const EdgeInsets.fromLTRB(30, 150, 30, 120),
-        stackedChild: [
-          Positioned(
-            bottom: 100,
-            left: 60,
-            right: 60,
-            child: ElevatedButton(
+        margin: const EdgeInsets.fromLTRB(30, 150, 30, 90),
+        stackedChild: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            ElevatedButton(
               onPressed: _onLoginButtonPressed,
               style: ElevatedButton.styleFrom(
                 minimumSize: const Size(100, 50),
@@ -100,35 +98,21 @@ class _LoginPageState extends State<LoginPage> {
                   fontSize: 18,
                 ),
               ),
-            )
-          ),
-            
-          Positioned(
-            bottom: 40,
-            left: 60,
-            right: 60,
-            child: TextButton(
+            ),
+            TextButton(
               onPressed: _onRegisterPressed,
               child: const Text("Need an account? REGISTER"),
-            )
-          ),
-            
-          Positioned(
-            bottom: 0,
-            left: 60,
-            right: 60,
-            child: TextButton(
-              onPressed: (){},
-              child: const Text(
-                "Forgot password?",
-                style: TextStyle(
-                  color: Colors.grey
-                ),
+            ),
+            const Text(
+              "Forgot password?",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Colors.grey
               ),
             )
-          ),
-        ],
-      
+          ],
+        ),
+        
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
