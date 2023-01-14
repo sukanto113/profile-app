@@ -20,17 +20,16 @@ class _SplashPageState extends State<SplashPage> {
       if(!mounted) return;
       
       if(user != null){
-        HomePage(user: user,);
-        Navigator.pop(context);
-        Navigator.push(
+        Navigator.pushAndRemoveUntil(
           context,
-          MaterialPageRoute(builder: (context)=>  HomePage(user: user,))
+          MaterialPageRoute(builder: (context)=> HomePage(user: user,)),
+          (route) => false
         );
       }else{
-        Navigator.pop(context);
-        Navigator.push(
+        Navigator.pushAndRemoveUntil(
           context,
-          MaterialPageRoute(builder: (context)=> const LoginPage())
+          MaterialPageRoute(builder: (context)=> const LoginPage()),
+          (route) => false
         );
       }
     });

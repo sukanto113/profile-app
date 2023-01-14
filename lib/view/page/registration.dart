@@ -38,10 +38,10 @@ class _RegistrationPageState extends State<RegistrationPage> {
   void _openHomePage(User user) {
     if(!mounted) return;
 
-    Navigator.pop(context);
-    Navigator.push(
+    Navigator.pushAndRemoveUntil(
       context,
-      MaterialPageRoute(builder: (context)=> HomePage(user: user,))
+      MaterialPageRoute(builder: (context)=> HomePage(user: user,)),
+      (route) => false
     );
   }
 
