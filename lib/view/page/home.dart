@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:profile_app/user_manager/user_manager.dart';
+import 'package:profile_app/util/navigation.dart';
 import '/view/page/profile.dart';
 import '/view/page/login.dart';
 import '/view/page/registration.dart';
@@ -21,7 +22,7 @@ class _HomePageState extends State<HomePage> {
 
   void _onNavHomeTab(){
     _closeDrawer();
-    _openHomePage();
+    NavigationUtil.openHomePage(widget.user, context);
   }
 
   void _onNavProfileTab() {
@@ -44,35 +45,16 @@ class _HomePageState extends State<HomePage> {
 
   }
 
-
-  void _openHomePage(){
-    Navigator.pushAndRemoveUntil(
-      context,
-      MaterialPageRoute(builder: (context)=> HomePage(user: widget.user)),
-      (route)=> false
-    );
-  }
-
   void _openProfilePage(){
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context)=> ProfilePage(user: widget.user))
-    );
+    NavigationUtil.push(context, ProfilePage(user: widget.user));
   }
 
   void _openLogoutPage() {
-    Navigator.pushAndRemoveUntil(
-      context, 
-      MaterialPageRoute(builder: (context)=> const LoginPage()),
-      (route) => false
-    );
+    NavigationUtil.pushAndRemoveAllPreviousRoute(context, const LoginPage());
   }
 
   void _openRegisterPage() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context)=> const RegistrationPage())
-    );
+    NavigationUtil.push(context, const RegistrationPage());
   }
 
   void _closeDrawer(){

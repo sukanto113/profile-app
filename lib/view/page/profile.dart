@@ -1,10 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:profile_app/user_manager/user_manager.dart';
 
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends StatefulWidget {
   const ProfilePage({required this.user, super.key});
 
   final User user;
+
+  @override
+  State<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
+  void _onGoBackPressed(){
+    Navigator.pop(context);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +40,7 @@ class ProfilePage extends StatelessWidget {
             Container(
               margin: const EdgeInsets.only(top: 10),
               child: Text(
-                user.name,
+                widget.user.name,
                 style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   color: Colors.black,
@@ -52,9 +61,7 @@ class ProfilePage extends StatelessWidget {
               ),
             ),
             ElevatedButton(
-              onPressed: (){
-                Navigator.pop(context);
-              },
+              onPressed: _onGoBackPressed,
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.center,

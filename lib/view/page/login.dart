@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:profile_app/user_manager/user_manager.dart';
-import 'package:profile_app/view/page/home.dart';
+import 'package:profile_app/util/dialog.dart';
+import 'package:profile_app/util/navigation.dart';
 import 'package:profile_app/view/page/registration.dart';
 import '../widget/floating_card_form_screen.dart';
 
@@ -25,9 +26,11 @@ class _LoginPageState extends State<LoginPage> {
 
     if(isLoginSuccessfull){
       User user = await UserManager.getCurrentUser();
-      _openHomePage(user);
+      if(!mounted) return;
+      NavigationUtil.openHomePage(user, context);
     }else{
-      _showLoginFailedDialog();
+      if(!mounted) return;
+      DialogUtil.showLoginFailedDialog(context);
     }
   }
 
@@ -36,35 +39,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void _openRegisterPage(){
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context)=> const RegistrationPage())
-    );
-  }
-  
-  Future<void> _openHomePage(User user) async {
-    if(!mounted) return;
-    Navigator.pushAndRemoveUntil(
-      context,
-      MaterialPageRoute(builder: (context)=> HomePage(user: user,)),
-      (route) => false
-    );
-  }
-
-  void _showLoginFailedDialog(){
-    if(!mounted) return;
-
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const AlertDialog(
-          content: Text(
-            "Login Failed! \n Wrong email or password",
-           textAlign: TextAlign.center,
-          ),
-        );
-      },
-    );
+    NavigationUtil.pushReplacement(context, const RegistrationPage());
   }
 
   @override

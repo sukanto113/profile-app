@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:profile_app/user_manager/user_manager.dart';
-import 'package:profile_app/view/page/home.dart';
+import 'package:profile_app/util/dialog.dart';
+import 'package:profile_app/util/navigation.dart';
 import 'package:profile_app/view/page/login.dart';
-import '../widget/floating_card_form_screen.dart';
+import 'package:profile_app/view/widget/floating_card_form_screen.dart';
 
 class RegistrationPage extends StatefulWidget {
   const RegistrationPage({super.key});
@@ -28,63 +29,20 @@ class _RegistrationPageState extends State<RegistrationPage> {
       bool isLoginSuccessfull = await UserManager.login(email, password);
       if(isLoginSuccessfull){
        User user = await UserManager.getCurrentUser();
-        _openHomePage(user);
+       if(!mounted) return;
+        NavigationUtil.openHomePage(user, context);
       }else{
-        _showLoginFailedDialog();
+        if(!mounted) return;
+        DialogUtil.showLoginFailedDialog(context);
       }
     }else{
-      _showRegistrationFailedDialog();
+      if(!mounted) return;
+      DialogUtil.showRegistrationFailedDialog(context);
     }
   }
 
   void _onLoginPressed() {
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context)=> const LoginPage())
-    );
-  }
-
-  //todo remove this duplicate function from this and login file
-  void _openHomePage(User user) {
-    if(!mounted) return;
-
-    Navigator.pushAndRemoveUntil(
-      context,
-      MaterialPageRoute(builder: (context)=> HomePage(user: user,)),
-      (route) => false
-    );
-  }
-
-  void _showRegistrationFailedDialog(){
-    if(!mounted) return;
-
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const AlertDialog(
-          content: Text(
-            "Registration Failed! \n Please try again later",
-           textAlign: TextAlign.center,
-          ),
-        );
-      },
-    );
-  }
-
-  void _showLoginFailedDialog(){
-    if(!mounted) return;
-
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const AlertDialog(
-          content: Text(
-            "Login Failed! \n Wrong email or password",
-           textAlign: TextAlign.center,
-          ),
-        );
-      },
-    );
+    NavigationUtil.pushReplacement(context, const LoginPage());
   }
 
   @override
