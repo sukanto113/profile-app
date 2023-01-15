@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:profile_app/user_manager/user_manager.dart';
 import 'package:profile_app/view/page/home.dart';
 
 class NavigationUtil{
@@ -25,8 +24,8 @@ class NavigationUtil{
     );
   }
 
-  static void openHomePage(User user, BuildContext context) {
+  static void openHomePage(BuildContext context) {
     NavigationUtil.
-      pushAndRemoveAllPreviousRoute(context, HomePage(user: user,));
+      pushAndRemoveAllPreviousRoute(context, const HomePage());
   }
 }

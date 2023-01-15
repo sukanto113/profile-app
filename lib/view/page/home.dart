@@ -6,9 +6,7 @@ import '/view/page/login.dart';
 import '/view/page/registration.dart';
 
 class HomePage extends StatefulWidget{
-  const HomePage({required this.user, super.key});
-
-  final User user;
+  const HomePage({super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -16,13 +14,15 @@ class HomePage extends StatefulWidget{
 
 class _HomePageState extends State<HomePage> {
 
+  User _user = const User(name: "", email: "");
+
   void _onViewProfileTab() {
     _openProfilePage();
   }
 
   void _onNavHomeTab(){
     _closeDrawer();
-    NavigationUtil.openHomePage(widget.user, context);
+    NavigationUtil.openHomePage(context);
   }
 
   void _onNavProfileTab() {
@@ -46,7 +46,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _openProfilePage(){
-    NavigationUtil.push(context, ProfilePage(user: widget.user));
+    NavigationUtil.push(context, const ProfilePage());
   }
 
   void _openLogoutPage() {
@@ -59,6 +59,18 @@ class _HomePageState extends State<HomePage> {
 
   void _closeDrawer(){
     Navigator.pop(context);
+  }
+
+  @override
+  void initState() {
+    Future.delayed(Duration.zero,() async {
+      User user = await UserManager.getCurrentUser();
+      setState(() {
+        _user = user; 
+      });
+
+    });
+    super.initState();
   }
 
   @override
@@ -88,14 +100,14 @@ class _HomePageState extends State<HomePage> {
                     ),
                     const SizedBox(height: 10,),
                     Text(
-                      widget.user.name,
+                      _user.name,
                       style: const TextStyle(
                         color: Colors.white,
                         fontSize: 28,
                       ),
                     ),
                     Text(
-                      widget.user.email,
+                      _user.email,
                       style: const TextStyle(
                         color: Colors.white,
                       ),

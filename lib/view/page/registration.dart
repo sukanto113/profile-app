@@ -27,12 +27,10 @@ class _RegistrationPageState extends State<RegistrationPage> {
     
     if(isRegistrationSuccessfull){
       bool isLoginSuccessfull = await UserManager.login(email, password);
+      if(!mounted) return;
       if(isLoginSuccessfull){
-       User user = await UserManager.getCurrentUser();
-       if(!mounted) return;
-        NavigationUtil.openHomePage(user, context);
+        NavigationUtil.openHomePage(context);
       }else{
-        if(!mounted) return;
         DialogUtil.showLoginFailedDialog(context);
       }
     }else{

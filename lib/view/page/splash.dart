@@ -17,12 +17,11 @@ class _SplashPageState extends State<SplashPage> {
     Future.delayed(Duration.zero,() async {
       bool hasUser = await UserManager.hasUser();
       
+      if(!mounted) return;
+
       if(hasUser){
-        User user = await UserManager.getCurrentUser();
-        if(!mounted) return;
-        NavigationUtil.openHomePage(user, context);
+        NavigationUtil.openHomePage(context);
       }else{
-        if(!mounted) return;
         NavigationUtil.pushAndRemoveAllPreviousRoute(context, const LoginPage());
       }
     });

@@ -2,17 +2,29 @@ import 'package:flutter/material.dart';
 import 'package:profile_app/user_manager/user_manager.dart';
 
 class ProfilePage extends StatefulWidget {
-  const ProfilePage({required this.user, super.key});
-
-  final User user;
+  const ProfilePage({super.key});
 
   @override
   State<ProfilePage> createState() => _ProfilePageState();
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  User _user = const User(name: "", email: "");
+
   void _onGoBackPressed(){
     Navigator.pop(context);
+  }
+
+    @override
+  void initState() {
+    Future.delayed(Duration.zero,() async {
+      User user = await UserManager.getCurrentUser();
+      setState(() {
+        _user = user; 
+      });
+
+    });
+    super.initState();
   }
 
   @override
@@ -40,7 +52,7 @@ class _ProfilePageState extends State<ProfilePage> {
             Container(
               margin: const EdgeInsets.only(top: 10),
               child: Text(
-                widget.user.name,
+                _user.name,
                 style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   color: Colors.black,

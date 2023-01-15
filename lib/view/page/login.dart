@@ -24,12 +24,10 @@ class _LoginPageState extends State<LoginPage> {
       _userPasswordController.text
     );
 
+    if(!mounted) return;
     if(isLoginSuccessfull){
-      User user = await UserManager.getCurrentUser();
-      if(!mounted) return;
-      NavigationUtil.openHomePage(user, context);
+      NavigationUtil.openHomePage(context);
     }else{
-      if(!mounted) return;
       DialogUtil.showLoginFailedDialog(context);
     }
   }
