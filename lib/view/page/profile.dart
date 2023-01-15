@@ -63,7 +63,7 @@ class _ProfilePageState extends State<ProfilePage> {
             Container(
               margin: const EdgeInsets.all(25),
               child: const Text(
-                "Hi, I'm Sukanto saha, I'm M.Sc. student of Rajshahi "
+                "Hi, I'm Sukanto Saha, I'm M.Sc. student of Rajshahi "
                 "University. I completed my graduation in "
                 "Mathematics from Rajshahi University.",
                 textAlign: TextAlign.justify,

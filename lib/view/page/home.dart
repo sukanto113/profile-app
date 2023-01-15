@@ -20,45 +20,8 @@ class _HomePageState extends State<HomePage> {
     _openProfilePage();
   }
 
-  void _onNavHomeTab(){
-    _closeDrawer();
-    NavigationUtil.openHomePage(context);
-  }
-
-  void _onNavProfileTab() {
-    _closeDrawer();
-    _openProfilePage();
-  }
-
-  void _onNavRegisterTab() {
-    _closeDrawer();
-    _openRegisterPage();
-  }
-
-  Future<void> _onNavLogoutTab() async {
-    _closeDrawer();
-
-    await UserManager.logout();
-    if(!mounted) return;
-
-    _openLogoutPage();
-
-  }
-
   void _openProfilePage(){
     NavigationUtil.push(context, const ProfilePage());
-  }
-
-  void _openLogoutPage() {
-    NavigationUtil.pushAndRemoveAllPreviousRoute(context, const LoginPage());
-  }
-
-  void _openRegisterPage() {
-    NavigationUtil.push(context, const RegistrationPage());
-  }
-
-  void _closeDrawer(){
-    Navigator.pop(context);
   }
 
   @override
@@ -79,68 +42,7 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: const Center(child: Text("Home")),
       ),
-      endDrawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children:  [
-            SizedBox(
-              height: 250,
-              child: DrawerHeader(
-                decoration: const BoxDecoration(
-                  color: Colors.blue,
-                ),
-                child: Column(
-                  children:  [
-                    const Expanded(
-                      child: FittedBox(
-                        child: CircleAvatar(
-                          backgroundImage: AssetImage("images/sukanto_profile_pic.jpg")
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 10,),
-                    Text(
-                      _user.name,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 28,
-                      ),
-                    ),
-                    Text(
-                      _user.email,
-                      style: const TextStyle(
-                        color: Colors.white,
-                      ),
-                    ),
-                    const SizedBox(height: 10,),
-                  ],
-                ),
-              ),
-            ),
-            MenuItem(
-              name: "Home",
-              icon: Icons.home_outlined,
-              onTap: _onNavHomeTab,
-            ),
-            MenuItem(
-              name: "Profile",
-              icon: Icons.person_outline,
-              onTap: _onNavProfileTab,
-            ),
-            MenuItem(
-              name: "Logout",
-              icon: Icons.logout_outlined,
-              onTap: _onNavLogoutTab,
-            ),
-            const Divider(color: Colors.black,),
-            MenuItem(
-              name: "Register",
-              icon: Icons.add_outlined,
-              onTap: _onNavRegisterTab,
-            ),
-          ],
-        ),
-      ),
+      endDrawer: AppNavigationDrawer(user: _user),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -165,6 +67,140 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+}
+
+class AppNavigationDrawer extends StatefulWidget {
+  const AppNavigationDrawer({
+    Key? key,
+    required User user,
+  }) : _user = user, super(key: key);
+
+  final User _user;
+
+  @override
+  State<AppNavigationDrawer> createState() => _AppNavigationDrawerState();
+}
+
+class _AppNavigationDrawerState extends State<AppNavigationDrawer> {
+  void _onNavHomeTab(){
+    _closeDrawer();
+    NavigationUtil.openHomePage(context);
+  }
+
+  void _onNavProfileTab() {
+    _closeDrawer();
+    _openProfilePage();
+  }
+
+  void _onNavRegisterTab() {
+    _closeDrawer();
+    _openRegisterPage();
+  }
+
+  Future<void> _onNavLogoutTab() async {
+    _closeDrawer();
+
+    await UserManager.logout();
+    if(!mounted) return;
+
+    _openLogoutPage();
+
+  }
+  void _openProfilePage(){
+    NavigationUtil.push(context, const ProfilePage());
+  }
+
+  void _openLogoutPage() {
+    NavigationUtil.pushAndRemoveAllPreviousRoute(context, const LoginPage());
+  }
+
+  void _openRegisterPage() {
+    NavigationUtil.push(context, const RegistrationPage());
+  }
+
+  void _closeDrawer(){
+    Navigator.pop(context);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Drawer(
+      child: ListView(
+        padding: EdgeInsets.zero,
+        children:  [
+          _DrawerHeader(user: widget._user),
+          MenuItem(
+            name: "Home",
+            icon: Icons.home_outlined,
+            onTap: _onNavHomeTab,
+          ),
+          MenuItem(
+            name: "Profile",
+            icon: Icons.person_outline,
+            onTap: _onNavProfileTab,
+          ),
+          MenuItem(
+            name: "Logout",
+            icon: Icons.logout_outlined,
+            onTap: _onNavLogoutTab,
+          ),
+          const Divider(color: Colors.black,),
+          MenuItem(
+            name: "Register",
+            icon: Icons.add_outlined,
+            onTap: _onNavRegisterTab,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _DrawerHeader extends StatelessWidget {
+  const _DrawerHeader({
+    Key? key,
+    required User user,
+  }) : _user = user, super(key: key);
+
+  final User _user;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 250,
+      child: DrawerHeader(
+        decoration: const BoxDecoration(
+          color: Colors.blue,
+        ),
+        child: Column(
+          children:  [
+            const Expanded(
+              child: FittedBox(
+                child: CircleAvatar(
+                  backgroundImage: AssetImage("images/sukanto_profile_pic.jpg")
+                ),
+              ),
+            ),
+            const SizedBox(height: 10,),
+            Text(
+              _user.name,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 28,
+              ),
+            ),
+            Text(
+              _user.email,
+              style: const TextStyle(
+                color: Colors.white,
+              ),
+            ),
+            const SizedBox(height: 10,),
+          ],
+        ),
+      ),
+    );
+  }
 }
 
 class MenuItem extends StatelessWidget{
