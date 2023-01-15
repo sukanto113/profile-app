@@ -18,12 +18,14 @@ class _LoginPageState extends State<LoginPage> {
 
   final _userEmailController = TextEditingController();
   final _userPasswordController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
 
   Future<void> _onLoginButtonPressed() async {
-    final bool isLoginSuccessfull = await UserManager.login(
-      _userEmailController.text,
-      _userPasswordController.text
-    );
+    if(!_formKey.currentState!.validate()) return;
+    final String email = _userEmailController.text;
+    final String password = _userPasswordController.text;
+
+    final bool isLoginSuccessfull = await UserManager.login(email, password);
 
     if(!mounted) return;
     if(isLoginSuccessfull){
@@ -74,15 +76,18 @@ class _LoginPageState extends State<LoginPage> {
           ],
         ),
         
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            const FormHeaderText(text: "LOGIN"),
-            EmailFormField(userEmailController: _userEmailController),
-            PasswordFormField(userPasswordController: _userPasswordController),
-            const SizedBox(height: 50,)
-          ],
+        child: Form(
+          key: _formKey,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              const FormHeaderText(text: "LOGIN"),
+              EmailFormField(userEmailController: _userEmailController),
+              PasswordFormField(userPasswordController: _userPasswordController),
+              const SizedBox(height: 50,)
+            ],
+          ),
         ), 
       ),
     );

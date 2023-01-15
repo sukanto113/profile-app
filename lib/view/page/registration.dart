@@ -19,8 +19,12 @@ class _RegistrationPageState extends State<RegistrationPage> {
   final _userNameController = TextEditingController();
   final _userEmailController = TextEditingController();
   final _userPasswordController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+
 
   Future<void> _onRegisterButtonPressed() async {
+    if(!_formKey.currentState!.validate()) return;
+
     String name = _userNameController.text ;
     String email = _userEmailController.text;
     String password = _userPasswordController.text;
@@ -69,16 +73,19 @@ class _RegistrationPageState extends State<RegistrationPage> {
             )
           ],
         ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            const FormHeaderText(text: "REGISTER"),
-            NameFormField(userNameController: _userNameController),
-            EmailFormField(userEmailController: _userEmailController),
-            PasswordFormField(userPasswordController: _userEmailController,),
-            const SizedBox(height: 50,),
-          ],
+        child: Form(
+          key: _formKey,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              const FormHeaderText(text: "REGISTER"),
+              NameFormField(userNameController: _userNameController),
+              EmailFormField(userEmailController: _userEmailController),
+              PasswordFormField(userPasswordController: _userEmailController,),
+              const SizedBox(height: 50,),
+            ],
+          ),
         ), 
       ),
     );
