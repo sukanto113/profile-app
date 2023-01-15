@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:profile_app/user_manager/user_manager.dart';
 import 'package:profile_app/util/navigation.dart';
-import '/view/page/profile.dart';
-import '/view/page/login.dart';
-import '/view/page/registration.dart';
+import 'package:profile_app/view/page/profile.dart';
+import 'package:profile_app/view/page/login.dart';
+import 'package:profile_app/view/page/registration.dart';
 
 class HomePage extends StatefulWidget{
   const HomePage({super.key});

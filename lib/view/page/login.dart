@@ -4,7 +4,7 @@ import 'package:profile_app/user_manager/user_manager.dart';
 import 'package:profile_app/util/dialog.dart';
 import 'package:profile_app/util/navigation.dart';
 import 'package:profile_app/view/page/registration.dart';
-import '../widget/floating_card_form_screen.dart';
+import 'package:profile_app/view/widget/floating_card_form_screen.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
