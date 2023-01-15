@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:email_validator/email_validator.dart';
 import 'package:profile_app/user_manager/user_manager.dart';
 import 'package:profile_app/util/dialog.dart';
 import 'package:profile_app/util/navigation.dart';
 import 'package:profile_app/view/page/registration.dart';
 import 'package:profile_app/view/widget/floating_card_form_screen.dart';
+import 'package:profile_app/view/widget/form_util.dart';
+
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -52,30 +53,17 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       body: FloatingCardFormScreen(
         background: const BackgroundWithHomeIcon(),
-        margin: const EdgeInsets.fromLTRB(30, 150, 30, 90),
+        margin: const EdgeInsets.fromLTRB(30, 150, 30, 110),
         stackedChild: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            ElevatedButton(
-              onPressed: _onLoginButtonPressed,
-              style: ElevatedButton.styleFrom(
-                minimumSize: const Size(100, 50),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(25)
-                )
-              ),
-              child: const Text(
-                "LOGIN",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18,
-                ),
-              ),
-            ),
+            ElevatedFormActionButton(onPressed: _onLoginButtonPressed),
+            const SizedBox(height: 10,),
             TextButton(
               onPressed: _onRegisterPressed,
               child: const Text("Need an account? REGISTER"),
             ),
+            const SizedBox(height: 10,),
             const Text(
               "Forgot password?",
               textAlign: TextAlign.center,
@@ -90,43 +78,10 @@ class _LoginPageState extends State<LoginPage> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Container(
-              margin: const EdgeInsets.only(bottom: 40),
-              child: const Text(
-                "LOGIN",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20
-                ),
-              ),
-            ),
-            TextFormField(
-              controller: _userEmailController,
-              autovalidateMode: AutovalidateMode.always,
-              decoration: const InputDecoration(
-                hintText: 'user@example.com',
-                labelText: 'EMAIL *',
-              ),
-              validator: (String? value) {
-                if( value == ""){
-                  return null;
-                }else{
-                  return (value !=null && EmailValidator.validate(value)) ? null : "Please enter a valid email";
-                }
-              },
-            ),
-            Container(
-              margin: const EdgeInsets.only(bottom: 50),
-              child: TextFormField(
-                controller: _userPasswordController,
-                obscureText: true,
-                decoration: const InputDecoration(
-                  hintText: 'Password',
-                  labelText: 'PASSWORD *',
-                ),
-              ),
-            ),
+            const FormHeaderText(text: "LOGIN"),
+            EmailFormField(userEmailController: _userEmailController),
+            PasswordFormField(userPasswordController: _userPasswordController),
+            const SizedBox(height: 50,)
           ],
         ), 
       ),
