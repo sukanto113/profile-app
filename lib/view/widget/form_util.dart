@@ -13,9 +13,9 @@ class NameFormField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       controller: _userNameController,
-      autovalidateMode: AutovalidateMode.always,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       validator: (String? value) {
-        return (value == null || value.isEmpty) ? "Please your name" : null;
+        return (value == null || value.isEmpty) ? "Please enter your name" : null;
       },
       decoration: const InputDecoration(
         hintText: 'John Doe',
@@ -39,10 +39,14 @@ class PasswordFormField extends StatelessWidget {
     return TextFormField(
       controller: _userPasswordController,
       obscureText: true,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       decoration: const InputDecoration(
         hintText: 'Password',
         labelText: 'PASSWORD *',
       ),
+      validator: (String? value) {
+        return (value == null || value.isEmpty) ? "Please enter password" : null;
+      },
     );
   }
 }
@@ -59,7 +63,7 @@ class EmailFormField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       controller: _userEmailController,
-      autovalidateMode: AutovalidateMode.always,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       decoration: const InputDecoration(
         hintText: 'user@example.com',
         labelText: 'EMAIL *',
@@ -75,16 +79,17 @@ class EmailFormField extends StatelessWidget {
 class ElevatedFormActionButton extends StatelessWidget {
 
   const ElevatedFormActionButton({
+    required this.buttonText,
     required this.onPressed,
     Key? key,
   }) : super(key: key);
 
   final VoidCallback onPressed;
+  final String buttonText;
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      // onPressed: (){},
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
         minimumSize: const Size(100, 50),
@@ -92,9 +97,9 @@ class ElevatedFormActionButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(25)
         )
       ),
-      child: const Text(
-        "REGISTER",
-        style: TextStyle(
+      child: Text(
+        buttonText,
+        style: const TextStyle(
           fontWeight: FontWeight.bold,
           fontSize: 18,
         ),

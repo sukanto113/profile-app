@@ -59,7 +59,7 @@ class _LoginPageState extends State<LoginPage> {
         stackedChild: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            ElevatedFormActionButton(onPressed: _onLoginButtonPressed),
+            ElevatedFormActionButton(buttonText: "LOGIN", onPressed: _onLoginButtonPressed),
             const SizedBox(height: 10,),
             TextButton(
               onPressed: _onRegisterPressed,

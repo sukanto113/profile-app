@@ -65,7 +65,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
         stackedChild: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            ElevatedFormActionButton(onPressed: _onRegisterButtonPressed,),
+            ElevatedFormActionButton(buttonText: "REGISTER", onPressed: _onRegisterButtonPressed,),
             const SizedBox(height: 10,),
             TextButton(
               onPressed: _onLoginPressed,
