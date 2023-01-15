@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 class NameFormField extends StatelessWidget {
   const NameFormField({
     Key? key,
-    required TextEditingController userNameController,
-  }) : _userNameController = userNameController, super(key: key);
+    required TextEditingController controller,
+  }) : _userNameController = controller, super(key: key);
 
   final TextEditingController _userNameController;
 
@@ -29,8 +29,8 @@ class NameFormField extends StatelessWidget {
 class PasswordFormField extends StatelessWidget {
   const PasswordFormField({
     Key? key,
-    required TextEditingController userPasswordController,
-  }) : _userPasswordController = userPasswordController, super(key: key);
+    required TextEditingController controller,
+  }) : _userPasswordController = controller, super(key: key);
 
   final TextEditingController _userPasswordController;
 
@@ -54,8 +54,8 @@ class PasswordFormField extends StatelessWidget {
 class EmailFormField extends StatelessWidget {
   const EmailFormField({
     Key? key,
-    required TextEditingController userEmailController,
-  }) : _userEmailController = userEmailController, super(key: key);
+    required TextEditingController controller,
+  }) : _userEmailController = controller, super(key: key);
 
   final TextEditingController _userEmailController;
 

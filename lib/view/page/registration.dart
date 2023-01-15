@@ -80,9 +80,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               const FormHeaderText(text: "REGISTER"),
-              NameFormField(userNameController: _userNameController),
-              EmailFormField(userEmailController: _userEmailController),
-              PasswordFormField(userPasswordController: _userPasswordController,),
+              NameFormField(controller: _userNameController),
+              EmailFormField(controller: _userEmailController),
+              PasswordFormField(controller: _userPasswordController,),
               const SizedBox(height: 50,),
             ],
           ),

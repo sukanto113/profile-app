@@ -83,8 +83,8 @@ class _LoginPageState extends State<LoginPage> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               const FormHeaderText(text: "LOGIN"),
-              EmailFormField(userEmailController: _userEmailController),
-              PasswordFormField(userPasswordController: _userPasswordController),
+              EmailFormField(controller: _userEmailController),
+              PasswordFormField(controller: _userPasswordController),
               const SizedBox(height: 50,)
             ],
           ),
