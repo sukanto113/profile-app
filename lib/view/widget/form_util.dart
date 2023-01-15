@@ -14,6 +14,9 @@ class NameFormField extends StatelessWidget {
     return TextFormField(
       controller: _userNameController,
       autovalidateMode: AutovalidateMode.always,
+      validator: (String? value) {
+        return (value == null || value.isEmpty) ? "Please your name" : null;
+      },
       decoration: const InputDecoration(
         hintText: 'John Doe',
         labelText: 'NAME *',
@@ -62,11 +65,7 @@ class EmailFormField extends StatelessWidget {
         labelText: 'EMAIL *',
       ),
       validator: (String? value) {
-        if( value == ""){
-          return null;
-        }else{
-          return (value !=null && EmailValidator.validate(value)) ? null : "Please enter a valid email";
-        }
+        return (value == null || !EmailValidator.validate(value)) ? "Please enter a valid email" : null;
       },
     );
   }

@@ -82,7 +82,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
               const FormHeaderText(text: "REGISTER"),
               NameFormField(userNameController: _userNameController),
               EmailFormField(userEmailController: _userEmailController),
-              PasswordFormField(userPasswordController: _userEmailController,),
+              PasswordFormField(userPasswordController: _userPasswordController,),
               const SizedBox(height: 50,),
             ],
           ),
