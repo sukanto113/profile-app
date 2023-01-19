@@ -1,9 +1,9 @@
 class Student{
   final int id;
-  final String name;
-  final String roll;
+  String name;
+  String roll;
 
-  const Student({
+  Student({
     required this.id,
     required this.name,
     required this.roll,
