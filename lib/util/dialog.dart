@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:profile_app/model/student.dart';
+import 'package:profile_app/view/widget/edit_student.dart';
 
 class DialogUtil{
   static void showRegistrationFailedDialog(BuildContext context){
@@ -21,6 +23,28 @@ class DialogUtil{
           text,
            textAlign: TextAlign.center,
           ),
+        );
+      },
+    );
+  }
+
+  static Future<dynamic> showStudentEditDialog(BuildContext context, Student student) async {
+    return await showDialog(
+      context: context, 
+      builder: (context) {
+        return EditStudentDialog(
+          student: student,
+        );
+      },
+    );
+  }
+
+  static void showStudentDialog(BuildContext context, Student student) {
+    showDialog(
+      context: context, 
+      builder: (context) {
+        return StudentDialog(
+          student: student,
         );
       },
     );

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:profile_app/view/page/splash.dart';
+import 'package:profile_app/view/page/student_crud.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,7 +16,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const SplashPage(),
+      home: const StudentCRUD(),
     );
   }
 }
