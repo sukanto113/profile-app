@@ -18,8 +18,8 @@ class StudentFields{
     ];
   }
 
-  static Student convertMapToStudent(Map<String, Object?> record) {
-    return Student(
+  static StudentModel convertMapToStudent(Map<String, Object?> record) {
+    return StudentModel(
       id: record[StudentFields.id] as int,
       name: record[StudentFields.name] as String,
       roll: record[StudentFields.name] as String,
@@ -35,13 +35,13 @@ class StudentFields{
     };
   }
 
-  static Map<String, Object?> convertStudentToMap(Student student){
+  static Map<String, Object?> convertStudentToMap(StudentModel student){
     return convertToMap(name: student.name, roll: student.roll);
   }
 
 }
 
-class StudentsDatabase{
+class StudentsDatabase implements StudentRepository{
   static final StudentsDatabase instance = StudentsDatabase._init();
 
   static Database? _database;
@@ -71,12 +71,12 @@ class StudentsDatabase{
 CREATE TABLE $studentsTable(
   ${StudentFields.id} $idType,
   ${StudentFields.name} $textType,
-  ${StudentFields.roll} $textType, 
+  ${StudentFields.roll} $textType
 )
 ''');
   }
 
-  Future<Student> create({
+  Future<StudentModel> create({
     required String name,
     required String roll,
     }) async{
@@ -87,10 +87,10 @@ CREATE TABLE $studentsTable(
       name: name, roll: roll
     ));
 
-    return Student(id: id, name: name, roll: roll);
+    return StudentModel(id: id, name: name, roll: roll);
   }
 
-  Future<Student> read(int id) async {
+  Future<StudentModel> read(int id) async {
     final db = await instance.database;
 
     final result = await db.query(
@@ -107,7 +107,7 @@ CREATE TABLE $studentsTable(
     }
   }
 
-  Future<List<Student>> readAll() async {
+  Future<List<StudentModel>> readAll() async {
     final db = await instance.database;
 
     final result = await db.query(
@@ -118,7 +118,7 @@ CREATE TABLE $studentsTable(
     return _convertMapsToStudents(result);
   }
 
-  Future<int> update(Student student) async {
+  Future<int> update(StudentModel student) async {
     final db = await instance.database;
     return await db.update(
       studentsTable,
@@ -143,7 +143,7 @@ CREATE TABLE $studentsTable(
     db.close();
   }
 
-  List<Student> _convertMapsToStudents(List<Map<String, Object?>> result) {
+  List<StudentModel> _convertMapsToStudents(List<Map<String, Object?>> result) {
     return result.map(
       (record) => StudentFields.convertMapToStudent(record)
     ).toList();

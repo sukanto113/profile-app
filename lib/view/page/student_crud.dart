@@ -73,7 +73,7 @@ class StudentsListViewModel extends StateNotifier<StudentsListModel> {
 
 final studentsListProvider = 
   StateNotifierProvider<StudentsListViewModel, StudentsListModel>(
-    (ref) => StudentsListViewModel(InMemoryStudentRepo() ,StudentsListModel([]))
+    (ref) => StudentsListViewModel(StudentsDatabase.instance ,StudentsListModel([]))
   );
 
 
