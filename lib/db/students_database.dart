@@ -22,7 +22,7 @@ class StudentFields{
     return StudentModel(
       id: record[StudentFields.id] as int,
       name: record[StudentFields.name] as String,
-      roll: record[StudentFields.name] as String,
+      roll: record[StudentFields.roll] as String,
     );
   }
 
