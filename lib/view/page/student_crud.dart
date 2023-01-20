@@ -1,60 +1,119 @@
 import 'package:flutter/material.dart';
-import 'package:profile_app/model/student.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:profile_app/db/students_database.dart';
 import 'package:profile_app/util/dialog.dart';
+// import 'package:profile_app/model/student.dart';
+// import 'package:profile_app/util/dialog.dart';
 
-class StudentCRUD extends StatefulWidget {
-  const StudentCRUD({super.key});
 
-  @override
-  State<StudentCRUD> createState() => _StudentCRUDState();
+class StudentsListModel{
+  final Iterable<StudentModel> students;
+  StudentsListModel(Iterable<StudentModel> students):students = List.unmodifiable(students);
 }
 
-class _StudentCRUDState extends State<StudentCRUD> {
-  final students = [
-    Student(id: 1, name: "Sukanto Saha", roll: '1'),
-    Student(id: 2, name: "Animesh Kumar", roll: '2'),
-    Student(id: 3, name: "Pradip Chandraw", roll: '3'),
-  ];
 
-  @override
-  void initState() {
-    super.initState();
+class StudentModel{
+  
+  final int id;
+  final String name;
+  final String roll;
+
+  const StudentModel({
+    required this.id,
+    required this.name,
+    required this.roll
+  });
+
+  StudentModel copyWith({String? name, String? roll}){
+    return StudentModel(
+      id: id,
+      name: name ?? this.name,
+      roll: roll ?? this.roll,
+    );
+  }
+}
+
+
+
+class StudentsListViewModel extends StateNotifier<StudentsListModel> {
+  final StudentRepository repository;
+
+  StudentsListViewModel(this.repository, super.state){
+    _refressData();
   }
 
+  void _refressData() async {
+    state = StudentsListModel(await repository.readAll()) ;
+  }
+
+  void removeStudent(StudentModel student) async {   
+    await repository.delete(student.id);
+    _refressData();
+
+  }
+
+  void addStudent() async {
+    await repository.create(name: "", roll: "");
+    _refressData();
+  }
+
+  void editStudent(StudentModel student, {String? name, String? roll}) async {
+    final newStudent = StudentModel(
+      id: student.id,
+      name: name ?? student.name,
+      roll: roll ?? student.roll,
+    );
+    await repository.update(newStudent);
+    _refressData();
+  }
+
+}
+
+
+
+final studentsListProvider = 
+  StateNotifierProvider<StudentsListViewModel, StudentsListModel>(
+    (ref) => StudentsListViewModel(InMemoryStudentRepo() ,StudentsListModel([]))
+  );
+
+
+
+class StudentCRUD extends ConsumerWidget {
+  const StudentCRUD({super.key});
+
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final students = ref.watch(studentsListProvider).students;
+
     return Scaffold(body: Center(
       child: ListView.builder(
         itemCount: students.length,
         itemBuilder: (context, index) {
           return Card(
             child: ListTile(
-              title: Text(students[index].name),
+              title: Text(students.elementAt(index).name),
               trailing: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   IconButton(
                     onPressed: () async {
-                      await DialogUtil.showStudentEditDialog(context, students[index]);
-                      setState(() {
-                      });
+                      DialogUtil.showStudentEditDialog(context, students.elementAt(index));
                     },
                     icon: const Icon(Icons.edit)
                   ),
                   IconButton(
                     onPressed: (){
-                      students.remove(students[index]);
-                      setState(() {
-                        
-                      });
+                      ref.read(studentsListProvider.notifier).
+                        removeStudent(students.elementAt(index));
                     },
                     icon: const Icon(Icons.delete)
                   ),
                 ],
               ),
-              subtitle: Text(students[index].roll),
+              subtitle: Text(students.elementAt(index).id.toString()),
               onTap: (){
-                DialogUtil.showStudentDialog(context, students[index]);
+                DialogUtil.showStudentDialog(context, students.elementAt(index));
               },
             ),
           );
@@ -62,15 +121,28 @@ class _StudentCRUDState extends State<StudentCRUD> {
       )),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          var newStudent = Student(id: 1, name: "", roll: "");
-          students.add(newStudent);
-          await DialogUtil.showStudentEditDialog(context, newStudent);
-          setState(() {
+          ref.read(studentsListProvider.notifier).addStudent();
+          // var newStudent = Student(id: 1, name: "", roll: "");
+          // students.add(newStudent);
+          // await DialogUtil.showStudentEditDialog(context, newStudent);
+          // setState(() {
             
-          });
+          // });
         },
         child: const Icon(Icons.add),
       ),
     );
   }
 }
+
+
+// class StudentCRUD extends StatefulWidget {
+//   const StudentCRUD({super.key});
+
+//   @override
+//   State<StudentCRUD> createState() => _StudentCRUDState();
+// }
+
+// class _StudentCRUDState extends State<StudentCRUD> {
+
+// }

@@ -1,4 +1,5 @@
 import 'package:profile_app/model/student.dart';
+import 'package:profile_app/view/page/student_crud.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart' as p;
 
@@ -146,5 +147,69 @@ CREATE TABLE $studentsTable(
     return result.map(
       (record) => StudentFields.convertMapToStudent(record)
     ).toList();
+  }
+}
+
+abstract class StudentRepository{
+  Future<StudentModel> create({
+    required String name,
+    required String roll,
+    });
+  Future<StudentModel> read(int id);
+  Future<Iterable<StudentModel>> readAll();
+  Future<int> update(StudentModel student);
+  Future<int> delete(int id);
+  Future<void> close();
+
+}
+
+class InMemoryStudentRepo extends StudentRepository {
+  
+  List<StudentModel> students = [];
+  int nextIndex = 1;
+  
+  @override
+  Future<void> close() async {
+  }
+
+  @override
+  Future<StudentModel> create({required String name, required String roll}) async {
+    var student = StudentModel(id: nextIndex++, name: "", roll: "");
+    students.add(student);
+    return student;
+  }
+
+  @override
+  Future<int> delete(int id) async {
+    final student = await read(id); 
+    students.remove(student);
+    return 1;
+  }
+
+  @override
+  Future<StudentModel> read(int id) async {
+    for(final student in students){
+      if(student.id == id) return student;
+    }
+    throw Exception("id not found");
+  }
+
+  @override
+  Future<Iterable<StudentModel>> readAll() async {
+    return students;
+  }
+
+  @override
+  Future<int> update(StudentModel student) async {
+    var index = _getIndex(student);
+    students[index] = student;
+    return index;
+  }
+
+  int _getIndex(StudentModel student){
+    for(var i = 0; i < students.length; ++i){
+      if(student.id == students[i].id) return i;
+    }
+    throw Exception("id not found");
   }
 }

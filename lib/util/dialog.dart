@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:profile_app/model/student.dart';
+import 'package:profile_app/view/page/student_crud.dart';
 import 'package:profile_app/view/widget/edit_student.dart';
 
 class DialogUtil{
@@ -28,7 +29,7 @@ class DialogUtil{
     );
   }
 
-  static Future<dynamic> showStudentEditDialog(BuildContext context, Student student) async {
+  static Future<dynamic> showStudentEditDialog(BuildContext context, StudentModel student) async {
     return await showDialog(
       context: context, 
       builder: (context) {
@@ -39,7 +40,7 @@ class DialogUtil{
     );
   }
 
-  static void showStudentDialog(BuildContext context, Student student) {
+  static void showStudentDialog(BuildContext context, StudentModel student) {
     showDialog(
       context: context, 
       builder: (context) {

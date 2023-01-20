@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:profile_app/model/student.dart';
+import 'package:profile_app/view/page/student_crud.dart';
 
-class EditStudentDialog extends StatefulWidget {
-  final Student student;
+class EditStudentDialog extends ConsumerStatefulWidget {
+  final StudentModel student;
   const EditStudentDialog({required this.student, super.key});
 
   @override
-  State<EditStudentDialog> createState() => _EditStudentDialogState();
+  ConsumerState<EditStudentDialog> createState() => _EditStudentDialogState();
 }
 
-class _EditStudentDialogState extends State<EditStudentDialog> {
+class _EditStudentDialogState extends ConsumerState<EditStudentDialog> {
 
   final _nameController = TextEditingController();
   final _rollController = TextEditingController();
@@ -62,8 +64,10 @@ class _EditStudentDialogState extends State<EditStudentDialog> {
         ),
         TextButton(
           onPressed: (){
-            widget.student.name = _nameController.text;
-            widget.student.roll = _rollController.text;
+            ref.read(studentsListProvider.notifier).editStudent(widget.student,
+              name: _nameController.text,
+              roll: _rollController.text,
+            );
             Navigator.pop(context);
           },
           child: const Text("Save")
@@ -74,7 +78,7 @@ class _EditStudentDialogState extends State<EditStudentDialog> {
 }
 
 class StudentDialog extends StatelessWidget {
-  final Student student;
+  final StudentModel student;
   const StudentDialog({super.key, required this.student});
 
   @override
