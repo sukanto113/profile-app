@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:profile_app/user_manager/user_manager.dart';
+import 'package:profile_app/util/dialog.dart';
 import 'package:profile_app/util/navigation.dart';
 import 'package:profile_app/view/page/profile.dart';
 import 'package:profile_app/view/page/login.dart';
 import 'package:profile_app/view/page/registration.dart';
+import 'package:profile_app/view/page/students_list.dart';
 
 class HomePage extends StatefulWidget{
   const HomePage({super.key});
@@ -20,9 +22,7 @@ class _HomePageState extends State<HomePage> {
     static const List<Widget> _widgetOptions = <Widget>[
     const HomeBody(),
     const Text(""),
-    Text(
-      'All Students',
-    ),
+    StudentList(),
   ];
 
 
@@ -52,7 +52,18 @@ class _HomePageState extends State<HomePage> {
         title: const Center(child: Text("Home")),
       ),
       floatingActionButton: FloatingActionButton(onPressed: () {  },
-      child: IconButton(icon: const Icon(Icons.add), onPressed: () {  },),
+      child: IconButton(
+        icon: const Icon(Icons.add), 
+        onPressed: () async {
+          // open add new page
+          // await ref.read(studentsListProvider.notifier).addStudent();
+          // if(isMounted()){
+          //   DialogUtil.showStudentEditDialog(context, students.last);
+          // }
+          // DialogUtil.showAddStudentDialog(context);
+
+        },
+      ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       endDrawer: AppNavigationDrawer(user: _user),

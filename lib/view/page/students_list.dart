@@ -53,15 +53,6 @@ class StudentList extends HookConsumerWidget {
           );
         },
       )),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          await ref.read(studentsListProvider.notifier).addStudent();
-          if(isMounted()){
-            DialogUtil.showStudentEditDialog(context, students.last);
-          }
-        },
-        child: const Icon(Icons.add),
-      ),
     );
   }
 }
