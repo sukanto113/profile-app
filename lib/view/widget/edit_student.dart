@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:profile_app/model/student.dart';
-import 'package:profile_app/view/page/student_crud.dart';
+import 'package:profile_app/view/page/students_list.dart';
 
 class EditStudentDialog extends ConsumerStatefulWidget {
-  final StudentModel student;
+  final StudentState student;
   const EditStudentDialog({required this.student, super.key});
 
   @override
@@ -78,7 +78,7 @@ class _EditStudentDialogState extends ConsumerState<EditStudentDialog> {
 }
 
 class StudentDialog extends StatelessWidget {
-  final StudentModel student;
+  final StudentState student;
   const StudentDialog({super.key, required this.student});
 
   @override
