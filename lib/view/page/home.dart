@@ -17,13 +17,14 @@ class _HomePageState extends State<HomePage> {
   User _user = const User(name: "", email: "");
   int _selectedIndex = 0;
 
-  void _onViewProfileTab() {
-    _openProfilePage();
-  }
+    static const List<Widget> _widgetOptions = <Widget>[
+    const HomeBody(),
+    const Text(""),
+    Text(
+      'All Students',
+    ),
+  ];
 
-  void _openProfilePage(){
-    NavigationUtil.push(context, const ProfilePage());
-  }
 
   @override
   void initState() {
@@ -80,30 +81,50 @@ class _HomePageState extends State<HomePage> {
           onTap: _onItemTapped,
         ),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text(
-              "WELCOME TO HOME",
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 20
-              ),
-            ),
-            Container(
-              margin: const EdgeInsets.all(10),
-              child: ElevatedButton(
-                onPressed: _onViewProfileTab,
-                child: const Text("View Profile"),
-              ),
-            )
-          ],
-        ),
-      ),
+      body: _widgetOptions.elementAt(_selectedIndex),
     );
   }
 
+}
+
+class HomeBody extends StatelessWidget {
+  const HomeBody({
+    Key? key,
+  }) : super(key: key);
+
+  void _onViewProfileTab(BuildContext context) {
+    _openProfilePage(context);
+  }
+
+  void _openProfilePage(BuildContext context){
+    NavigationUtil.push(context, const ProfilePage());
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Text(
+            "WELCOME TO HOME",
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 20
+            ),
+          ),
+          Container(
+            margin: const EdgeInsets.all(10),
+            child: ElevatedButton(
+              onPressed: () => _onViewProfileTab(context),
+              // onPressed: (){},
+              child: const Text("View Profile"),
+            ),
+          )
+        ],
+      ),
+    );
+  }
 }
 
 class AppNavigationDrawer extends StatefulWidget {
