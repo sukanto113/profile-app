@@ -1,17 +1,38 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:profile_app/model/student.dart';
 import 'package:profile_app/view/page/students_list.dart';
 
-class EditStudentDialog extends ConsumerStatefulWidget {
+class EditStudentDialog extends ConsumerWidget {
   final StudentState student;
-  const EditStudentDialog({required this.student, super.key});
+  const EditStudentDialog({super.key, required this.student});
 
   @override
-  ConsumerState<EditStudentDialog> createState() => _EditStudentDialogState();
+  Widget build(BuildContext context, WidgetRef ref) {
+    return EditStudentView(
+      onEditStudentSave: (String name, String roll){
+        ref.read(studentsListProvider.notifier).editStudent(student,
+          name: name,
+          roll: roll,
+        );
+      },       
+      student: student
+    );
+  }
 }
 
-class _EditStudentDialogState extends ConsumerState<EditStudentDialog> {
+class EditStudentView extends ConsumerStatefulWidget {
+  const EditStudentView({super.key, required this.onEditStudentSave, required this.student});
+  final StudentState student;
+
+  ///void Function(String name, String roll)
+  final void Function(String, String) onEditStudentSave;
+
+  @override
+  ConsumerState<EditStudentView> createState() => _EditStudentViewState();
+}
+
+class _EditStudentViewState extends ConsumerState<EditStudentView> {
 
   final _nameController = TextEditingController();
   final _rollController = TextEditingController();
@@ -64,15 +85,22 @@ class _EditStudentDialogState extends ConsumerState<EditStudentDialog> {
         ),
         TextButton(
           onPressed: (){
-            ref.read(studentsListProvider.notifier).editStudent(widget.student,
-              name: _nameController.text,
-              roll: _rollController.text,
-            );
             Navigator.pop(context);
+            widget.onEditStudentSave(_nameController.text, _rollController.text);
           },
           child: const Text("Save")
         ),
       ],
+    );
+  }
+}
+
+class AddStudentDialog extends StatelessWidget {
+  const AddStudentDialog({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return const AlertDialog(
+      content: Text("Add new Student"),
     );
   }
 }

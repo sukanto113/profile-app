@@ -49,4 +49,13 @@ class DialogUtil{
       },
     );
   }
+
+  static Future<void> showAddStudentDialog(BuildContext context) async {
+    return await showDialog(
+      context: context, 
+      builder: (context) {
+        return AddStudentDialog();
+      },
+    );
+  }
 }

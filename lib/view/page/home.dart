@@ -60,7 +60,7 @@ class _HomePageState extends State<HomePage> {
           // if(isMounted()){
           //   DialogUtil.showStudentEditDialog(context, students.last);
           // }
-          // DialogUtil.showAddStudentDialog(context);
+          DialogUtil.showAddStudentDialog(context);
 
         },
       ),
