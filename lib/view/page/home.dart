@@ -15,6 +15,7 @@ class HomePage extends StatefulWidget{
 class _HomePageState extends State<HomePage> {
 
   User _user = const User(name: "", email: "");
+  int _selectedIndex = 0;
 
   void _onViewProfileTab() {
     _openProfilePage();
@@ -36,13 +37,49 @@ class _HomePageState extends State<HomePage> {
     super.initState();
   }
 
+  void _onItemTapped(int index) {
+    if (index == 1) return;
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Center(child: Text("Home")),
       ),
+      floatingActionButton: FloatingActionButton(onPressed: () {  },
+      child: IconButton(icon: const Icon(Icons.add), onPressed: () {  },),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       endDrawer: AppNavigationDrawer(user: _user),
+      bottomNavigationBar: BottomAppBar(
+        shape: const CircularNotchedRectangle(),
+        notchMargin: 5.0,
+        clipBehavior: Clip.antiAlias,
+        child: BottomNavigationBar(
+          items: const [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: 'Home',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(null),
+              label: 'Add Students',              
+            ),
+            BottomNavigationBarItem(
+
+              icon: Icon(Icons.school),
+              label: 'Students',
+            ),
+          ],
+          currentIndex: _selectedIndex,
+          selectedItemColor: Colors.amber[800],
+          onTap: _onItemTapped,
+        ),
+      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
