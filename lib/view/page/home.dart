@@ -5,7 +5,7 @@ import 'package:profile_app/util/navigation.dart';
 import 'package:profile_app/view/page/profile.dart';
 import 'package:profile_app/view/page/login.dart';
 import 'package:profile_app/view/page/registration.dart';
-import 'package:profile_app/view/page/students_list.dart';
+import 'package:profile_app/view/widget/student_crud.dart';
 
 class HomePage extends StatefulWidget{
   const HomePage({super.key});
@@ -19,9 +19,9 @@ class _HomePageState extends State<HomePage> {
   User _user = const User(name: "", email: "");
   int _selectedIndex = 0;
 
-    static const List<Widget> _widgetOptions = <Widget>[
-    const HomeBody(),
-    const Text(""),
+  static const List<Widget> _widgetOptions = <Widget>[
+    HomeBody(),
+    Text(""),
     StudentListView(),
   ];
 

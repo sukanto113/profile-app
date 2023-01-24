@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:profile_app/model/student.dart';
 import 'package:profile_app/view/widget/buttons.dart';
-import 'package:profile_app/view/widget/edit_student.dart';
+import 'package:profile_app/view/widget/student_crud.dart';
 
 class DialogUtil{
   static void showRegistrationFailedDialog(BuildContext context){
