@@ -5,64 +5,58 @@ import 'package:profile_app/view/widget/student_crud.dart';
 
 class DialogUtil{
   static void showRegistrationFailedDialog(BuildContext context){
-    _showTextDialog(
+    showTextDialog(
       context, 
       "Registration Failed! \n Please try again later"
     );
   }
 
   static void showLoginFailedDialog(BuildContext context){
-    _showTextDialog(context, "Login Failed! \n Wrong email or password");
+    showTextDialog(context, "Login Failed! \n Wrong email or password");
   }
 
-  static void _showTextDialog(BuildContext context, String text){
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          content: Text(
-          text,
-           textAlign: TextAlign.center,
-          ),
-        );
-      },
+  static void showTextDialog(BuildContext context, String text){
+    showDismissibleDialog(
+      context,
+      Text(
+        text,
+        textAlign: TextAlign.center,
+      ),
     );
   }
 
-  static Future<dynamic> showStudentEditDialog(BuildContext context, StudentState student) async {
-    return await showDialog(
-      context: context, 
-      barrierDismissible: false,
-      builder: (context) {
-        return AlertDialog(
-          content: EditStudentView(
-            student: student,
-          )
-        );
-      },
-    );
+  static void showStudentEditDialog(
+    BuildContext context, StudentState student
+  ){
+    showNonDismissibleDialog(context, EditStudentView(student: student));
+  }
+
+  static void showAddStudentDialog(BuildContext context) {
+    showNonDismissibleDialog(context, const AddStudentView());
   }
 
   static void showStudentDialog(BuildContext context, StudentState student) {
+    showDismissibleDialog(context, StudentView(student: student));
+  }
+
+  static void showNonDismissibleDialog(BuildContext context, Widget content){
     showDialog(
       context: context, 
+      barrierDismissible: false,
       builder: (context) {
         return AlertDialog(
-          content: StudentView(
-            student: student,
-          )  
+          content: content
         );
       },
     );
   }
 
-  static Future<void> showAddStudentDialog(BuildContext context) async {
-    return await showDialog(
+  static void showDismissibleDialog(BuildContext context, Widget content){
+    showDialog(
       context: context, 
-      barrierDismissible: false,
       builder: (context) {
-        return const AlertDialog(
-          content: AddStudentView()
+        return AlertDialog(
+          content: content
         );
       },
     );
