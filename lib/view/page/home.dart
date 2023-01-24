@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:profile_app/user_manager/user_manager.dart';
 import 'package:profile_app/util/dialog.dart';
 import 'package:profile_app/util/navigation.dart';
@@ -7,16 +8,17 @@ import 'package:profile_app/view/page/login.dart';
 import 'package:profile_app/view/page/registration.dart';
 import 'package:profile_app/view/widget/student_crud.dart';
 
-class HomePage extends StatefulWidget{
+import '../../providers.dart';
+
+class HomePage extends ConsumerStatefulWidget{
   const HomePage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  ConsumerState<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends ConsumerState<HomePage> {
 
-  User _user = const User(name: "", email: "");
   int _selectedIndex = 0;
 
   static const List<Widget> _widgetOptions = <Widget>[
@@ -25,18 +27,6 @@ class _HomePageState extends State<HomePage> {
     StudentListView(),
   ];
 
-
-  @override
-  void initState() {
-    Future.delayed(Duration.zero,() async {
-      User user = await UserManager.getCurrentUser();
-      setState(() {
-        _user = user; 
-      });
-
-    });
-    super.initState();
-  }
 
   void _onItemTapped(int index) {
     if (index == 1) return;
@@ -47,6 +37,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final user = ref.watch(userProvider);
+
     return Scaffold(
       appBar: AppBar(
         title: const Center(child: Text("Home")),
@@ -61,7 +53,7 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      endDrawer: AppNavigationDrawer(user: _user),
+      endDrawer: AppNavigationDrawer(user: user),
       bottomNavigationBar: BottomAppBar(
         shape: const CircularNotchedRectangle(),
         notchMargin: 5.0,
