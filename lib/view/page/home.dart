@@ -51,13 +51,14 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: const Center(child: Text("Home")),
       ),
-      floatingActionButton: FloatingActionButton(onPressed: () {  },
-      child: IconButton(
-        icon: const Icon(Icons.add), 
-        onPressed: () async {
-          DialogUtil.showAddStudentDialog(context);
-        },
-      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {  },
+        child: IconButton(
+          icon: const Icon(Icons.add), 
+          onPressed: () async {
+            DialogUtil.showAddStudentDialog(context);
+          },
+        ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       endDrawer: AppNavigationDrawer(user: _user),
