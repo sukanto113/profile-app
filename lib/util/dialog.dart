@@ -45,7 +45,7 @@ class DialogUtil{
     showDialog(
       context: context, 
       builder: (context) {
-        return StudentDialog(
+        return StudentView(
           student: student,
         );
       },

@@ -198,9 +198,9 @@ class _EditStudentViewState extends ConsumerState<EditStudentFieldsView> {
   }
 }
 
-class StudentDialog extends StatelessWidget {
+class StudentView extends StatelessWidget {
   final StudentState student;
-  const StudentDialog({super.key, required this.student});
+  const StudentView({super.key, required this.student});
 
   @override
   Widget build(BuildContext context) {
