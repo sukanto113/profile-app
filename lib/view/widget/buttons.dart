@@ -85,8 +85,8 @@ class SimpleDeleteButton extends FixedTextButton{
   String getButtonText() =>StringConstants.simpleDeleteButtonText;
 }
 
-class DialogCancleButton extends StatelessWidget{
-  const DialogCancleButton({super.key});
+class CancleButtonWithNavigatorPop extends StatelessWidget{
+  const CancleButtonWithNavigatorPop({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -104,7 +104,7 @@ class EditStudentView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return EditStudentFields(
+    return EditStudentFieldsWidget(
       headerText: StringConstants.editStudentFormHeader,
       onEditStudentSave: (editedFields) =>
         _onEditStudentSave(context, ref, editedFields),    
@@ -136,7 +136,7 @@ class AddStudentView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return EditStudentFields(
+    return EditStudentFieldsWidget(
       headerText: StringConstants.addStudentFormHeader,   
       onEditStudentSave: (editedFields) =>
        _onNewStudentAdd(context, ref, editedFields),
@@ -145,8 +145,8 @@ class AddStudentView extends ConsumerWidget {
   }
 }
 
-class EditStudentFields extends ConsumerStatefulWidget {
-  const EditStudentFields({
+class EditStudentFieldsWidget extends ConsumerStatefulWidget {
+  const EditStudentFieldsWidget({
     super.key,
     required this.headerText,
     required this.onEditStudentSave,
@@ -159,13 +159,13 @@ class EditStudentFields extends ConsumerStatefulWidget {
   final EditStudentFieldsCallback onEditStudentSave;
 
   @override
-  ConsumerState<EditStudentFields> createState() => _EditStudentViewState();
+  ConsumerState<EditStudentFieldsWidget> createState() => _EditStudentFieldsState();
 }
 
 
 
 
-class _EditStudentViewState extends ConsumerState<EditStudentFields> {
+class _EditStudentFieldsState extends ConsumerState<EditStudentFieldsWidget> {
 
   final _nameController = TextEditingController();
   final _rollController = TextEditingController();
@@ -188,47 +188,118 @@ class _EditStudentViewState extends ConsumerState<EditStudentFields> {
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      title: Text(widget.headerText),
-      content: SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TextFormField(
-              controller: _nameController,
-              decoration: const InputDecoration(
-                labelText: 'NAME',
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          _FormHeaderText(text: widget.headerText,),
+          _StudentNameFormField(controller: _nameController,),
+          _StudentRollFormField(controller: _rollController,),
+          const SizedBox(height: 10,),
+          RightAlignRow(
+            children: [
+              SimpleCancleButton(
+                onPressed: () => _onCanclePressed(context),
               ),
-            ),
-            TextFormField(
-              controller: _rollController,
-              decoration: const InputDecoration(
-                labelText: 'ROLL',
+              SimpleSaveButton(
+                onPressed: () => _onSavePressed(context),
               ),
-            ),
-            const SizedBox(height: 10,),
-            Align(
-              alignment: Alignment.centerRight,
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const DialogCancleButton(),
-                  SimpleSaveButton(
-                    onPressed: (){
-                      Navigator.pop(context);
+            ],
+          )
+        ],
+      ),
+    );
+  }
 
-                      final name = _nameController.text;
-                      final roll = _rollController.text;
-                      widget.onEditStudentSave(
-                        StudentEditableFields(name: name, roll: roll)
-                      );
+  void _onSavePressed(BuildContext context) {
+    Navigator.pop(context);
+    _onEditStudentSave();
+  }
 
-                    },
-                  ),
-              ],),
-            )
-          ],
-        ),
+  void _onCanclePressed(BuildContext context){
+    Navigator.pop(context);
+  }
+
+  void _onEditStudentSave() {
+    final name = _nameController.text;
+    final roll = _rollController.text;
+    widget.onEditStudentSave(
+      StudentEditableFields(name: name, roll: roll)
+    );
+  }
+}
+
+class RightAlignRow extends StatelessWidget {
+  final List<Widget> children;
+  
+  const RightAlignRow({
+    Key? key,
+    this.children = const <Widget>[],
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Align(
+      alignment: Alignment.centerRight,
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: children,
+      ),
+    );
+  }
+}
+
+class _FormHeaderText extends StatelessWidget {
+  const _FormHeaderText({
+    Key? key,
+    required this.text,
+  }) : super(key: key);
+
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(text,
+      style: const TextStyle(
+        fontWeight: FontWeight.bold,
+        fontSize: 20,
+      ),
+    );
+  }
+}
+
+class _StudentRollFormField extends StatelessWidget {
+  final TextEditingController controller;
+
+  const _StudentRollFormField({
+    Key? key,
+    required this.controller
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      controller: controller,
+      decoration: const InputDecoration(
+        labelText: StringConstants.editStudentFormRollLabel,
+      ),
+    );
+  }
+}
+
+class _StudentNameFormField extends StatelessWidget {
+  final TextEditingController controller;
+
+  const _StudentNameFormField({
+    Key? key,
+    required this.controller
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      controller: controller,
+      decoration: const InputDecoration(
+        labelText: StringConstants.editStudentFormNameLabel,
       ),
     );
   }

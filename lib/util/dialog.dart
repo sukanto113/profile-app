@@ -34,8 +34,10 @@ class DialogUtil{
       context: context, 
       barrierDismissible: false,
       builder: (context) {
-        return EditStudentView(
-          student: student,
+        return AlertDialog(
+          content: EditStudentView(
+            student: student,
+          )
         );
       },
     );

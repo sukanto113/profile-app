@@ -4,10 +4,10 @@ class StringConstants{
   "Student is deleted!";
 
   static const String snackBarStudentAddMessage = 
-  "Student is added!";
+  "New student is added!";
 
   static const String snackBarStudentEditMessage = 
-  "Student is edited!";
+  "Student is saved!";
 
   static const String simpleCancleButtonText = "Cancle";
   static const String simpleSaveButtonText = "Save";
@@ -15,4 +15,7 @@ class StringConstants{
 
   static const String addStudentFormHeader = "Add student";
   static const String editStudentFormHeader = "Edit student";
+
+  static const String editStudentFormNameLabel = "NAME";
+  static const String editStudentFormRollLabel = "Roll";
 }
