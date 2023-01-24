@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:profile_app/providers.dart';
+import 'package:profile_app/strings.dart';
 import 'package:profile_app/util/dialog.dart';
 
 class StudentList extends ConsumerWidget {
@@ -32,7 +33,9 @@ class StudentList extends ConsumerWidget {
                         removeStudent(students.elementAt(index));
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
-                          content: Text("Student is deleted"),
+                          content: Text(
+                            StringConstants.snackBarStudentDeleteMessage
+                          ),
                           behavior: SnackBarBehavior.floating,
                         )
                       );
