@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:profile_app/model/student.dart';
 import 'package:profile_app/providers.dart';
@@ -6,6 +7,8 @@ import 'package:profile_app/strings.dart';
 import 'package:profile_app/util/dialog.dart';
 import 'package:profile_app/util/snackbar.dart';
 import 'package:profile_app/view/widget/buttons.dart';
+import 'package:profile_app/view/widget/form.dart';
+import 'package:profile_app/view/widget/layout.dart';
 
 
 typedef EditStudentFieldsCallback =
@@ -145,7 +148,12 @@ class AddStudentView extends ConsumerWidget {
   }
 }
 
-class EditStudentFieldsWidget extends ConsumerStatefulWidget {
+class EditStudentFieldsWidget extends HookWidget {
+
+  final StudentEditableFields oldFieldsValue;
+  final String headerText;
+  final EditStudentFieldsCallback onEditStudentSave;
+
   const EditStudentFieldsWidget({
     super.key,
     required this.headerText,
@@ -153,47 +161,21 @@ class EditStudentFieldsWidget extends ConsumerStatefulWidget {
     required this.oldFieldsValue
   });
 
-  final StudentEditableFields oldFieldsValue;
-  final String headerText;
-
-  final EditStudentFieldsCallback onEditStudentSave;
-
-  @override
-  ConsumerState<EditStudentFieldsWidget> createState() => _EditStudentFieldsState();
-}
-
-
-
-
-class _EditStudentFieldsState extends ConsumerState<EditStudentFieldsWidget> {
-
-  final _nameController = TextEditingController();
-  final _rollController = TextEditingController();
-
-
-  @override
-  void initState() {
-    _nameController.text = widget.oldFieldsValue.name;
-    _rollController.text = widget.oldFieldsValue.roll;
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    _nameController.dispose();
-    _rollController.dispose();
-
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
+    const nameLabel = StringConstants.editStudentFormNameLabel;
+    const rollLabel = StringConstants.editStudentFormRollLabel;
+    
+    final nameController = useTextEditingController(text:oldFieldsValue.name);
+    final rollController = useTextEditingController(text: oldFieldsValue.roll);
+
+
     return SingleChildScrollView(
       child: Column(
         children: [
-          _FormHeaderText(text: widget.headerText,),
-          _StudentNameFormField(controller: _nameController,),
-          _StudentRollFormField(controller: _rollController,),
+          FormHeaderText(text: headerText,),
+          SimpleTextFormField(controller: nameController, label: nameLabel),
+          SimpleTextFormField(controller: rollController, label: rollLabel),
           const SizedBox(height: 10,),
           RightAlignRow(
             children: [
@@ -201,7 +183,12 @@ class _EditStudentFieldsState extends ConsumerState<EditStudentFieldsWidget> {
                 onPressed: () => _onCanclePressed(context),
               ),
               SimpleSaveButton(
-                onPressed: () => _onSavePressed(context),
+                onPressed: () =>
+                 _onSavePressed(
+                  context,
+                  nameController.text,
+                  rollController.text
+                ),
               ),
             ],
           )
@@ -210,99 +197,15 @@ class _EditStudentFieldsState extends ConsumerState<EditStudentFieldsWidget> {
     );
   }
 
-  void _onSavePressed(BuildContext context) {
+  void _onSavePressed(BuildContext context, String name, String roll) {
     Navigator.pop(context);
-    _onEditStudentSave();
+    onEditStudentSave(StudentEditableFields(name: name, roll: roll));
   }
 
   void _onCanclePressed(BuildContext context){
     Navigator.pop(context);
   }
 
-  void _onEditStudentSave() {
-    final name = _nameController.text;
-    final roll = _rollController.text;
-    widget.onEditStudentSave(
-      StudentEditableFields(name: name, roll: roll)
-    );
-  }
-}
-
-class RightAlignRow extends StatelessWidget {
-  final List<Widget> children;
-  
-  const RightAlignRow({
-    Key? key,
-    this.children = const <Widget>[],
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Align(
-      alignment: Alignment.centerRight,
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: children,
-      ),
-    );
-  }
-}
-
-class _FormHeaderText extends StatelessWidget {
-  const _FormHeaderText({
-    Key? key,
-    required this.text,
-  }) : super(key: key);
-
-  final String text;
-
-  @override
-  Widget build(BuildContext context) {
-    return Text(text,
-      style: const TextStyle(
-        fontWeight: FontWeight.bold,
-        fontSize: 20,
-      ),
-    );
-  }
-}
-
-class _StudentRollFormField extends StatelessWidget {
-  final TextEditingController controller;
-
-  const _StudentRollFormField({
-    Key? key,
-    required this.controller
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return TextFormField(
-      controller: controller,
-      decoration: const InputDecoration(
-        labelText: StringConstants.editStudentFormRollLabel,
-      ),
-    );
-  }
-}
-
-class _StudentNameFormField extends StatelessWidget {
-  final TextEditingController controller;
-
-  const _StudentNameFormField({
-    Key? key,
-    required this.controller
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return TextFormField(
-      controller: controller,
-      decoration: const InputDecoration(
-        labelText: StringConstants.editStudentFormNameLabel,
-      ),
-    );
-  }
 }
 
 class StudentView extends StatelessWidget {
@@ -311,14 +214,12 @@ class StudentView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text("Name: ${student.name}"),
-          Text("Roll: ${student.roll}"),
-        ],
-      ),
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text("Name: ${student.name}"),
+        Text("Roll: ${student.roll}"),
+      ],
     );
   }
 }

@@ -47,8 +47,10 @@ class DialogUtil{
     showDialog(
       context: context, 
       builder: (context) {
-        return StudentView(
-          student: student,
+        return AlertDialog(
+          content: StudentView(
+            student: student,
+          )  
         );
       },
     );
@@ -59,7 +61,9 @@ class DialogUtil{
       context: context, 
       barrierDismissible: false,
       builder: (context) {
-        return const AddStudentView();
+        return const AlertDialog(
+          content: AddStudentView()
+        );
       },
     );
   }
@@ -87,6 +91,5 @@ class DialogUtil{
         );
       }
     );
-
   }
 }
