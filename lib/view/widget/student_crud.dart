@@ -7,6 +7,14 @@ import 'package:profile_app/util/dialog.dart';
 import 'package:profile_app/view/widget/buttons.dart';
 
 
+typedef EditStudentFieldsCallback =
+ Function(EditableStudentFields editedFields);
+ 
+class EditableStudentFields{
+  EditableStudentFields({required this.name, required this.roll});
+  String name;
+  String roll;
+}
 
 class StudentListView extends ConsumerWidget {
   const StudentListView({super.key});
@@ -64,62 +72,64 @@ class StudentListView extends ConsumerWidget {
 }
 
 
-class EditStudentDialog extends ConsumerWidget {
+class EditStudentView extends ConsumerWidget {
   final StudentState student;
-  const EditStudentDialog({super.key, required this.student});
+  const EditStudentView({super.key, required this.student});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return EditStudentView(
+    return EditStudentFieldsView(
       headerText: "Edit student",
-      onEditStudentSave: (String name, String roll){
+      onEditStudentSave: (editedFields){
         ref.read(studentsListProvider.notifier).editStudent(student,
-          name: name,
-          roll: roll,
+          name: editedFields.name,
+          roll: editedFields.roll,
         );
       },       
-      student: EditStudentFields(name: student.name, roll: student.roll)
+      student: EditableStudentFields(name: student.name, roll: student.roll)
     );
   }
 }
 
-class AddStudentDialog extends ConsumerWidget {
-  const AddStudentDialog({super.key});
+class AddStudentView extends ConsumerWidget {
+  const AddStudentView({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return EditStudentView(
-      headerText: "Add student",
-      onEditStudentSave: (String name, String roll){
+    return EditStudentFieldsView(
+      headerText: "Add student",   
+      onEditStudentSave: (editedFields) {
         ref.read(studentsListProvider.notifier).addStudent(
-          name: name,
-          roll: roll,
+          name: editedFields.name,
+          roll: editedFields.roll,
         );
-      },       
-      student: EditStudentFields(name: "", roll: "")
+      },  
+      student: EditableStudentFields(name: "", roll: "")
     );
   }
 }
 
-class EditStudentView extends ConsumerStatefulWidget {
-  const EditStudentView({
+class EditStudentFieldsView extends ConsumerStatefulWidget {
+  const EditStudentFieldsView({
     super.key,
     required this.headerText,
     required this.onEditStudentSave,
     required this.student
   });
 
-  final EditStudentFields student;
+  final EditableStudentFields student;
   final String headerText;
 
-  ///void Function(String name, String roll)
-  final void Function(String, String) onEditStudentSave;
+  final EditStudentFieldsCallback onEditStudentSave;
 
   @override
-  ConsumerState<EditStudentView> createState() => _EditStudentViewState();
+  ConsumerState<EditStudentFieldsView> createState() => _EditStudentViewState();
 }
 
-class _EditStudentViewState extends ConsumerState<EditStudentView> {
+
+
+
+class _EditStudentViewState extends ConsumerState<EditStudentFieldsView> {
 
   final _nameController = TextEditingController();
   final _rollController = TextEditingController();
@@ -170,7 +180,13 @@ class _EditStudentViewState extends ConsumerState<EditStudentView> {
                   SimpleSaveButton(
                     onPressed: (){
                       Navigator.pop(context);
-                      widget.onEditStudentSave(_nameController.text, _rollController.text);
+
+                      final name = _nameController.text;
+                      final roll = _rollController.text;
+                      widget.onEditStudentSave(
+                        EditableStudentFields(name: name, roll: roll)
+                      );
+
                     },
                   ),
               ],),
@@ -180,13 +196,6 @@ class _EditStudentViewState extends ConsumerState<EditStudentView> {
       ),
     );
   }
-}
-
-
-class EditStudentFields{
-  EditStudentFields({required this.name, required this.roll});
-  String name;
-  String roll;
 }
 
 class StudentDialog extends StatelessWidget {

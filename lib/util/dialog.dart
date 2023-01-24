@@ -34,7 +34,7 @@ class DialogUtil{
       context: context, 
       barrierDismissible: false,
       builder: (context) {
-        return EditStudentDialog(
+        return EditStudentView(
           student: student,
         );
       },
@@ -57,7 +57,7 @@ class DialogUtil{
       context: context, 
       barrierDismissible: false,
       builder: (context) {
-        return const AddStudentDialog();
+        return const AddStudentView();
       },
     );
   }
