@@ -4,8 +4,8 @@ import 'package:profile_app/providers.dart';
 import 'package:profile_app/strings.dart';
 import 'package:profile_app/util/dialog.dart';
 
-class StudentList extends ConsumerWidget {
-  const StudentList({super.key});
+class StudentListView extends ConsumerWidget {
+  const StudentListView({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -29,15 +29,20 @@ class StudentList extends ConsumerWidget {
                   ),
                   IconButton(
                     onPressed: (){
-                      ref.read(studentsListProvider.notifier).
-                        removeStudent(students.elementAt(index));
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text(
-                            StringConstants.snackBarStudentDeleteMessage
-                          ),
-                          behavior: SnackBarBehavior.floating,
-                        )
+                      DialogUtil.showConfirmDeleteDialog(
+                        context: context,
+                        onDeleteConfirm:(){
+                          ref.read(studentsListProvider.notifier).
+                            removeStudent(students.elementAt(index));
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text(
+                                StringConstants.snackBarStudentDeleteMessage
+                              ),
+                              behavior: SnackBarBehavior.floating,
+                            )
+                          );
+                        }
                       );
                     },
                     icon: const Icon(Icons.delete)

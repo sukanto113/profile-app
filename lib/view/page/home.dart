@@ -22,7 +22,7 @@ class _HomePageState extends State<HomePage> {
     static const List<Widget> _widgetOptions = <Widget>[
     const HomeBody(),
     const Text(""),
-    StudentList(),
+    StudentListView(),
   ];
 
 

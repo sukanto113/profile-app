@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:profile_app/model/student.dart';
+import 'package:profile_app/view/widget/buttons.dart';
 import 'package:profile_app/view/widget/edit_student.dart';
 
 class DialogUtil{
@@ -59,5 +60,31 @@ class DialogUtil{
         return const AddStudentDialog();
       },
     );
+  }
+
+  static void showConfirmDeleteDialog({
+    required BuildContext context,
+    required VoidCallback onDeleteConfirm
+    }) {
+
+    showDialog(
+      context: context,
+      builder: (context){
+        return AlertDialog(
+          title: const Text("Delete"),
+          content: const Text("Are you sure you want to delete this item?"),
+          actions: [
+            SimpleCancleButton(onPressed: ()=> Navigator.pop(context)),
+            SimpleDeleteButton(
+              onPressed: (){
+                Navigator.pop(context);
+                onDeleteConfirm();
+              },
+            )
+          ],
+        );
+      }
+    );
+
   }
 }

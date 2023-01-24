@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:profile_app/model/student.dart';
 import 'package:profile_app/providers.dart';
+import 'package:profile_app/view/widget/buttons.dart';
 
 
 class EditStudentDialog extends ConsumerWidget {
@@ -94,18 +95,12 @@ class _EditStudentViewState extends ConsumerState<EditStudentView> {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  TextButton(
-                    onPressed: (){
-                      Navigator.pop(context);
-                    },
-                    child: const Text("Cancle")
-                  ),
-                  TextButton(
+                  const DialogCancleButton(),
+                  SimpleSaveButton(
                     onPressed: (){
                       Navigator.pop(context);
                       widget.onEditStudentSave(_nameController.text, _rollController.text);
                     },
-                    child: const Text("Save")
                   ),
               ],),
             )
