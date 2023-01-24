@@ -78,7 +78,7 @@ class EditStudentView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return EditStudentFieldsView(
+    return EditStudentFields(
       headerText: "Edit student",
       onEditStudentSave: (editedFields){
         ref.read(studentsListProvider.notifier).editStudent(student,
@@ -86,7 +86,9 @@ class EditStudentView extends ConsumerWidget {
           roll: editedFields.roll,
         );
       },       
-      student: EditableStudentFields(name: student.name, roll: student.roll)
+      oldFieldsValue: EditableStudentFields(
+        name: student.name, roll: student.roll
+      )
     );
   }
 }
@@ -96,7 +98,7 @@ class AddStudentView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return EditStudentFieldsView(
+    return EditStudentFields(
       headerText: "Add student",   
       onEditStudentSave: (editedFields) {
         ref.read(studentsListProvider.notifier).addStudent(
@@ -104,32 +106,32 @@ class AddStudentView extends ConsumerWidget {
           roll: editedFields.roll,
         );
       },  
-      student: EditableStudentFields(name: "", roll: "")
+      oldFieldsValue: EditableStudentFields(name: "", roll: "")
     );
   }
 }
 
-class EditStudentFieldsView extends ConsumerStatefulWidget {
-  const EditStudentFieldsView({
+class EditStudentFields extends ConsumerStatefulWidget {
+  const EditStudentFields({
     super.key,
     required this.headerText,
     required this.onEditStudentSave,
-    required this.student
+    required this.oldFieldsValue
   });
 
-  final EditableStudentFields student;
+  final EditableStudentFields oldFieldsValue;
   final String headerText;
 
   final EditStudentFieldsCallback onEditStudentSave;
 
   @override
-  ConsumerState<EditStudentFieldsView> createState() => _EditStudentViewState();
+  ConsumerState<EditStudentFields> createState() => _EditStudentViewState();
 }
 
 
 
 
-class _EditStudentViewState extends ConsumerState<EditStudentFieldsView> {
+class _EditStudentViewState extends ConsumerState<EditStudentFields> {
 
   final _nameController = TextEditingController();
   final _rollController = TextEditingController();
@@ -137,8 +139,8 @@ class _EditStudentViewState extends ConsumerState<EditStudentFieldsView> {
 
   @override
   void initState() {
-    _nameController.text = widget.student.name;
-    _rollController.text = widget.student.roll;
+    _nameController.text = widget.oldFieldsValue.name;
+    _rollController.text = widget.oldFieldsValue.roll;
     super.initState();
   }
 
