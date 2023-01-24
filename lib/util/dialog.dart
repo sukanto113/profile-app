@@ -31,6 +31,7 @@ class DialogUtil{
   static Future<dynamic> showStudentEditDialog(BuildContext context, StudentState student) async {
     return await showDialog(
       context: context, 
+      barrierDismissible: false,
       builder: (context) {
         return EditStudentDialog(
           student: student,
@@ -53,6 +54,7 @@ class DialogUtil{
   static Future<void> showAddStudentDialog(BuildContext context) async {
     return await showDialog(
       context: context, 
+      barrierDismissible: false,
       builder: (context) {
         return const AddStudentDialog();
       },
