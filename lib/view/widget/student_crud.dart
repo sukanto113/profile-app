@@ -18,7 +18,6 @@ class EditableStudentFields{
 
 class StudentListView extends ConsumerWidget {
   const StudentListView({super.key});
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final students = ref.watch(studentsListProvider).students;
@@ -27,39 +26,56 @@ class StudentListView extends ConsumerWidget {
         itemCount: students.length,
         itemBuilder: (context, index) {
           return Card(
-            child: ListTile(
-              title: Text(students.elementAt(index).name),
-              trailing: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  IconButton(
-                    onPressed: () async {
-                      DialogUtil.showStudentEditDialog(context, students.elementAt(index));
-                    },
-                    icon: const Icon(Icons.edit)
-                  ),
-                  IconButton(
-                    onPressed: (){
-                      DialogUtil.showConfirmDeleteDialog(
-                        context: context,
-                        onDeleteConfirm:(){
-                          ref.read(studentsListProvider.notifier).
-                            removeStudent(students.elementAt(index));
-                          SnackBarUitl.showStudentDeleteSnackBar(context);
-                        }
-                      );
-                    },
-                    icon: const Icon(Icons.delete)
-                  ),
-                ],
-              ),
-              subtitle: Text(students.elementAt(index).id.toString()),
-              onTap: (){
-                DialogUtil.showStudentDialog(context, students.elementAt(index));
-              },
-            ),
+            child: StudentListItem(student: students.elementAt(index)),
           );
         },
+    );
+  }
+}
+
+class StudentListItem extends ConsumerWidget {
+  const StudentListItem({
+    Key? key,
+    required this.student,
+  }) : super(key: key);
+
+  final StudentState student;
+
+  void _onEditTap(BuildContext context){
+    DialogUtil.showStudentEditDialog(context, student);
+  }
+
+  void _onDeleteTap(BuildContext context, WidgetRef ref){
+    DialogUtil.showConfirmDeleteDialog(
+      context: context,
+      onDeleteConfirm:(){
+        _deleteStudent(ref);
+        SnackBarUitl.showStudentDeleteSnackBar(context);
+      }
+    );
+  }
+
+  void _onListItemTap(BuildContext context){
+    DialogUtil.showStudentDialog(context, student);
+  }
+
+  void _deleteStudent(WidgetRef ref) {
+    ref.read(studentsListProvider.notifier).removeStudent(student);
+  }
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return ListTile(
+      title: Text(student.name),
+      trailing: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          EditIconButton(onPressed: ()=> _onEditTap(context)),
+          DeleteIconButton(onPressed: () => _onDeleteTap(context, ref)),
+        ],
+      ),
+      subtitle: Text(student.id.toString()),
+      onTap: ()=> _onListItemTap(context),
     );
   }
 }

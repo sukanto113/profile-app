@@ -1,13 +1,24 @@
 import 'package:flutter/material.dart';
 
-class SimpleTextButton extends StatelessWidget {
-  const SimpleTextButton({
-    super.key, required
-    this.onPressed,
-    required this.text
+abstract class SimpleButton extends StatelessWidget{
+  const SimpleButton({
+    super.key,
+    required this.onPressed,
   });
   final VoidCallback? onPressed;
+
+  @override
+  Widget build(BuildContext context);
+}
+
+class SimpleTextButton extends SimpleButton{
   final String text;
+  
+  const SimpleTextButton({
+    super.key,
+    required super.onPressed,
+    required this.text
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -15,9 +26,9 @@ class SimpleTextButton extends StatelessWidget {
   }
 }
 
-abstract class FixedTextButton extends StatelessWidget{
-  const FixedTextButton({super.key, required this.onPressed});
-  final VoidCallback onPressed;
+abstract class FixedTextButton extends SimpleButton{
+
+  const FixedTextButton({super.key, super.onPressed});
 
   String getButtonText();
 
@@ -27,8 +38,34 @@ abstract class FixedTextButton extends StatelessWidget{
   }
 }
 
+abstract class FixedIconButton extends SimpleButton{
+  const FixedIconButton({super.key, required super.onPressed});
+  
+  Icon getButtonIcon();
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(onPressed: onPressed, icon: getButtonIcon());
+  }
+} 
+
+class DeleteIconButton extends FixedIconButton{
+  const DeleteIconButton({super.key, required super.onPressed});
+
+  @override
+  Icon getButtonIcon() => const Icon(Icons.delete);
+}
+
+class EditIconButton extends FixedIconButton{
+  const EditIconButton({super.key, required super.onPressed});
+
+  @override
+  Icon getButtonIcon() => const Icon(Icons.edit);
+}
+
 class SimpleCancleButton extends FixedTextButton{
   const SimpleCancleButton({super.key, required super.onPressed});
+  
   @override
   String getButtonText() => "Cancle";
 }
