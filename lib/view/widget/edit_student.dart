@@ -11,6 +11,7 @@ class EditStudentDialog extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return EditStudentView(
+      headerText: "Edit student",
       onEditStudentSave: (String name, String roll){
         ref.read(studentsListProvider.notifier).editStudent(student,
           name: name,
@@ -23,8 +24,15 @@ class EditStudentDialog extends ConsumerWidget {
 }
 
 class EditStudentView extends ConsumerStatefulWidget {
-  const EditStudentView({super.key, required this.onEditStudentSave, required this.student});
+  const EditStudentView({
+    super.key,
+    required this.headerText,
+    required this.onEditStudentSave,
+    required this.student
+  });
+
   final EditStudentFields student;
+  final String headerText;
 
   ///void Function(String name, String roll)
   final void Function(String, String) onEditStudentSave;
@@ -63,7 +71,7 @@ class _EditStudentViewState extends ConsumerState<EditStudentView> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text("Edit student"),
+      title: Text(widget.headerText),
       content: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -80,24 +88,30 @@ class _EditStudentViewState extends ConsumerState<EditStudentView> {
                 labelText: 'ROLL',
               ),
             ),
+            const SizedBox(height: 10,),
+            Align(
+              alignment: Alignment.centerRight,
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  TextButton(
+                    onPressed: (){
+                      Navigator.pop(context);
+                    },
+                    child: const Text("Cancle")
+                  ),
+                  TextButton(
+                    onPressed: (){
+                      Navigator.pop(context);
+                      widget.onEditStudentSave(_nameController.text, _rollController.text);
+                    },
+                    child: const Text("Save")
+                  ),
+              ],),
+            )
           ],
         ),
       ),
-      actions: [
-        TextButton(
-          onPressed: (){
-            Navigator.pop(context);
-          },
-          child: const Text("Cancle")
-        ),
-        TextButton(
-          onPressed: (){
-            Navigator.pop(context);
-            widget.onEditStudentSave(_nameController.text, _rollController.text);
-          },
-          child: const Text("Save")
-        ),
-      ],
     );
   }
 }
@@ -108,6 +122,7 @@ class AddStudentDialog extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return EditStudentView(
+      headerText: "Add student",
       onEditStudentSave: (String name, String roll){
         ref.read(studentsListProvider.notifier).addStudent(
           name: name,
