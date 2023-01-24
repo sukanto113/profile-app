@@ -1,24 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:profile_app/db/students_database.dart';
-import 'package:profile_app/model/student.dart';
+import 'package:profile_app/providers.dart';
 import 'package:profile_app/util/dialog.dart';
-import 'package:profile_app/view_model/student_list.dart';
 
-final studentsListProvider = 
-  StateNotifierProvider<StudentsListViewModel, StudentsListState>(
-    (ref) => StudentsListViewModel(StudentsDatabase.instance ,StudentsListState([]))
-  );
-
-
-class StudentList extends HookConsumerWidget {
+class StudentList extends ConsumerWidget {
   const StudentList({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final students = ref.watch(studentsListProvider).students;
-    final isMounted = useIsMounted();
 
     return Scaffold(body: Center(
       child: ListView.builder(
@@ -40,6 +30,12 @@ class StudentList extends HookConsumerWidget {
                     onPressed: (){
                       ref.read(studentsListProvider.notifier).
                         removeStudent(students.elementAt(index));
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text("Student is deleted"),
+                          behavior: SnackBarBehavior.floating,
+                        )
+                      );
                     },
                     icon: const Icon(Icons.delete)
                   ),

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:profile_app/model/student.dart';
-import 'package:profile_app/view/page/students_list.dart';
+import 'package:profile_app/providers.dart';
+
 
 class EditStudentDialog extends ConsumerWidget {
   final StudentState student;
@@ -103,7 +104,7 @@ class _EditStudentViewState extends ConsumerState<EditStudentView> {
 
 class AddStudentDialog extends ConsumerWidget {
   const AddStudentDialog({super.key});
-  
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return EditStudentView(
