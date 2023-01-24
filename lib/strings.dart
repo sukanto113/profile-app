@@ -14,4 +14,5 @@ class StringConstants{
   static const String simpleDeleteButtonText = "Delete";
 
   static const String addStudentFormHeader = "Add student";
+  static const String editStudentFormHeader = "Edit student";
 }

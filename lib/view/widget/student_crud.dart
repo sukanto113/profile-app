@@ -86,17 +86,28 @@ class EditStudentView extends ConsumerWidget {
   final StudentState student;
   const EditStudentView({super.key, required this.student});
 
+  _onEditStudentSave(
+    BuildContext context,
+    WidgetRef ref,
+    StudentEditableFields fields
+  ){
+    _editStudent(ref, fields);
+    SnackBarUitl.showStudentEditSnackBar(context);
+  }
+
+  void _editStudent(WidgetRef ref, StudentEditableFields fields) {
+    ref.read(studentsListProvider.notifier).editStudent(student,
+      name: fields.name,
+      roll: fields.roll,
+    );
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return EditStudentFields(
-      headerText: "Edit student",
-      onEditStudentSave: (editedFields){
-        ref.read(studentsListProvider.notifier).editStudent(student,
-          name: editedFields.name,
-          roll: editedFields.roll,
-        );
-        SnackBarUitl.showStudentEditSnackBar(context);
-      },       
+      headerText: StringConstants.editStudentFormHeader,
+      onEditStudentSave: (editedFields) =>
+        _onEditStudentSave(context, ref, editedFields),    
       oldFieldsValue: StudentEditableFields(
         name: student.name, roll: student.roll
       )
@@ -110,8 +121,8 @@ class AddStudentView extends ConsumerWidget {
   void _onNewStudentAdd(
      BuildContext context,
      WidgetRef ref,
-     StudentEditableFields fields)
-  {
+     StudentEditableFields fields
+  ){
     _addNewStudent(ref, fields);
     SnackBarUitl.showStudentAddSnackBar(context);
   }
