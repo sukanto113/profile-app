@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:profile_app/model/student.dart';
 import 'package:profile_app/providers.dart';
-import 'package:profile_app/strings.dart';
 import 'package:profile_app/util/dialog.dart';
+import 'package:profile_app/util/snackbar.dart';
 import 'package:profile_app/view/widget/buttons.dart';
 
 
@@ -45,14 +45,7 @@ class StudentListView extends ConsumerWidget {
                         onDeleteConfirm:(){
                           ref.read(studentsListProvider.notifier).
                             removeStudent(students.elementAt(index));
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text(
-                                StringConstants.snackBarStudentDeleteMessage
-                              ),
-                              behavior: SnackBarBehavior.floating,
-                            )
-                          );
+                          SnackBarUitl.showStudentDeleteSnackBar(context);
                         }
                       );
                     },
@@ -85,6 +78,7 @@ class EditStudentView extends ConsumerWidget {
           name: editedFields.name,
           roll: editedFields.roll,
         );
+        SnackBarUitl.showStudentEditSnackBar(context);
       },       
       oldFieldsValue: EditableStudentFields(
         name: student.name, roll: student.roll
@@ -105,6 +99,7 @@ class AddStudentView extends ConsumerWidget {
           name: editedFields.name,
           roll: editedFields.roll,
         );
+        SnackBarUitl.showStudentAddSnackBar(context);
       },  
       oldFieldsValue: EditableStudentFields(name: "", roll: "")
     );
