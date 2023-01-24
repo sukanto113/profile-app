@@ -8,4 +8,8 @@ class StringConstants{
 
   static const String snackBarStudentEditMessage = 
   "Student is edited!";
+
+  static const String simpleCancleButtonText = "Cancle";
+  static const String simpleSaveButtonText = "Save";
+  static const String simpleDeleteButtonText = "Delete";
 }

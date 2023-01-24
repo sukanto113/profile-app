@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:profile_app/strings.dart';
 
 abstract class SimpleButton extends StatelessWidget{
   const SimpleButton({
@@ -67,21 +68,21 @@ class SimpleCancleButton extends FixedTextButton{
   const SimpleCancleButton({super.key, required super.onPressed});
   
   @override
-  String getButtonText() => "Cancle";
+  String getButtonText() => StringConstants.simpleCancleButtonText;
 }
 
 class SimpleSaveButton extends FixedTextButton{
   const SimpleSaveButton({super.key, required super.onPressed});
 
   @override
-  String getButtonText() => "Save";
+  String getButtonText() => StringConstants.simpleSaveButtonText;
 }
 
 class SimpleDeleteButton extends FixedTextButton{
   const SimpleDeleteButton({super.key, required super.onPressed});
 
   @override
-  String getButtonText() => "Delete";
+  String getButtonText() =>StringConstants.simpleDeleteButtonText;
 }
 
 class DialogCancleButton extends StatelessWidget{
