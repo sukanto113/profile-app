@@ -55,13 +55,7 @@ class _HomePageState extends State<HomePage> {
       child: IconButton(
         icon: const Icon(Icons.add), 
         onPressed: () async {
-          // open add new page
-          // await ref.read(studentsListProvider.notifier).addStudent();
-          // if(isMounted()){
-          //   DialogUtil.showStudentEditDialog(context, students.last);
-          // }
           DialogUtil.showAddStudentDialog(context);
-
         },
       ),
       ),

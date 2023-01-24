@@ -21,8 +21,10 @@ class StudentsListViewModel extends StateNotifier<StudentsListState> {
 
   }
 
-  Future<void> addStudent() async {
-    await repository.create(name: "", roll: "");
+  Future<void> addStudent({String? name, String? roll}) async {
+    await repository.create(
+      name: name ?? "",
+      roll: roll ?? "");
     await _refressData();
   }
 

@@ -54,7 +54,7 @@ class DialogUtil{
     return await showDialog(
       context: context, 
       builder: (context) {
-        return AddStudentDialog();
+        return const AddStudentDialog();
       },
     );
   }

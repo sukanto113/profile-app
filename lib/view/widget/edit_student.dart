@@ -16,20 +16,26 @@ class EditStudentDialog extends ConsumerWidget {
           roll: roll,
         );
       },       
-      student: student
+      student: EditStudentFields(name: student.name, roll: student.roll)
     );
   }
 }
 
 class EditStudentView extends ConsumerStatefulWidget {
   const EditStudentView({super.key, required this.onEditStudentSave, required this.student});
-  final StudentState student;
+  final EditStudentFields student;
 
   ///void Function(String name, String roll)
   final void Function(String, String) onEditStudentSave;
 
   @override
   ConsumerState<EditStudentView> createState() => _EditStudentViewState();
+}
+
+class EditStudentFields{
+  EditStudentFields({required this.name, required this.roll});
+  String name;
+  String roll;
 }
 
 class _EditStudentViewState extends ConsumerState<EditStudentView> {
@@ -95,12 +101,19 @@ class _EditStudentViewState extends ConsumerState<EditStudentView> {
   }
 }
 
-class AddStudentDialog extends StatelessWidget {
+class AddStudentDialog extends ConsumerWidget {
   const AddStudentDialog({super.key});
+  
   @override
-  Widget build(BuildContext context) {
-    return const AlertDialog(
-      content: Text("Add new Student"),
+  Widget build(BuildContext context, WidgetRef ref) {
+    return EditStudentView(
+      onEditStudentSave: (String name, String roll){
+        ref.read(studentsListProvider.notifier).addStudent(
+          name: name,
+          roll: roll,
+        );
+      },       
+      student: EditStudentFields(name: "", roll: "")
     );
   }
 }
