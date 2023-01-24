@@ -2,18 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:profile_app/model/student.dart';
 import 'package:profile_app/providers.dart';
+import 'package:profile_app/strings.dart';
 import 'package:profile_app/util/dialog.dart';
 import 'package:profile_app/util/snackbar.dart';
 import 'package:profile_app/view/widget/buttons.dart';
 
 
 typedef EditStudentFieldsCallback =
- Function(EditableStudentFields editedFields);
+ Function(StudentEditableFields editedFields);
  
-class EditableStudentFields{
-  EditableStudentFields({required this.name, required this.roll});
-  String name;
-  String roll;
+class StudentEditableFields{
+  const StudentEditableFields({required this.name, required this.roll});
+  final String name;
+  final String roll;
 }
 
 class StudentListView extends ConsumerWidget {
@@ -96,7 +97,7 @@ class EditStudentView extends ConsumerWidget {
         );
         SnackBarUitl.showStudentEditSnackBar(context);
       },       
-      oldFieldsValue: EditableStudentFields(
+      oldFieldsValue: StudentEditableFields(
         name: student.name, roll: student.roll
       )
     );
@@ -106,18 +107,29 @@ class EditStudentView extends ConsumerWidget {
 class AddStudentView extends ConsumerWidget {
   const AddStudentView({super.key});
 
+  void _onNewStudentAdd(
+     BuildContext context,
+     WidgetRef ref,
+     StudentEditableFields fields)
+  {
+    _addNewStudent(ref, fields);
+    SnackBarUitl.showStudentAddSnackBar(context);
+  }
+
+  void _addNewStudent(WidgetRef ref, StudentEditableFields fields){
+    ref.read(studentsListProvider.notifier).addStudent(
+      name: fields.name,
+      roll: fields.roll,
+    );
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return EditStudentFields(
-      headerText: "Add student",   
-      onEditStudentSave: (editedFields) {
-        ref.read(studentsListProvider.notifier).addStudent(
-          name: editedFields.name,
-          roll: editedFields.roll,
-        );
-        SnackBarUitl.showStudentAddSnackBar(context);
-      },  
-      oldFieldsValue: EditableStudentFields(name: "", roll: "")
+      headerText: StringConstants.addStudentFormHeader,   
+      onEditStudentSave: (editedFields) =>
+       _onNewStudentAdd(context, ref, editedFields),
+      oldFieldsValue: const StudentEditableFields(name: "", roll: "")
     );
   }
 }
@@ -130,7 +142,7 @@ class EditStudentFields extends ConsumerStatefulWidget {
     required this.oldFieldsValue
   });
 
-  final EditableStudentFields oldFieldsValue;
+  final StudentEditableFields oldFieldsValue;
   final String headerText;
 
   final EditStudentFieldsCallback onEditStudentSave;
@@ -197,7 +209,7 @@ class _EditStudentViewState extends ConsumerState<EditStudentFields> {
                       final name = _nameController.text;
                       final roll = _rollController.text;
                       widget.onEditStudentSave(
-                        EditableStudentFields(name: name, roll: roll)
+                        StudentEditableFields(name: name, roll: roll)
                       );
 
                     },
