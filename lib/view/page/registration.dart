@@ -6,7 +6,7 @@ import 'package:profile_app/util/navigation.dart';
 import 'package:profile_app/view/page/login.dart';
 import 'package:profile_app/view/widget/floating_card_form_screen.dart';
 import 'package:profile_app/view/widget/form.dart';
-import 'package:profile_app/view_model/user.dart';
+import 'package:profile_app/view_model/user_manager.dart';
 
 class RegistrationPage extends ConsumerStatefulWidget {
   const RegistrationPage({super.key});

@@ -1,5 +1,6 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:profile_app/user_manager/user_reopsitory.dart';
+import 'package:profile_app/db/user_reopsitory.dart';
+import 'package:profile_app/model/user.dart';
 
 class UserManager extends StateNotifier<User?>{
   UserManager(super.state){

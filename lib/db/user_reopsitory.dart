@@ -1,4 +1,5 @@
-import 'package:profile_app/user_manager/authenticator.dart';
+import 'package:profile_app/auth/authenticator.dart';
+import 'package:profile_app/model/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserRepositoryLocal {
@@ -53,11 +54,4 @@ class UserRepositoryLocal {
     await prefs.setString(currentUserEmailSharedPrefKey, user.email);
     await prefs.setString(currentUserNameSharedPrefKey, user.name);
   }
-}
-
-class User{
-  const User({required this.name, required this.email});
-  final String name;
-  final String email;
-  static const User emptyUser = User(name: "", email: "");
 }

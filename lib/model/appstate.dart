@@ -1,4 +1,4 @@
-import 'package:profile_app/user_manager/user_reopsitory.dart';
+import 'package:profile_app/model/user.dart';
 
 class AppState{
   const AppState({this.user});

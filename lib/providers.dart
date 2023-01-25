@@ -2,9 +2,9 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:profile_app/db/students_database.dart';
 import 'package:profile_app/model/appstate.dart';
 import 'package:profile_app/model/student.dart';
-import 'package:profile_app/user_manager/user_reopsitory.dart';
+import 'package:profile_app/model/user.dart';
 import 'package:profile_app/view_model/student_list.dart';
-import 'package:profile_app/view_model/user.dart';
+import 'package:profile_app/view_model/user_manager.dart';
 
 
 final studentsListProvider = 
