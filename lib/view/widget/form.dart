@@ -1,5 +1,6 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:profile_app/values/strings.dart';
 
 class NameFormField extends StatelessWidget {
   const NameFormField({
@@ -15,11 +16,13 @@ class NameFormField extends StatelessWidget {
       controller: _userNameController,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       validator: (String? value) {
-        return (value == null || value.isEmpty) ? "Please enter your name" : null;
+        return (value == null || value.isEmpty)
+          ? StringConstants.registerUserFormNameValidationText
+          : null;
       },
       decoration: const InputDecoration(
-        hintText: 'John Doe',
-        labelText: 'NAME *',
+        hintText: StringConstants.registerUserFormNameHint,
+        labelText: StringConstants.registerUserFormNameLabel,
       ),
     );
   }
@@ -41,11 +44,13 @@ class PasswordFormField extends StatelessWidget {
       obscureText: true,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       decoration: const InputDecoration(
-        hintText: 'Password',
-        labelText: 'PASSWORD *',
+        hintText: StringConstants.registerUserFormPasswordHint,
+        labelText: StringConstants.registerUserFormPasswordLabel,
       ),
       validator: (String? value) {
-        return (value == null || value.isEmpty) ? "Please enter password" : null;
+        return (value == null || value.isEmpty)
+          ? StringConstants.registerUserFormPasswordValidationText
+          : null;
       },
     );
   }
@@ -65,11 +70,13 @@ class EmailFormField extends StatelessWidget {
       controller: _userEmailController,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       decoration: const InputDecoration(
-        hintText: 'user@example.com',
-        labelText: 'EMAIL *',
+        hintText: StringConstants.registerUserFormEmailHint,
+        labelText: StringConstants.registerUserFormEmailLabel,
       ),
       validator: (String? value) {
-        return (value == null || !EmailValidator.validate(value)) ? "Please enter a valid email" : null;
+        return (value == null || !EmailValidator.validate(value)) 
+          ? StringConstants.registerUserFormEmailValidationText
+          : null;
       },
     );
   }

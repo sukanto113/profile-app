@@ -3,6 +3,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:profile_app/values/providers.dart';
 import 'package:profile_app/util/dialog.dart';
 import 'package:profile_app/util/navigation.dart';
+import 'package:profile_app/values/strings.dart';
 import 'package:profile_app/view/page/login.dart';
 import 'package:profile_app/view/widget/floating_card_form_screen.dart';
 import 'package:profile_app/view/widget/form.dart';
@@ -73,11 +74,14 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
         stackedChild: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            ElevatedFormActionButton(buttonText: "REGISTER", onPressed: _onRegisterButtonPressed,),
+            ElevatedFormActionButton(
+              buttonText: StringConstants.registerButtonText,
+              onPressed: _onRegisterButtonPressed,
+            ),
             const SizedBox(height: 10,),
             TextButton(
               onPressed: _onLoginPressed,
-              child: const Text("Already a user? LOGIN"),
+              child: const Text(StringConstants.alreadyUserLoginButtonText),
             )
           ],
         ),
@@ -87,7 +91,7 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const FormHeaderText(text: "REGISTER"),
+              const FormHeaderText(text: StringConstants.registerFormHeader),
               NameFormField(controller: _userNameController),
               EmailFormField(controller: _userEmailController),
               PasswordFormField(controller: _userPasswordController,),

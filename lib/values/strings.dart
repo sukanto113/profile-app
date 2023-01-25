@@ -1,5 +1,7 @@
 
 class StringConstants{
+  static const String appTitle = 'Profile App';
+
   static const String snackBarStudentDeleteMessage = 
   "Student is deleted!";
 
@@ -12,10 +14,49 @@ class StringConstants{
   static const String simpleCancleButtonText = "Cancle";
   static const String simpleSaveButtonText = "Save";
   static const String simpleDeleteButtonText = "Delete";
+  static const String viewProfileButtonText = "View Profile";
+  static const String goBackButtonText = "View Profile";
+  static const String loginButtonText = "LOGIN";
+  static const String registerButtonText = "REGISTER";
+  static const String needAccountButtonText = "Need an account? REGISTER";
+  static const String alreadyUserLoginButtonText = "Need an account? REGISTER";
+  static const String forgetPasswordButtonText = "Forgot password?";
 
   static const String addStudentFormHeader = "Add student";
   static const String editStudentFormHeader = "Edit student";
+  static const String loginFormHeader = "LOGIN";
+  static const String registerFormHeader = "REGISTER";
 
   static const String editStudentFormNameLabel = "NAME";
   static const String editStudentFormRollLabel = "Roll";
+  
+  static const String registerUserFormNameLabel = 'NAME *';
+  static const String registerUserFormNameHint = 'NAME *';
+  static const String registerUserFormNameValidationText = 
+  "Please enter your name" ;
+
+  static const String registerUserFormPasswordLabel = 'PASSWORD *';
+  static const String registerUserFormPasswordHint = 'password';
+  static const String registerUserFormPasswordValidationText = 
+  "Please enter password" ;
+
+  static const String registerUserFormEmailLabel = 'EMAIL *';
+  static const String registerUserFormEmailHint = 'user@example.com';
+  static const String registerUserFormEmailValidationText = 
+  "Please enter a valid email" ;
+
+
+  static const String homeAppBarTitleText = "Home";
+  static const String profileAppBarTitleText = "Profile";
+
+  static const String drawerHomeItemName = "Home";
+  static const String drawerProfileItemName = "Profile";
+  static const String drawerLogoutItemName = "Logout";
+  static const String drawerRegisterItemName = "Register";
+
+  static const String bottomNavHomeItemLabel = "Home";
+  static const String bottomNavAddStudentItemLabel = "Add Students";
+  static const String bottomNavStudentsItemLabel = "Students";
+
+  static const String welcomeToHomeText = "WELCOME TO HOME";
 }

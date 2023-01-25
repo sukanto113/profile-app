@@ -120,7 +120,7 @@ class GoBackElevatedButton extends SimpleButton{
         mainAxisAlignment: MainAxisAlignment.center,
         children: const [
           Icon(Icons.arrow_back),
-          Text("Go Back"),
+          Text(StringConstants.goBackButtonText),
         ],
       )
     );

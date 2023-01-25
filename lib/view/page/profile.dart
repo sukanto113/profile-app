@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:profile_app/model/user.dart';
 import 'package:profile_app/values/providers.dart';
+import 'package:profile_app/values/strings.dart';
 import 'package:profile_app/view/widget/buttons.dart';
 import 'package:profile_app/view/widget/layout.dart';
 
@@ -17,7 +18,9 @@ class ProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Center(child: Text("Profile")),
+        title: const Center(child: Text(
+          StringConstants.profileAppBarTitleText
+        )),
         automaticallyImplyLeading: false,
       ),
       body:  Center(

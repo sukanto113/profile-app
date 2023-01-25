@@ -3,6 +3,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:profile_app/values/providers.dart';
 import 'package:profile_app/util/dialog.dart';
 import 'package:profile_app/util/navigation.dart';
+import 'package:profile_app/values/strings.dart';
 import 'package:profile_app/view/page/registration.dart';
 import 'package:profile_app/view/widget/floating_card_form_screen.dart';
 import 'package:profile_app/view/widget/form.dart';
@@ -65,15 +66,18 @@ class _LoginPageState extends ConsumerState<LoginPage> {
         stackedChild: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            ElevatedFormActionButton(buttonText: "LOGIN", onPressed: _onLoginButtonPressed),
+            ElevatedFormActionButton(
+              buttonText: StringConstants.loginButtonText,
+              onPressed: _onLoginButtonPressed
+            ),
             const SizedBox(height: 10,),
             TextButton(
               onPressed: _onRegisterPressed,
-              child: const Text("Need an account? REGISTER"),
+              child: const Text(StringConstants.needAccountButtonText),
             ),
             const SizedBox(height: 10,),
             const Text(
-              "Forgot password?",
+              StringConstants.forgetPasswordButtonText,
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: Colors.grey
@@ -88,7 +92,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const FormHeaderText(text: "LOGIN"),
+              const FormHeaderText(text: StringConstants.loginFormHeader),
               EmailFormField(controller: _userEmailController),
               PasswordFormField(controller: _userPasswordController),
               const SizedBox(height: 50,)

@@ -4,6 +4,7 @@ import 'package:profile_app/model/user.dart';
 import 'package:profile_app/values/providers.dart';
 import 'package:profile_app/util/dialog.dart';
 import 'package:profile_app/util/navigation.dart';
+import 'package:profile_app/values/strings.dart';
 import 'package:profile_app/view/page/profile.dart';
 import 'package:profile_app/view/page/login.dart';
 import 'package:profile_app/view/page/registration.dart';
@@ -51,7 +52,9 @@ class _HomePageState extends ConsumerState<HomePage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Center(child: Text("Home")),
+        title: const Center(child: Text(
+          StringConstants.homeAppBarTitleText
+        )),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {  },
@@ -94,15 +97,15 @@ class _BottomAppBar extends StatelessWidget {
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
-            label: 'Home',
+            label: StringConstants.bottomNavHomeItemLabel,
           ),
           BottomNavigationBarItem(
             icon: Icon(null),
-            label: 'Add Students',              
+            label: StringConstants.bottomNavAddStudentItemLabel,              
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.school),
-            label: 'Students',
+            label: StringConstants.bottomNavStudentsItemLabel,
           ),
         ],
         currentIndex: selectedIndex,
@@ -133,7 +136,7 @@ class HomeBody extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const Text(
-            "WELCOME TO HOME",
+            StringConstants.welcomeToHomeText,
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 20
@@ -143,7 +146,7 @@ class HomeBody extends StatelessWidget {
             margin: const EdgeInsets.all(10),
             child: ElevatedTextButton(
               onPressed: () => _onViewProfileTab(context),
-              text: "View Profile",
+              text: StringConstants.viewProfileButtonText,
             )
           )
         ],
@@ -193,23 +196,23 @@ class _Drawer extends ConsumerWidget {
         children:  [
           _DrawerHeader(),
           MenuItem(
-            name: "Home",
+            name: StringConstants.drawerHomeItemName,
             icon: Icons.home_outlined,
             onTap:() =>  _onNavHomeTab(context),
           ),
           MenuItem(
-            name: "Profile",
+            name: StringConstants.drawerProfileItemName,
             icon: Icons.person_outline,
             onTap: () => _onNavProfileTab(context),
           ),
           MenuItem(
-            name: "Logout",
+            name: StringConstants.drawerLogoutItemName,
             icon: Icons.logout_outlined,
             onTap: () =>  _onNavLogoutTab(context, ref),
           ),
           const Divider(color: Colors.black,),
           MenuItem(
-            name: "Register",
+            name: StringConstants.drawerRegisterItemName,
             icon: Icons.add_outlined,
             onTap: () => _onNavRegisterTab(context),
           ),
