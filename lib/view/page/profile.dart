@@ -1,30 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:profile_app/providers.dart';
 import 'package:profile_app/user_manager/user_manager.dart';
+import 'package:profile_app/view/widget/buttons.dart';
+import 'package:profile_app/view/widget/layout.dart';
 
-class ProfilePage extends StatefulWidget {
+class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
 
-  @override
-  State<ProfilePage> createState() => _ProfilePageState();
-}
 
-class _ProfilePageState extends State<ProfilePage> {
-  User _user = const User(name: "", email: "");
-
-  void _onGoBackPressed(){
+  void _onGoBackPressed(BuildContext context){
     Navigator.pop(context);
-  }
-
-    @override
-  void initState() {
-    Future.delayed(Duration.zero,() async {
-      User user = await UserManager.getCurrentUser();
-      setState(() {
-        _user = user; 
-      });
-
-    });
-    super.initState();
   }
 
   @override
@@ -38,52 +24,73 @@ class _ProfilePageState extends State<ProfilePage> {
         child:  Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Container(
-              height: 150,
-              margin: const EdgeInsets.only(
-                top: 20,
-              ),
-              child: const FittedBox(
-                child: CircleAvatar(
-                  backgroundImage: AssetImage("images/sukanto_profile_pic.jpg")
-                ),
-              ),
-            ),
-            Container(
-              margin: const EdgeInsets.only(top: 10),
-              child: Text(
-                _user.name,
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                  fontSize: 28,
-                ),
-              ),
-            ),
-            Container(
-              margin: const EdgeInsets.all(25),
-              child: const Text(
-                "Hi, I'm Sukanto Saha, I'm M.Sc. student of Rajshahi "
-                "University. I completed my graduation in "
-                "Mathematics from Rajshahi University.",
-                textAlign: TextAlign.justify,
-                style: TextStyle(
-                  fontSize: 18
-                ),
-              ),
-            ),
-            ElevatedButton(
-              onPressed: _onGoBackPressed,
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  Icon(Icons.arrow_back),
-                  Text("Go Back"),
-                ],
-              )
-            )
+            const _UserImage(),
+            const _UserName(),
+            const _UserBio(),
+            GoBackElevatedButton(onPressed: () => _onGoBackPressed(context))
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class _UserImage extends StatelessWidget {
+  const _UserImage({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const SizedBox(
+      height: 150,
+      child: CirculerImage(
+        image: AssetImage("images/sukanto_profile_pic.jpg"),
+      ),
+    );
+  }
+}
+
+class _UserBio extends StatelessWidget {
+  const _UserBio({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.all(25),
+      child: const Text(
+        "Hi, I'm Sukanto Saha, I'm M.Sc. student of Rajshahi "
+        "University. I completed my graduation in "
+        "Mathematics from Rajshahi University.",
+        textAlign: TextAlign.justify,
+        style: TextStyle(
+          fontSize: 18
+        ),
+      ),
+    );
+  }
+}
+
+
+class _UserName extends ConsumerWidget {
+  const _UserName({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final user = ref.watch(userProvider) ?? User.emptyUser;
+
+    return Container(
+      margin: const EdgeInsets.only(top: 10),
+      child: Text(
+        user.name,
+        style: const TextStyle(
+          fontWeight: FontWeight.bold,
+          color: Colors.black,
+          fontSize: 28,
         ),
       ),
     );

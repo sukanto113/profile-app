@@ -19,3 +19,21 @@ class RightAlignRow extends StatelessWidget {
     );
   }
 }
+
+class CirculerImage extends StatelessWidget {
+  const CirculerImage({
+    Key? key,
+    this.image
+  }) : super(key: key);
+
+  final ImageProvider? image;
+
+  @override
+  Widget build(BuildContext context) {
+    return FittedBox(
+      child: CircleAvatar(
+        backgroundImage: image,
+      ),
+    );
+  }
+}

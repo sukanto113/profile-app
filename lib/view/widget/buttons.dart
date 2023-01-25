@@ -93,3 +93,23 @@ class CancleButtonWithNavigatorPop extends StatelessWidget{
     return SimpleCancleButton(onPressed: ()=>Navigator.pop(context));
   }
 }
+
+class GoBackElevatedButton extends SimpleButton{
+  const GoBackElevatedButton({super.key, super.onPressed});
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      onPressed: onPressed,
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: const [
+          Icon(Icons.arrow_back),
+          Text("Go Back"),
+        ],
+      )
+    );
+  }
+
+}
