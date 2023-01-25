@@ -13,8 +13,9 @@ class UserRepositoryLocal implements UserRepository{
   static const currentUserEmailSharedPrefKey= 'currentUser/email';
   static const currentUserNameSharedPrefKey= 'currentUser/name';
   static const hasCurrentUserSharedPrefKey = 'hasUser';
+  final Authenticator authenticator;
 
-  const UserRepositoryLocal();
+  const UserRepositoryLocal(this.authenticator);
 
   Future<bool> hasUser() async {
     final prefs = await SharedPreferences.getInstance();
@@ -37,9 +38,9 @@ class UserRepositoryLocal implements UserRepository{
 
   @override
   Future<bool> login(String email, String password) async {
-    bool isAuthenticate = await Authenticator.authenticate(email, password);
+    bool isAuthenticate = await authenticator.authenticate(email, password);
     if(isAuthenticate){
-      final UserInfo userInfo = await Authenticator.getUserInfo(email, password);
+      final UserInfo userInfo = await authenticator.getUserInfo(email, password);
       await _saveCurrentUser(User(name: userInfo.userName, email: email));
       return true;
     }else{
@@ -57,7 +58,7 @@ class UserRepositoryLocal implements UserRepository{
 
   @override
   Future<bool> register(String name, String email, String password) async {
-    final bool isSuccessfull = await Authenticator.addUser(name, email, password);
+    final bool isSuccessfull = await authenticator.addUser(name, email, password);
     return isSuccessfull;
   }
 

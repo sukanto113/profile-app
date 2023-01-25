@@ -1,4 +1,5 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:profile_app/auth/authenticator.dart';
 import 'package:profile_app/db/students_database.dart';
 import 'package:profile_app/db/user_reopsitory.dart';
 import 'package:profile_app/model/appstate.dart';
@@ -14,7 +15,7 @@ final studentsListProvider =
   );
 
 final userProvider = StateNotifierProvider<UserManager, User?>(
-  (ref)=> UserManager(null, const UserRepositoryLocal())
+  (ref)=> UserManager(null, UserRepositoryLocal(AuthenticatorLocal()))
 );
 
 final initialAppStateProvider = FutureProvider<AppState>((ref) async {
