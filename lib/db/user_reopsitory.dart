@@ -2,18 +2,28 @@ import 'package:profile_app/auth/authenticator.dart';
 import 'package:profile_app/model/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class UserRepositoryLocal {
+abstract class UserRepository{
+  Future<User?> getCurrentUser();
+  Future<bool> login(String email, String password);
+  Future<void> logout();
+  Future<bool> register(String name, String email, String password);
+}
+
+class UserRepositoryLocal implements UserRepository{
   static const currentUserEmailSharedPrefKey= 'currentUser/email';
   static const currentUserNameSharedPrefKey= 'currentUser/name';
   static const hasCurrentUserSharedPrefKey = 'hasUser';
 
-  static Future<bool> hasUser() async {
+  const UserRepositoryLocal();
+
+  Future<bool> hasUser() async {
     final prefs = await SharedPreferences.getInstance();
     final bool hasUserValue = prefs.getBool(hasCurrentUserSharedPrefKey) ?? false;    
     return hasUserValue;
   }
 
-  static Future<User?> getCurrentUser() async {
+  @override
+  Future<User?> getCurrentUser() async {
 
     if(await hasUser()){
       final prefs = await SharedPreferences.getInstance();
@@ -25,7 +35,8 @@ class UserRepositoryLocal {
     }
   }
 
-  static Future<bool> login(String email, String password) async {
+  @override
+  Future<bool> login(String email, String password) async {
     bool isAuthenticate = await Authenticator.authenticate(email, password);
     if(isAuthenticate){
       final UserInfo userInfo = await Authenticator.getUserInfo(email, password);
@@ -36,19 +47,21 @@ class UserRepositoryLocal {
     }
   }
 
-  static Future<void> logout() async {
+  @override
+  Future<void> logout() async {
     final prefs = await SharedPreferences.getInstance();
     prefs.setBool(hasCurrentUserSharedPrefKey, false);
     prefs.remove(currentUserNameSharedPrefKey);
     prefs.remove(currentUserEmailSharedPrefKey);
   }
 
-  static Future<bool> register(String name, String email, String password) async {
+  @override
+  Future<bool> register(String name, String email, String password) async {
     final bool isSuccessfull = await Authenticator.addUser(name, email, password);
     return isSuccessfull;
   }
 
-  static Future<void> _saveCurrentUser(User user) async {
+  Future<void> _saveCurrentUser(User user) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool(hasCurrentUserSharedPrefKey, true);
     await prefs.setString(currentUserEmailSharedPrefKey, user.email);
