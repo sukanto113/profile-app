@@ -35,37 +35,37 @@ class ProfilePage extends StatelessWidget {
   }
 }
 
-class _UserImage extends StatelessWidget {
+class _UserImage extends ConsumerWidget {
   const _UserImage({
     Key? key,
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return const SizedBox(
+  Widget build(BuildContext context, WidgetRef ref) {
+    final userImage = ref.watch(userImageProvider);
+    return SizedBox(
       height: 150,
       child: CirculerImage(
-        image: AssetImage("images/sukanto_profile_pic.jpg"),
+        image: userImage,
       ),
     );
   }
 }
 
-class _UserBio extends StatelessWidget {
+class _UserBio extends ConsumerWidget {
   const _UserBio({
     Key? key,
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    String bio = ref.watch(userBioProvider);
     return Container(
       margin: const EdgeInsets.all(25),
-      child: const Text(
-        "Hi, I'm Sukanto Saha, I'm M.Sc. student of Rajshahi "
-        "University. I completed my graduation in "
-        "Mathematics from Rajshahi University.",
+      child: Text(
+        bio,
         textAlign: TextAlign.justify,
-        style: TextStyle(
+        style: const TextStyle(
           fontSize: 18
         ),
       ),

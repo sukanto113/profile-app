@@ -224,7 +224,8 @@ class _DrawerHeader extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final user = ref.watch(userProvider) ?? User.emptyUser;
-
+    final userImage = ref.watch(userImageProvider);
+    
     return SizedBox(
       height: 250,
       child: DrawerHeader(
@@ -233,9 +234,9 @@ class _DrawerHeader extends ConsumerWidget {
         ),
         child: Column(
           children:  [
-            const Expanded(
+            Expanded(
               child: CirculerImage(
-                image: AssetImage("images/sukanto_profile_pic.jpg")
+                image: userImage,
               ),
             ),
             const SizedBox(height: 10,),
