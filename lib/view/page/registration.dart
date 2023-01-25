@@ -30,7 +30,7 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
     String email = _userEmailController.text;
     String password = _userPasswordController.text;
 
-    UserViewModel userVM = ref.read(userProvider.notifier);
+    UserManager userVM = ref.read(userProvider.notifier);
     bool isRegistrationSuccessfull = 
       await userVM.register(name, email, password);
           

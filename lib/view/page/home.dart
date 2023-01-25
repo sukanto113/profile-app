@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:profile_app/providers.dart';
-import 'package:profile_app/user_manager/user_manager.dart';
+import 'package:profile_app/user_manager/user_reopsitory.dart';
 import 'package:profile_app/util/dialog.dart';
 import 'package:profile_app/util/navigation.dart';
 import 'package:profile_app/view/page/profile.dart';

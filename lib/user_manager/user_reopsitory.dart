@@ -1,7 +1,7 @@
 import 'package:profile_app/user_manager/authenticator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class UserManager{
+class UserRepositoryLocal {
   static const currentUserEmailSharedPrefKey= 'currentUser/email';
   static const currentUserNameSharedPrefKey= 'currentUser/name';
   static const hasCurrentUserSharedPrefKey = 'hasUser';
