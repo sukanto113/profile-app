@@ -1,32 +1,37 @@
 import 'package:flutter/material.dart';
-import 'package:profile_app/user_manager/user_manager.dart';
-import 'package:profile_app/util/navigation.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:profile_app/providers.dart';
+import 'package:profile_app/view/page/home.dart';
 import 'package:profile_app/view/page/login.dart';
 
-class SplashPage extends StatefulWidget {
+
+class SplashPage extends ConsumerWidget {
   const SplashPage({super.key});
 
   @override
-  State<SplashPage> createState() => _SplashPageState();
+  Widget build(BuildContext context, WidgetRef ref) {
+    return ref.watch(initialAppStateProvider).when(
+      data: (data) {
+        if(data.user != null){
+          return const HomePage();
+        }else{
+          return const LoginPage();
+        }
+      },
+      error: (error, stackTrace) {
+        return const SplashView();
+      },
+      loading: () {
+        return const SplashView();
+      },
+    );
+  }
 }
 
-class _SplashPageState extends State<SplashPage> {
-
-  @override
-  void initState() {
-    Future.delayed(Duration.zero,() async {
-      bool hasUser = await UserManager.hasUser();
-      
-      if(!mounted) return;
-
-      if(hasUser){
-        NavigationUtil.openHomePage(context);
-      }else{
-        NavigationUtil.pushAndRemoveAllPreviousRoute(context, const LoginPage());
-      }
-    });
-    super.initState();
-  }
+class SplashView extends StatelessWidget {
+  const SplashView({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

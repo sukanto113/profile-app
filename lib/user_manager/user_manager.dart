@@ -12,7 +12,7 @@ class UserManager{
     return hasUserValue;
   }
 
-  static Future<User> getCurrentUser() async {
+  static Future<User?> getCurrentUser() async {
 
     if(await hasUser()){
       final prefs = await SharedPreferences.getInstance();
@@ -20,7 +20,7 @@ class UserManager{
       final String userEmail = prefs.getString(currentUserEmailSharedPrefKey) ?? "";  
       return User(name: userName, email: userEmail);
     }else{
-      return const User(name: "", email: "");
+      return null;
     }
   }
 

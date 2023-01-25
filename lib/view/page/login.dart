@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:profile_app/user_manager/user_manager.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:profile_app/providers.dart';
 import 'package:profile_app/util/dialog.dart';
 import 'package:profile_app/util/navigation.dart';
 import 'package:profile_app/view/page/registration.dart';
@@ -7,14 +8,14 @@ import 'package:profile_app/view/widget/floating_card_form_screen.dart';
 import 'package:profile_app/view/widget/form.dart';
 
 
-class LoginPage extends StatefulWidget {
+class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  ConsumerState<LoginPage> createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginPageState extends ConsumerState<LoginPage> {
 
   final _userEmailController = TextEditingController();
   final _userPasswordController = TextEditingController();
@@ -25,12 +26,12 @@ class _LoginPageState extends State<LoginPage> {
     final String email = _userEmailController.text;
     final String password = _userPasswordController.text;
 
-    final bool isLoginSuccessfull = await UserManager.login(email, password);
+    final bool isLoginSuccessfull = 
+      await ref.read(userProvider.notifier).login(email, password);
 
     if(!mounted) return;
-    if(isLoginSuccessfull){
-      NavigationUtil.openHomePage(context);
-    }else{
+
+    if(!isLoginSuccessfull){
       DialogUtil.showLoginFailedDialog(context);
     }
   }
@@ -52,6 +53,11 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    ref.listen(userProvider, (previous, next) {
+      if(next != null){
+        NavigationUtil.openHomePage(context);
+      }
+    });
     return Scaffold(
       body: FloatingCardFormScreen(
         background: const BackgroundWithHomeIcon(),

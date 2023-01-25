@@ -10,9 +10,10 @@ class UserViewModel extends StateNotifier<User?>{
     state = await UserManager.getCurrentUser();
   }
 
-  Future<void> login(String email, String password) async {
-    await UserManager.login(email, password);
+  Future<bool> login(String email, String password) async {
+    bool isSuccess = await UserManager.login(email, password);
     refressUser();
+    return isSuccess;
   }
 
   Future<void> logout() async {
