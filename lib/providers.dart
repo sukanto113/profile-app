@@ -11,7 +11,7 @@ final studentsListProvider =
     (ref) => StudentsListViewModel(StudentsDatabase.instance, StudentsListState([]))
   );
 
-final userProvider = StateNotifierProvider<UserViewModel, User>((ref)=> UserViewModel(const User(name: "", email: "")));
+final userProvider = StateNotifierProvider<UserViewModel, User?>((ref)=> UserViewModel(null));
 
 // final userProvider = FutureProvider<User>((ref) async {
 //   return  await ref.watch(userManagerProvider);
