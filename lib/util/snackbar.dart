@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:profile_app/strings.dart';
+import 'package:profile_app/values/strings.dart';
 
 class SnackBarUitl{
 

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:profile_app/model/user.dart';
-import 'package:profile_app/providers.dart';
+import 'package:profile_app/values/providers.dart';
 import 'package:profile_app/util/dialog.dart';
 import 'package:profile_app/util/navigation.dart';
 import 'package:profile_app/view/page/profile.dart';
@@ -24,7 +24,7 @@ class _HomePageState extends ConsumerState<HomePage> {
 
   static const List<Widget> _tabWidgetOptions = [
     HomeBody(),
-    Text(""),
+    Center(),
     StudentListView(),
   ];
 
@@ -225,7 +225,7 @@ class _DrawerHeader extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final user = ref.watch(userProvider) ?? User.emptyUser;
     final userImage = ref.watch(userImageProvider);
-    
+
     return SizedBox(
       height: 250,
       child: DrawerHeader(
