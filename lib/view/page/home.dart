@@ -7,6 +7,8 @@ import 'package:profile_app/util/navigation.dart';
 import 'package:profile_app/view/page/profile.dart';
 import 'package:profile_app/view/page/login.dart';
 import 'package:profile_app/view/page/registration.dart';
+import 'package:profile_app/view/widget/buttons.dart';
+import 'package:profile_app/view/widget/layout.dart';
 import 'package:profile_app/view/widget/student_crud.dart';
 
 class HomePage extends ConsumerStatefulWidget{
@@ -139,10 +141,10 @@ class HomeBody extends StatelessWidget {
           ),
           Container(
             margin: const EdgeInsets.all(10),
-            child: ElevatedButton(
+            child: ElevatedTextButton(
               onPressed: () => _onViewProfileTab(context),
-              child: const Text("View Profile"),
-            ),
+              text: "View Profile",
+            )
           )
         ],
       ),
@@ -232,11 +234,8 @@ class _DrawerHeader extends ConsumerWidget {
         child: Column(
           children:  [
             const Expanded(
-              child: FittedBox(
-                child: CircleAvatar(
-                  //todo clean this
-                  backgroundImage: AssetImage("images/sukanto_profile_pic.jpg")
-                ),
+              child: CirculerImage(
+                image: AssetImage("images/sukanto_profile_pic.jpg")
               ),
             ),
             const SizedBox(height: 10,),

@@ -94,6 +94,20 @@ class CancleButtonWithNavigatorPop extends StatelessWidget{
   }
 }
 
+class ElevatedTextButton extends SimpleButton {
+  const ElevatedTextButton({super.key, super.onPressed, required this.text});
+  final String text;
+  
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      onPressed: onPressed,
+      child: Text(text),
+    );
+  }
+
+}
+
 class GoBackElevatedButton extends SimpleButton{
   const GoBackElevatedButton({super.key, super.onPressed});
 
