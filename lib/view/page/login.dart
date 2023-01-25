@@ -5,8 +5,9 @@ import 'package:profile_app/util/dialog.dart';
 import 'package:profile_app/util/navigation.dart';
 import 'package:profile_app/values/strings.dart';
 import 'package:profile_app/view/page/registration.dart';
-import 'package:profile_app/view/widget/floating_card_form_screen.dart';
+import 'package:profile_app/view/widget/background.dart';
 import 'package:profile_app/view/widget/form.dart';
+import 'package:profile_app/view/widget/layout.dart';
 
 
 class LoginPage extends ConsumerStatefulWidget {
@@ -60,9 +61,9 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       }
     });
     return Scaffold(
-      body: FloatingCardFormScreen(
+      body: ThreeLayerFloatingCard(
         background: const BackgroundWithHomeIcon(),
-        margin: const EdgeInsets.fromLTRB(30, 150, 30, 110),
+        marginBottom: 110,
         stackedChild: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
