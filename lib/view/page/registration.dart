@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:email_validator/email_validator.dart';
-import 'package:profile_app/user_manager/user_manager.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:profile_app/providers.dart';
 import 'package:profile_app/util/dialog.dart';
 import 'package:profile_app/util/navigation.dart';
 import 'package:profile_app/view/page/login.dart';
 import 'package:profile_app/view/widget/floating_card_form_screen.dart';
 import 'package:profile_app/view/widget/form.dart';
+import 'package:profile_app/view_model/user.dart';
 
-class RegistrationPage extends StatefulWidget {
+class RegistrationPage extends ConsumerStatefulWidget {
   const RegistrationPage({super.key});
 
   @override
-  State<RegistrationPage> createState() => _RegistrationPageState();
+  ConsumerState<RegistrationPage> createState() => _RegistrationPageState();
 }
 
-class _RegistrationPageState extends State<RegistrationPage> {
+class _RegistrationPageState extends ConsumerState<RegistrationPage> {
 
   final _userNameController = TextEditingController();
   final _userEmailController = TextEditingController();
@@ -28,14 +29,15 @@ class _RegistrationPageState extends State<RegistrationPage> {
     String name = _userNameController.text ;
     String email = _userEmailController.text;
     String password = _userPasswordController.text;
-    bool isRegistrationSuccessfull = await UserManager.register(name, email, password);
-    
+
+    UserViewModel userVM = ref.read(userProvider.notifier);
+    bool isRegistrationSuccessfull = 
+      await userVM.register(name, email, password);
+          
     if(isRegistrationSuccessfull){
-      bool isLoginSuccessfull = await UserManager.login(email, password);
+      bool isLoginSuccessfull = await userVM.login(email, password);
       if(!mounted) return;
-      if(isLoginSuccessfull){
-        NavigationUtil.openHomePage(context);
-      }else{
+      if(!isLoginSuccessfull){
         DialogUtil.showLoginFailedDialog(context);
       }
     }else{
@@ -58,6 +60,12 @@ class _RegistrationPageState extends State<RegistrationPage> {
 
   @override
   Widget build(BuildContext context) {
+    ref.listen(userProvider,(previous, next) {
+      if(next != null){
+        NavigationUtil.openHomePage(context);
+      }
+    },);
+
     return Scaffold(
       body: FloatingCardFormScreen(
         background: const BackgroundWithHomeIcon(),

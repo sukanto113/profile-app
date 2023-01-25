@@ -21,8 +21,9 @@ class UserViewModel extends StateNotifier<User?>{
     refressUser();
   }
 
-  Future<void> register(String name, String email, String password) async {
-    await UserManager.register(name, email, password);
+  Future<bool> register(String name, String email, String password) async {
+    bool isSuccess = await UserManager.register(name, email, password);
     refressUser();
+    return isSuccess;
   }
 }
