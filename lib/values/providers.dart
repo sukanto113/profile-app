@@ -10,10 +10,22 @@ import 'package:profile_app/view_model/student_list.dart';
 import 'package:profile_app/view_model/user_manager.dart';
 
 
-final studentsListProvider = 
-  StateNotifierProvider<StudentsListViewModel, StudentsListState>(
-    (ref) => StudentsListViewModel(StudentsDatabase.instance, StudentsListState([]))
-  );
+
+final studentRepositoryProvider = Provider<IStudentRepository>((_){
+  return SqfliteStudentsRepository.instance;
+});
+
+final studentsListProvider = FutureProvider<Iterable<Student>>((ref) async {
+  final repo = ref.watch(studentRepositoryProvider);
+  ref.watch(studentsListNotifireProvider);
+  return await repo.readAll();
+});
+
+final studentsListNotifireProvider = StateNotifierProvider<StudentsListNotifire, int>((ref) {
+  final repo = ref.watch(studentRepositoryProvider);
+  return StudentsListNotifire(0, repo);
+});
+
 
 final userProvider = StateNotifierProvider<UserManager, User?>(
   (ref)=> UserManager(null, UserRepositoryLocal(AuthenticatorLocal()))

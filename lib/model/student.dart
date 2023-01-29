@@ -1,17 +1,17 @@
-class StudentState{
+class Student{
   
   final int id;
   final String name;
   final String roll;
 
-  const StudentState({
+  const Student({
     required this.id,
     required this.name,
     required this.roll
   });
 
-  StudentState copyWith({String? name, String? roll}){
-    return StudentState(
+  Student copyWith({String? name, String? roll}){
+    return Student(
       id: id,
       name: name ?? this.name,
       roll: roll ?? this.roll,
@@ -20,6 +20,6 @@ class StudentState{
 }
 
 class StudentsListState{
-  final Iterable<StudentState> students;
-  StudentsListState(Iterable<StudentState> students):students = List.unmodifiable(students);
+  final Iterable<Student> students;
+  StudentsListState(Iterable<Student> students):students = List.unmodifiable(students);
 }

@@ -24,16 +24,30 @@ class StudentListView extends ConsumerWidget {
   const StudentListView({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final students = ref.watch(studentsListProvider).students;
-
-    return ListView.builder(
-        itemCount: students.length,
-        itemBuilder: (context, index) {
-          return Card(
-            child: StudentListItem(student: students.elementAt(index)),
-          );
-        },
+    return ref.watch(studentsListProvider).when(
+      data: (students) {
+        return ListView.builder(
+          itemCount: students.length,
+          itemBuilder: (context, index) {
+            return Card(
+              child: StudentListItem(student: students.elementAt(index)),
+            );
+          },
+        );
+      },
+      error: (error, stackTrace) {
+        return const Center(
+          child: Text(
+            "Error!",
+            style: TextStyle(color: Colors.red),
+          )
+        );
+      }, 
+      loading: () {
+        return const Center(child: CircularProgressIndicator());
+      },
     );
+
   }
 }
 
@@ -43,7 +57,7 @@ class StudentListItem extends ConsumerWidget {
     required this.student,
   }) : super(key: key);
 
-  final StudentState student;
+  final Student student;
 
   void _onEditTap(BuildContext context){
     DialogUtil.showStudentEditDialog(context, student);
@@ -64,7 +78,7 @@ class StudentListItem extends ConsumerWidget {
   }
 
   void _deleteStudent(WidgetRef ref) {
-    ref.read(studentsListProvider.notifier).removeStudent(student);
+    ref.read(studentsListNotifireProvider.notifier).removeStudent(student);
   }
 
   @override
@@ -86,7 +100,7 @@ class StudentListItem extends ConsumerWidget {
 
 
 class EditStudentView extends ConsumerWidget {
-  final StudentState student;
+  final Student student;
   const EditStudentView({super.key, required this.student});
 
   _onEditStudentSave(
@@ -99,7 +113,7 @@ class EditStudentView extends ConsumerWidget {
   }
 
   void _editStudent(WidgetRef ref, StudentEditableFields fields) {
-    ref.read(studentsListProvider.notifier).editStudent(student,
+    ref.read(studentsListNotifireProvider.notifier).editStudent(student,
       name: fields.name,
       roll: fields.roll,
     );
@@ -131,7 +145,7 @@ class AddStudentView extends ConsumerWidget {
   }
 
   void _addNewStudent(WidgetRef ref, StudentEditableFields fields){
-    ref.read(studentsListProvider.notifier).addStudent(
+    ref.read(studentsListNotifireProvider.notifier).addStudent(
       name: fields.name,
       roll: fields.roll,
     );
@@ -209,7 +223,7 @@ class EditStudentFieldsWidget extends HookWidget {
 }
 
 class StudentView extends StatelessWidget {
-  final StudentState student;
+  final Student student;
   const StudentView({super.key, required this.student});
 
   @override

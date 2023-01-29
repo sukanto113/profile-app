@@ -26,7 +26,7 @@ class DialogUtil{
   }
 
   static void showStudentEditDialog(
-    BuildContext context, StudentState student
+    BuildContext context, Student student
   ){
     showNonDismissibleDialog(context, EditStudentView(student: student));
   }
@@ -35,7 +35,7 @@ class DialogUtil{
     showNonDismissibleDialog(context, const AddStudentView());
   }
 
-  static void showStudentDialog(BuildContext context, StudentState student) {
+  static void showStudentDialog(BuildContext context, Student student) {
     showDismissibleDialog(context, StudentView(student: student));
   }
 

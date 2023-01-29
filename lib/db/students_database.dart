@@ -17,8 +17,8 @@ class StudentFields{
     ];
   }
 
-  static StudentState convertMapToStudent(Map<String, Object?> record) {
-    return StudentState(
+  static Student convertMapToStudent(Map<String, Object?> record) {
+    return Student(
       id: record[StudentFields.id] as int,
       name: record[StudentFields.name] as String,
       roll: record[StudentFields.roll] as String,
@@ -34,18 +34,18 @@ class StudentFields{
     };
   }
 
-  static Map<String, Object?> convertStudentToMap(StudentState student){
+  static Map<String, Object?> convertStudentToMap(Student student){
     return convertToMap(name: student.name, roll: student.roll);
   }
 
 }
 
-class StudentsDatabase implements StudentRepository{
-  static final StudentsDatabase instance = StudentsDatabase._init();
+class SqfliteStudentsRepository implements IStudentRepository{
+  static final SqfliteStudentsRepository instance = SqfliteStudentsRepository._init();
 
   static Database? _database;
 
-  StudentsDatabase._init();
+  SqfliteStudentsRepository._init();
 
   Future<Database> get database async {
     if(_database != null) return _database!;
@@ -76,7 +76,7 @@ CREATE TABLE $studentsTable(
   }
 
   @override
-  Future<StudentState> create({
+  Future<Student> create({
     required String name,
     required String roll,
     }) async{
@@ -87,11 +87,11 @@ CREATE TABLE $studentsTable(
       name: name, roll: roll
     ));
 
-    return StudentState(id: id, name: name, roll: roll);
+    return Student(id: id, name: name, roll: roll);
   }
 
   @override
-  Future<StudentState> read(int id) async {
+  Future<Student> read(int id) async {
     final db = await instance.database;
 
     final result = await db.query(
@@ -109,7 +109,7 @@ CREATE TABLE $studentsTable(
   }
 
   @override
-  Future<List<StudentState>> readAll() async {
+  Future<List<Student>> readAll() async {
     final db = await instance.database;
 
     final result = await db.query(
@@ -121,7 +121,7 @@ CREATE TABLE $studentsTable(
   }
 
   @override
-  Future<int> update(StudentState student) async {
+  Future<int> update(Student student) async {
     final db = await instance.database;
     return await db.update(
       studentsTable,
@@ -148,29 +148,29 @@ CREATE TABLE $studentsTable(
     db.close();
   }
 
-  List<StudentState> _convertMapsToStudents(List<Map<String, Object?>> result) {
+  List<Student> _convertMapsToStudents(List<Map<String, Object?>> result) {
     return result.map(
       (record) => StudentFields.convertMapToStudent(record)
     ).toList();
   }
 }
 
-abstract class StudentRepository{
-  Future<StudentState> create({
+abstract class IStudentRepository{
+  Future<Student> create({
     required String name,
     required String roll,
     });
-  Future<StudentState> read(int id);
-  Future<Iterable<StudentState>> readAll();
-  Future<int> update(StudentState student);
+  Future<Student> read(int id);
+  Future<Iterable<Student>> readAll();
+  Future<int> update(Student student);
   Future<int> delete(int id);
   Future<void> close();
 
 }
 
-class InMemoryStudentRepo extends StudentRepository {
+class InMemoryStudentRepo extends IStudentRepository {
   
-  List<StudentState> students = [];
+  List<Student> students = [];
   int nextIndex = 1;
   
   @override
@@ -178,8 +178,8 @@ class InMemoryStudentRepo extends StudentRepository {
   }
 
   @override
-  Future<StudentState> create({required String name, required String roll}) async {
-    var student = StudentState(id: nextIndex++, name: "", roll: "");
+  Future<Student> create({required String name, required String roll}) async {
+    var student = Student(id: nextIndex++, name: "", roll: "");
     students.add(student);
     return student;
   }
@@ -192,7 +192,7 @@ class InMemoryStudentRepo extends StudentRepository {
   }
 
   @override
-  Future<StudentState> read(int id) async {
+  Future<Student> read(int id) async {
     for(final student in students){
       if(student.id == id) return student;
     }
@@ -200,18 +200,18 @@ class InMemoryStudentRepo extends StudentRepository {
   }
 
   @override
-  Future<Iterable<StudentState>> readAll() async {
+  Future<Iterable<Student>> readAll() async {
     return students;
   }
 
   @override
-  Future<int> update(StudentState student) async {
+  Future<int> update(Student student) async {
     var index = _getIndex(student);
     students[index] = student;
     return index;
   }
 
-  int _getIndex(StudentState student){
+  int _getIndex(Student student){
     for(var i = 0; i < students.length; ++i){
       if(student.id == students[i].id) return i;
     }
