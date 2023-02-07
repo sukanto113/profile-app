@@ -59,4 +59,8 @@ class StringConstants{
   static const String bottomNavStudentsItemLabel = "Students";
 
   static const String welcomeToHomeText = "WELCOME TO HOME";
+
+  static const String studentEditFormNameValidationText = "Please enter name";
+
+  static const String studentEditFormRollValidationText = "Please enter roll";
 }

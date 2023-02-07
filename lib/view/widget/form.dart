@@ -145,16 +145,24 @@ class SimpleTextFormField extends StatelessWidget {
   final TextEditingController controller;
   final String label;
 
+  final String validatorText;
+
   const SimpleTextFormField({
     Key? key,
     required this.controller,
     required this.label,
+		required this.validatorText,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       controller: controller,
+      validator: (String? value) {
+        return (value == null || value.isEmpty)
+          ? validatorText
+          : null;
+      },
       decoration: InputDecoration(
         labelText: label,
       ),

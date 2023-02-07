@@ -167,8 +167,9 @@ class EditStudentFieldsWidget extends HookWidget {
   final StudentEditableFields oldFieldsValue;
   final String headerText;
   final EditStudentFieldsCallback onEditStudentSave;
+  final _formKey = GlobalKey<FormState>();
 
-  const EditStudentFieldsWidget({
+  EditStudentFieldsWidget({
     super.key,
     required this.headerText,
     required this.onEditStudentSave,
@@ -185,33 +186,45 @@ class EditStudentFieldsWidget extends HookWidget {
 
 
     return SingleChildScrollView(
-      child: Column(
-        children: [
-          FormHeaderText(text: headerText,),
-          SimpleTextFormField(controller: nameController, label: nameLabel),
-          SimpleTextFormField(controller: rollController, label: rollLabel),
-          const SizedBox(height: 10,),
-          RightAlignRow(
-            children: [
-              SimpleCancleButton(
-                onPressed: () => _onCanclePressed(context),
-              ),
-              SimpleSaveButton(
-                onPressed: () =>
-                 _onSavePressed(
-                  context,
-                  nameController.text,
-                  rollController.text
+      child: Form(
+				key: _formKey,
+        child: Column(
+          children: [
+            FormHeaderText(text: headerText,),
+            SimpleTextFormField(
+              controller: nameController,
+              label: nameLabel,
+              validatorText: StringConstants.studentEditFormNameValidationText,
+            ),
+            SimpleTextFormField(
+              controller: rollController,
+              label: rollLabel,
+              validatorText: StringConstants.studentEditFormRollValidationText,
+            ),
+            const SizedBox(height: 10,),
+            RightAlignRow(
+              children: [
+                SimpleCancleButton(
+                  onPressed: () => _onCanclePressed(context),
                 ),
-              ),
-            ],
-          )
-        ],
+                SimpleSaveButton(
+                  onPressed: () =>
+                   _onSavePressed(
+                    context,
+                    nameController.text,
+                    rollController.text
+                  ),
+                ),
+              ],
+            )
+          ],
+        ),
       ),
     );
   }
 
   void _onSavePressed(BuildContext context, String name, String roll) {
+		if(!_formKey.currentState!.validate()) return;
     Navigator.pop(context);
     onEditStudentSave(StudentEditableFields(name: name, roll: roll));
   }
