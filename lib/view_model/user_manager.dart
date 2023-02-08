@@ -2,10 +2,10 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:profile_app/db/user_reopsitory.dart';
 import 'package:profile_app/model/user.dart';
 
-class UserNotifire extends StateNotifier<User?>{
+class AuthNotifire extends StateNotifier<User?>{
   final UserRepository userRepository;
 
-  UserNotifire(super.state, this.userRepository){
+  AuthNotifire(super.state, this.userRepository){
     refressUser();
   }
 

@@ -28,7 +28,9 @@ class LoginPage extends HookConsumerWidget {
     final passwordController = useTextEditingController(text: "");
     final isMounted = useIsMounted();
 
-    ref.listen(userNotifireProvider, (previous, next) {
+    final isLoading = ref.watch(loadingProvider);
+
+    ref.listen(authNotifireProvider, (previous, next) {
       if(next != null){
         NavigationUtil.openHomePage(context);
       }
@@ -45,46 +47,60 @@ class LoginPage extends HookConsumerWidget {
       passwordController: passwordController
     );
 
-    return Scaffold(
-      body: ThreeLayerFloatingCard(
-        marginBottom: 140,
+    return Stack(
+      children: [
+        Scaffold(
+          body: ThreeLayerFloatingCard(
+            marginBottom: 140,
 
-        background: const BackgroundWithHomeIcon(),
+            background: const BackgroundWithHomeIcon(),
 
-        stackedChild: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            ElevatedFormActionButton(
-              buttonText: StringConstants.loginButtonText,
-              onPressed: executor.login,
+            stackedChild: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                ElevatedFormActionButton(
+                  buttonText: StringConstants.loginButtonText,
+                  onPressed: executor.login,
+                ),
+                const SizedBox(height: 10,),
+                SimpleTextButton(
+                  onPressed: () => _openRegisterPage(context),
+                  text: StringConstants.needAccountButtonText,
+                ),
+                const SizedBox(height: 10,),
+                GreyTextButton(
+                  onPressed: () {  },
+                  text: StringConstants.forgetPasswordButtonText,
+                )
+              ],
             ),
-            const SizedBox(height: 10,),
-            SimpleTextButton(
-              onPressed: () => _openRegisterPage(context),
-              text: StringConstants.needAccountButtonText,
-            ),
-            const SizedBox(height: 10,),
-            GreyTextButton(
-              onPressed: () {  },
-              text: StringConstants.forgetPasswordButtonText,
-            )
-          ],
-        ),
-        
-        child: Form(
-          key: _formKey,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              const FormHeaderText(text: StringConstants.loginFormHeader),
-              EmailFormField(controller: emailController),
-              PasswordFormField(controller: passwordController),
-              const SizedBox(height: 50,)
-            ],
+            
+            child: Form(
+              key: _formKey,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  const FormHeaderText(text: StringConstants.loginFormHeader),
+                  EmailFormField(controller: emailController),
+                  PasswordFormField(controller: passwordController),
+                  const SizedBox(height: 50,)
+                ],
+              ),
+            ), 
           ),
-        ), 
-      ),
+        ),
+
+        if(isLoading)
+          const Opacity(
+            opacity: 0.8,
+            child: ModalBarrier(dismissible: false, color: Colors.black),
+          ),
+        if(isLoading)        
+          const Center(
+            child: CircularProgressIndicator(),
+          ),
+      ],
     );
   }
 }

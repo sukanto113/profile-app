@@ -28,14 +28,17 @@ class RegistrationExecutor{
 
   void register() async {
     if(!buildInfo.formKey.currentState!.validate()) return;
-    UserNotifire userVM = buildInfo.ref.read(userNotifireProvider.notifier);
+    AuthNotifire userVM = buildInfo.ref.read(authNotifireProvider.notifier);
+    buildInfo.ref.read(loadingProvider.notifier).state = true;
+
     bool isRegistrationSuccessfull = 
       await userVM.register(
         nameController.text,
         emailController.text,
         passwordController.text
       );
-          
+    buildInfo.ref.read(loadingProvider.notifier).state = false;
+
     if(isRegistrationSuccessfull){
       loginExecutor.login();
     }else{
@@ -60,12 +63,13 @@ class LoginExecutor{
 
   void login() async {
     if(!buildInfo.formKey.currentState!.validate()) return;
-
+    buildInfo.ref.read(loadingProvider.notifier).state = true;
     final bool isLoginSuccessfull = 
-      await buildInfo.ref.read(userNotifireProvider.notifier).login(
+      await buildInfo.ref.read(authNotifireProvider.notifier).login(
         emailController.text,
         passwordController.text
       );
+    buildInfo.ref.read(loadingProvider.notifier).state = false;
 
     if(!isLoginSuccessfull){
       if(!buildInfo.isMounted()) return;

@@ -44,34 +44,48 @@ class _HomePageState extends ConsumerState<HomePage> {
   @override
   Widget build(BuildContext context) {
 
-    ref.listen(userNotifireProvider, (previous, next) {
+    ref.listen(authNotifireProvider, (previous, next) {
       if(next == null){
         _openLogoutPage(context);
       }
     });
+    final isLoading = ref.watch(loadingProvider);
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Center(child: Text(
-          StringConstants.homeAppBarTitleText
-        )),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {  },
-        child: IconButton(
-          icon: const Icon(Icons.add), 
-          onPressed: () async {
-            DialogUtil.showAddStudentDialog(context);
-          },
+    return Stack(
+      children: [
+        Scaffold(
+          appBar: AppBar(
+            title: const Center(child: Text(
+              StringConstants.homeAppBarTitleText
+            )),
+          ),
+          floatingActionButton: FloatingActionButton(
+            onPressed: () {  },
+            child: IconButton(
+              icon: const Icon(Icons.add), 
+              onPressed: () async {
+                DialogUtil.showAddStudentDialog(context);
+              },
+            ),
+          ),
+          floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+          endDrawer: _Drawer(),
+          bottomNavigationBar: _BottomAppBar(
+            selectedIndex: _selectedTabIndex,
+            onItemTapped: _onItemBottomAppBarItemTapped,
+          ),
+          body: _tabWidgetOptions.elementAt(_selectedTabIndex),
         ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      endDrawer: _Drawer(),
-      bottomNavigationBar: _BottomAppBar(
-        selectedIndex: _selectedTabIndex,
-        onItemTapped: _onItemBottomAppBarItemTapped,
-      ),
-      body: _tabWidgetOptions.elementAt(_selectedTabIndex),
+        if(isLoading)
+          const Opacity(
+            opacity: 0.8,
+            child: ModalBarrier(dismissible: false, color: Colors.black),
+          ),
+        if(isLoading)        
+          const Center(
+            child: CircularProgressIndicator(),
+          ),
+      ],
     );
   }
 
@@ -173,7 +187,7 @@ class _Drawer extends ConsumerWidget {
 
   _onNavLogoutTab(BuildContext context, WidgetRef ref) async {
     _closeDrawer(context);
-    ref.read(userNotifireProvider.notifier).logout();
+    ref.read(authNotifireProvider.notifier).logout();
   }
 
   void _openProfilePage(BuildContext context){
@@ -226,7 +240,7 @@ class _DrawerHeader extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final user = ref.watch(userNotifireProvider) ?? User.emptyUser;
+    final user = ref.watch(authNotifireProvider) ?? User.emptyUser;
     final userImage = ref.watch(userImageProvider);
 
     return SizedBox(

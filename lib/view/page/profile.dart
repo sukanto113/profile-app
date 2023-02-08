@@ -84,7 +84,7 @@ class _UserName extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final user = ref.watch(userNotifireProvider) ?? User.emptyUser;
+    final user = ref.watch(authNotifireProvider) ?? User.emptyUser;
 
     return Container(
       margin: const EdgeInsets.only(top: 10),

@@ -27,13 +27,13 @@ final studentsListNotifireProvider = StateNotifierProvider<StudentsListNotifire,
 });
 
 
-final userNotifireProvider = StateNotifierProvider<UserNotifire, User?>(
-  (ref)=> UserNotifire(null, UserRepositoryLocal(AuthenticatorLocal()))
+final authNotifireProvider = StateNotifierProvider<AuthNotifire, User?>(
+  (ref)=> AuthNotifire(null, UserRepositoryLocal(AuthenticatorLocal()))
 );
 
 final initialAppStateProvider = FutureProvider<AppState>((ref) async {
-  await ref.read(userNotifireProvider.notifier).refressUser();
-  return AppState(user: ref.read(userNotifireProvider));
+  await ref.read(authNotifireProvider.notifier).refressUser();
+  return AppState(user: ref.read(authNotifireProvider));
 });
 
 final userImageProvider = Provider<ImageProvider>((ref) {
@@ -45,3 +45,5 @@ final userBioProvider = Provider<String>((ref) {
     "University. I completed my graduation in "
     "Mathematics from Rajshahi University.";
 });
+
+final loadingProvider = StateProvider<bool>((_)=>false);

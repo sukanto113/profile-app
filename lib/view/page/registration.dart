@@ -27,8 +27,8 @@ class RegistrationPage extends HookConsumerWidget {
     final emailController = useTextEditingController(text: "");
     final passwordController = useTextEditingController(text: "");
     final isMounted = useIsMounted();
-    
-    ref.listen(userNotifireProvider,(previous, next) {
+    final isLoading = ref.watch(loadingProvider);
+    ref.listen(authNotifireProvider,(previous, next) {
       if(next != null){
         NavigationUtil.openHomePage(context);
       }
@@ -45,42 +45,55 @@ class RegistrationPage extends HookConsumerWidget {
       passwordController: passwordController
     );
 
-    return Scaffold(
-      body: ThreeLayerFloatingCard(
-        marginBottom: 80,
+    return Stack(
+      children: [
+        Scaffold(
+          body: ThreeLayerFloatingCard(
+            marginBottom: 80,
 
-        background: const BackgroundWithHomeIcon(),
+            background: const BackgroundWithHomeIcon(),
 
-        stackedChild: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            ElevatedFormActionButton(
-              buttonText: StringConstants.registerButtonText,
-              onPressed: executor.register,
+            stackedChild: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                ElevatedFormActionButton(
+                  buttonText: StringConstants.registerButtonText,
+                  onPressed: executor.register,
+                ),
+                const SizedBox(height: 10,),
+                SimpleTextButton(
+                  onPressed: () => _openLoginPage(context),
+                  text: StringConstants.alreadyUserLoginButtonText,
+                )
+              ],
             ),
-            const SizedBox(height: 10,),
-            SimpleTextButton(
-              onPressed: () => _openLoginPage(context),
-              text: StringConstants.alreadyUserLoginButtonText,
-            )
-          ],
-        ),
 
-        child: Form(
-          key: _formKey,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              const FormHeaderText(text: StringConstants.registerFormHeader),
-              NameFormField(controller: nameController),
-              EmailFormField(controller: emailController),
-              PasswordFormField(controller: passwordController,),
-              const SizedBox(height: 50,),
-            ],
+            child: Form(
+              key: _formKey,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  const FormHeaderText(text: StringConstants.registerFormHeader),
+                  NameFormField(controller: nameController),
+                  EmailFormField(controller: emailController),
+                  PasswordFormField(controller: passwordController,),
+                  const SizedBox(height: 50,),
+                ],
+              ),
+            ), 
           ),
-        ), 
-      ),
+        ),
+        if(isLoading)
+          const Opacity(
+            opacity: 0.8,
+            child: ModalBarrier(dismissible: false, color: Colors.black),
+          ),
+        if(isLoading)        
+          const Center(
+            child: CircularProgressIndicator(),
+          ),
+      ],
     );
   }
 }

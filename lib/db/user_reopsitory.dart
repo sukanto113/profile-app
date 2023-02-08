@@ -25,7 +25,7 @@ class UserRepositoryLocal implements UserRepository{
 
   @override
   Future<User?> getCurrentUser() async {
-
+    await Future.delayed(const Duration(seconds: 3));
     if(await hasUser()){
       final prefs = await SharedPreferences.getInstance();
       final String userName = prefs.getString(currentUserNameSharedPrefKey) ?? "";    
@@ -38,6 +38,7 @@ class UserRepositoryLocal implements UserRepository{
 
   @override
   Future<bool> login(String email, String password) async {
+    await Future.delayed(const Duration(seconds: 3));
     bool isAuthenticate = await authenticator.authenticate(email, password);
     if(isAuthenticate){
       final UserInfo userInfo = await authenticator.getUserInfo(email, password);
@@ -58,6 +59,7 @@ class UserRepositoryLocal implements UserRepository{
 
   @override
   Future<bool> register(String name, String email, String password) async {
+    await Future.delayed(const Duration(seconds: 3));
     final bool isSuccessfull = await authenticator.addUser(name, email, password);
     return isSuccessfull;
   }
