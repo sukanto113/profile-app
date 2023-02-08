@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:profile_app/values/providers.dart';
 import 'package:profile_app/util/dialog.dart';
@@ -10,56 +11,52 @@ import 'package:profile_app/view/widget/form.dart';
 import 'package:profile_app/view/widget/layout.dart';
 
 
-class LoginPage extends ConsumerStatefulWidget {
-  const LoginPage({super.key});
-
-  @override
-  ConsumerState<LoginPage> createState() => _LoginPageState();
-}
-
-class _LoginPageState extends ConsumerState<LoginPage> {
-
-  final _userEmailController = TextEditingController();
-  final _userPasswordController = TextEditingController();
+class LoginPage extends HookConsumerWidget {
   final _formKey = GlobalKey<FormState>();
 
-  Future<void> _onLoginButtonPressed() async {
+  LoginPage({super.key});
+
+  Future<void> _onLoginButtonPressed(
+    {
+      required BuildContext context,
+      required WidgetRef ref,
+      required String email,
+      required String password,
+      required IsMounted isMounted,
+    }
+  ) async {
     if(!_formKey.currentState!.validate()) return;
-    final String email = _userEmailController.text;
-    final String password = _userPasswordController.text;
 
     final bool isLoginSuccessfull = 
       await ref.read(userProvider.notifier).login(email, password);
 
-    if(!mounted) return;
-
     if(!isLoginSuccessfull){
+      if(!isMounted()) return;
       DialogUtil.showLoginFailedDialog(context);
     }
   }
 
-  _onRegisterPressed(){
-    _openRegisterPage();
+  _onRegisterPressed(BuildContext context){
+    _openRegisterPage(context);
   }
 
-  void _openRegisterPage(){
-    NavigationUtil.pushReplacement(context, const RegistrationPage());
+  void _openRegisterPage(BuildContext context){
+    NavigationUtil.pushReplacement(context, RegistrationPage());
   }
 
-  @override
-  void dispose() {
-    _userEmailController.dispose();
-    _userPasswordController.dispose();
-    super.dispose();
-  }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final userEmailController = useTextEditingController(text: "");
+    final userPasswordController = useTextEditingController(text: "");
+    final isMounted = useIsMounted();
+
     ref.listen(userProvider, (previous, next) {
       if(next != null){
         NavigationUtil.openHomePage(context);
       }
     });
+
     return Scaffold(
       body: ThreeLayerFloatingCard(
         background: const BackgroundWithHomeIcon(),
@@ -69,11 +66,17 @@ class _LoginPageState extends ConsumerState<LoginPage> {
           children: [
             ElevatedFormActionButton(
               buttonText: StringConstants.loginButtonText,
-              onPressed: _onLoginButtonPressed
+              onPressed: ()=> _onLoginButtonPressed(
+                context: context,
+                ref: ref,
+                email: userEmailController.text,
+                password: userPasswordController.text,
+                isMounted: isMounted
+              )
             ),
             const SizedBox(height: 10,),
             TextButton(
-              onPressed: _onRegisterPressed,
+              onPressed: () => _onRegisterPressed(context),
               child: const Text(StringConstants.needAccountButtonText),
             ),
             const SizedBox(height: 10,),
@@ -94,8 +97,8 @@ class _LoginPageState extends ConsumerState<LoginPage> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               const FormHeaderText(text: StringConstants.loginFormHeader),
-              EmailFormField(controller: _userEmailController),
-              PasswordFormField(controller: _userPasswordController),
+              EmailFormField(controller: userEmailController),
+              PasswordFormField(controller: userPasswordController),
               const SizedBox(height: 50,)
             ],
           ),

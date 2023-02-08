@@ -15,7 +15,7 @@ class SplashPage extends ConsumerWidget {
         if(data.user != null){
           return const HomePage();
         }else{
-          return const LoginPage();
+          return LoginPage();
         }
       },
       error: (error, stackTrace) {

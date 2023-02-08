@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:profile_app/values/providers.dart';
 import 'package:profile_app/util/dialog.dart';
@@ -6,62 +7,56 @@ import 'package:profile_app/util/navigation.dart';
 import 'package:profile_app/values/strings.dart';
 import 'package:profile_app/view/page/login.dart';
 import 'package:profile_app/view/widget/background.dart';
+import 'package:profile_app/view/widget/buttons.dart';
 import 'package:profile_app/view/widget/form.dart';
 import 'package:profile_app/view/widget/layout.dart';
 import 'package:profile_app/view_model/user_manager.dart';
 
-class RegistrationPage extends ConsumerStatefulWidget {
-  const RegistrationPage({super.key});
 
-  @override
-  ConsumerState<RegistrationPage> createState() => _RegistrationPageState();
-}
-
-class _RegistrationPageState extends ConsumerState<RegistrationPage> {
-
-  final _userNameController = TextEditingController();
-  final _userEmailController = TextEditingController();
-  final _userPasswordController = TextEditingController();
+class RegistrationPage extends HookConsumerWidget {
   final _formKey = GlobalKey<FormState>();
 
+  RegistrationPage({super.key});
 
-  Future<void> _onRegisterButtonPressed() async {
+  Future<void> _onRegisterButtonPressed(
+    {
+      required BuildContext context,
+      required WidgetRef ref, 
+      required String name,
+      required String email,
+      required String password,
+      required IsMounted isMounted
+    }
+  ) async {
     if(!_formKey.currentState!.validate()) return;
-
-    String name = _userNameController.text ;
-    String email = _userEmailController.text;
-    String password = _userPasswordController.text;
-
     UserManager userVM = ref.read(userProvider.notifier);
     bool isRegistrationSuccessfull = 
       await userVM.register(name, email, password);
           
     if(isRegistrationSuccessfull){
       bool isLoginSuccessfull = await userVM.login(email, password);
-      if(!mounted) return;
       if(!isLoginSuccessfull){
+        if(!isMounted()) return;
         DialogUtil.showLoginFailedDialog(context);
       }
     }else{
-      if(!mounted) return;
+      if(!isMounted()) return;
       DialogUtil.showRegistrationFailedDialog(context);
     }
   }
 
-  void _onLoginPressed() {
-    NavigationUtil.pushReplacement(context, const LoginPage());
+  void _onLoginPressed(BuildContext context) {
+    NavigationUtil.pushReplacement(context, LoginPage());
   }
 
   @override
-  void dispose() {
-    _userNameController.dispose();
-    _userEmailController.dispose();
-    _userPasswordController.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final userNameController = useTextEditingController(text: "");
+    final userEmailController = useTextEditingController(text: "");
+    final userPasswordController = useTextEditingController(text: "");
+    final isMounted = useIsMounted();
+    
+    //todo make it futureProvider
     ref.listen(userProvider,(previous, next) {
       if(next != null){
         NavigationUtil.openHomePage(context);
@@ -77,12 +72,19 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
           children: [
             ElevatedFormActionButton(
               buttonText: StringConstants.registerButtonText,
-              onPressed: _onRegisterButtonPressed,
+              onPressed: () =>  _onRegisterButtonPressed(
+                context: context,
+                ref: ref,
+                name: userNameController.text,
+                email: userEmailController.text,
+                password: userPasswordController.text,
+                isMounted: isMounted
+              ),
             ),
             const SizedBox(height: 10,),
-            TextButton(
-              onPressed: _onLoginPressed,
-              child: const Text(StringConstants.alreadyUserLoginButtonText),
+            SimpleTextButton(
+              onPressed: () => _onLoginPressed(context),
+              text: StringConstants.alreadyUserLoginButtonText,
             )
           ],
         ),
@@ -93,9 +95,9 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               const FormHeaderText(text: StringConstants.registerFormHeader),
-              NameFormField(controller: _userNameController),
-              EmailFormField(controller: _userEmailController),
-              PasswordFormField(controller: _userPasswordController,),
+              NameFormField(controller: userNameController),
+              EmailFormField(controller: userEmailController),
+              PasswordFormField(controller: userPasswordController,),
               const SizedBox(height: 50,),
             ],
           ),

@@ -38,7 +38,7 @@ class _HomePageState extends ConsumerState<HomePage> {
   }
 
   void _openLogoutPage(BuildContext context) {
-    NavigationUtil.pushAndRemoveAllPreviousRoute(context, const LoginPage());
+    NavigationUtil.pushAndRemoveAllPreviousRoute(context, LoginPage());
   }
 
   @override
@@ -181,7 +181,7 @@ class _Drawer extends ConsumerWidget {
   }
 
   void _openRegisterPage(BuildContext context) {
-    NavigationUtil.push(context, const RegistrationPage());
+    NavigationUtil.push(context, RegistrationPage());
   }
 
   void _closeDrawer(BuildContext context){
