@@ -19,7 +19,7 @@ class StringConstants{
   static const String loginButtonText = "LOGIN";
   static const String registerButtonText = "REGISTER";
   static const String needAccountButtonText = "Need an account? REGISTER";
-  static const String alreadyUserLoginButtonText = "Need an account? REGISTER";
+  static const String alreadyUserLoginButtonText = "Already a user? LOGIN";
   static const String forgetPasswordButtonText = "Forgot password?";
 
   static const String addStudentFormHeader = "Add student";

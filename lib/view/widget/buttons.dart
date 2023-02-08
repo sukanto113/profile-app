@@ -27,6 +27,29 @@ class SimpleTextButton extends SimpleButton{
   }
 }
 
+class GreyTextButton extends SimpleTextButton {
+  const GreyTextButton({
+    super.key,
+    required super.onPressed,
+    required super.text
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(
+      onPressed: onPressed, 
+      child: Text(
+        text,
+        textAlign: TextAlign.center,
+        style: const TextStyle(
+          color: Colors.grey
+        ),
+      )
+    );
+  }
+
+}
+
 abstract class FixedTextButton extends SimpleButton{
 
   const FixedTextButton({super.key, super.onPressed});
