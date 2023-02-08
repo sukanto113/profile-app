@@ -44,7 +44,7 @@ class _HomePageState extends ConsumerState<HomePage> {
   @override
   Widget build(BuildContext context) {
 
-    ref.listen(userProvider, (previous, next) {
+    ref.listen(userNotifireProvider, (previous, next) {
       if(next == null){
         _openLogoutPage(context);
       }
@@ -173,7 +173,7 @@ class _Drawer extends ConsumerWidget {
 
   _onNavLogoutTab(BuildContext context, WidgetRef ref) async {
     _closeDrawer(context);
-    ref.read(userProvider.notifier).logout();
+    ref.read(userNotifireProvider.notifier).logout();
   }
 
   void _openProfilePage(BuildContext context){
@@ -226,7 +226,7 @@ class _DrawerHeader extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final user = ref.watch(userProvider) ?? User.emptyUser;
+    final user = ref.watch(userNotifireProvider) ?? User.emptyUser;
     final userImage = ref.watch(userImageProvider);
 
     return SizedBox(

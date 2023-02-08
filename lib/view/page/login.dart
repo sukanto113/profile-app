@@ -28,7 +28,7 @@ class LoginPage extends HookConsumerWidget {
     final passwordController = useTextEditingController(text: "");
     final isMounted = useIsMounted();
 
-    ref.listen(userProvider, (previous, next) {
+    ref.listen(userNotifireProvider, (previous, next) {
       if(next != null){
         NavigationUtil.openHomePage(context);
       }

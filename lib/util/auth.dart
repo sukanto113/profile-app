@@ -28,7 +28,7 @@ class RegistrationExecutor{
 
   void register() async {
     if(!buildInfo.formKey.currentState!.validate()) return;
-    UserManager userVM = buildInfo.ref.read(userProvider.notifier);
+    UserNotifire userVM = buildInfo.ref.read(userNotifireProvider.notifier);
     bool isRegistrationSuccessfull = 
       await userVM.register(
         nameController.text,
@@ -62,7 +62,7 @@ class LoginExecutor{
     if(!buildInfo.formKey.currentState!.validate()) return;
 
     final bool isLoginSuccessfull = 
-      await buildInfo.ref.read(userProvider.notifier).login(
+      await buildInfo.ref.read(userNotifireProvider.notifier).login(
         emailController.text,
         passwordController.text
       );

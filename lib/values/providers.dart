@@ -27,13 +27,13 @@ final studentsListNotifireProvider = StateNotifierProvider<StudentsListNotifire,
 });
 
 
-final userProvider = StateNotifierProvider<UserManager, User?>(
-  (ref)=> UserManager(null, UserRepositoryLocal(AuthenticatorLocal()))
+final userNotifireProvider = StateNotifierProvider<UserNotifire, User?>(
+  (ref)=> UserNotifire(null, UserRepositoryLocal(AuthenticatorLocal()))
 );
 
 final initialAppStateProvider = FutureProvider<AppState>((ref) async {
-  await ref.read(userProvider.notifier).refressUser();
-  return AppState(user: ref.read(userProvider));
+  await ref.read(userNotifireProvider.notifier).refressUser();
+  return AppState(user: ref.read(userNotifireProvider));
 });
 
 final userImageProvider = Provider<ImageProvider>((ref) {
