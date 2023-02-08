@@ -7,7 +7,8 @@ import 'package:profile_app/view/widget/buttons.dart';
 import 'package:profile_app/view/widget/layout.dart';
 
 class ProfilePage extends StatelessWidget {
-  const ProfilePage({super.key});
+  final User user;
+  const ProfilePage({super.key, required this.user});
 
 
   void _onGoBackPressed(BuildContext context){
@@ -28,7 +29,7 @@ class ProfilePage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const _UserImage(),
-            const _UserName(),
+            _UserName(user: user,),
             const _UserBio(),
             GoBackElevatedButton(onPressed: () => _onGoBackPressed(context))
           ],
@@ -78,14 +79,14 @@ class _UserBio extends ConsumerWidget {
 
 
 class _UserName extends ConsumerWidget {
+  final User user;
   const _UserName({
     Key? key,
+    required this.user,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final user = ref.watch(authNotifireProvider) ?? User.emptyUser;
-
     return Container(
       margin: const EdgeInsets.only(top: 10),
       child: Text(

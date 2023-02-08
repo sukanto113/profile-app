@@ -12,23 +12,79 @@ import 'package:profile_app/view/widget/buttons.dart';
 import 'package:profile_app/view/widget/layout.dart';
 import 'package:profile_app/view/widget/student_crud/student_list.dart';
 
-class HomePage extends ConsumerStatefulWidget{
+class HomePage extends ConsumerWidget {
   const HomePage({super.key});
 
   @override
-  ConsumerState<HomePage> createState() => _HomePageState();
+  Widget build(BuildContext context, WidgetRef ref) {
+    final userImage = ref.watch(userImageProvider);
+    return ref.watch(userProvider).when(
+      data: (user) {
+        if(user != null){
+          return HomeWidget(user: user, userImage: userImage);
+        }else{
+          return LoginPage();
+        }
+      },
+      loading: () {
+        return const LoadingWidget();
+      },
+      error: (error, stackTrace) {
+        return const ErrorWidget();
+      },
+    );
+  }
 }
 
-class _HomePageState extends ConsumerState<HomePage> {
+class ErrorWidget extends StatelessWidget {
+  const ErrorWidget({
+    Key? key,
+  }) : super(key: key);
 
+  @override
+  Widget build(BuildContext context) {
+    return const Center(
+      child: Text(StringConstants.errorTryLater),
+    );
+  }
+}
+
+class LoadingWidget extends StatelessWidget {
+  const LoadingWidget({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children:const [
+        Opacity(
+          opacity: 1,
+          child: ModalBarrier(dismissible: false, color: Colors.white),
+        ),
+        Center(
+          child: CircularProgressIndicator(),
+        ),
+      ],
+    );
+  }
+}
+
+class HomeWidget extends StatefulWidget {
+  final User user;
+  final ImageProvider userImage;
+  const HomeWidget({
+    super.key,
+    required this.user,
+    required this.userImage
+  });
+
+  @override
+  State<HomeWidget> createState() => _HomeWidgetState();
+}
+
+class _HomeWidgetState extends State<HomeWidget> {
   int _selectedTabIndex = 0;
-
-  static const List<Widget> _tabWidgetOptions = [
-    HomeBody(),
-    Center(),
-    StudentListView(),
-  ];
-
 
   void _onItemBottomAppBarItemTapped(int index) {
     if (index == 1) return;
@@ -37,58 +93,37 @@ class _HomePageState extends ConsumerState<HomePage> {
     });
   }
 
-  void _openLogoutPage(BuildContext context) {
-    NavigationUtil.pushAndRemoveAllPreviousRoute(context, LoginPage());
-  }
-
   @override
   Widget build(BuildContext context) {
-
-    ref.listen(authNotifireProvider, (previous, next) {
-      if(next == null){
-        _openLogoutPage(context);
-      }
-    });
-    final isLoading = ref.watch(loadingProvider);
-
-    return Stack(
-      children: [
-        Scaffold(
-          appBar: AppBar(
-            title: const Center(child: Text(
-              StringConstants.homeAppBarTitleText
-            )),
-          ),
-          floatingActionButton: FloatingActionButton(
-            onPressed: () {  },
-            child: IconButton(
-              icon: const Icon(Icons.add), 
-              onPressed: () async {
-                DialogUtil.showAddStudentDialog(context);
-              },
-            ),
-          ),
-          floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-          endDrawer: _Drawer(),
-          bottomNavigationBar: _BottomAppBar(
-            selectedIndex: _selectedTabIndex,
-            onItemTapped: _onItemBottomAppBarItemTapped,
-          ),
-          body: _tabWidgetOptions.elementAt(_selectedTabIndex),
+    final List<Widget> tabWidgetOptions = [
+      HomeBody(user: widget.user),
+      const Center(),
+      const StudentListView(),
+    ];
+    return Scaffold(
+      appBar: AppBar(
+        title: const Center(child: Text(
+          StringConstants.homeAppBarTitleText
+        )),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {  },
+        child: IconButton(
+          icon: const Icon(Icons.add), 
+          onPressed: () async {
+            DialogUtil.showAddStudentDialog(context);
+          },
         ),
-        if(isLoading)
-          const Opacity(
-            opacity: 0.8,
-            child: ModalBarrier(dismissible: false, color: Colors.black),
-          ),
-        if(isLoading)        
-          const Center(
-            child: CircularProgressIndicator(),
-          ),
-      ],
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      endDrawer: _Drawer(user: widget.user, userImage: widget.userImage),
+      bottomNavigationBar: _BottomAppBar(
+        selectedIndex: _selectedTabIndex,
+        onItemTapped: _onItemBottomAppBarItemTapped,
+      ),
+      body: tabWidgetOptions.elementAt(_selectedTabIndex),
     );
   }
-
 }
 
 class _BottomAppBar extends StatelessWidget {
@@ -131,8 +166,10 @@ class _BottomAppBar extends StatelessWidget {
 }
 
 class HomeBody extends StatelessWidget {
+  final User user;
   const HomeBody({
     Key? key,
+    required this.user
   }) : super(key: key);
 
   void _onViewProfileTab(BuildContext context) {
@@ -140,7 +177,7 @@ class HomeBody extends StatelessWidget {
   }
 
   void _openProfilePage(BuildContext context){
-    NavigationUtil.push(context, const ProfilePage());
+    NavigationUtil.push(context, ProfilePage(user: user,));
   }
 
   @override
@@ -170,6 +207,14 @@ class HomeBody extends StatelessWidget {
 }
 
 class _Drawer extends ConsumerWidget {
+
+  final User user;
+  final ImageProvider userImage;
+  const _Drawer({
+    required this.user,
+    required this.userImage,
+  });
+
   void _onNavHomeTab(BuildContext context){
     _closeDrawer(context);
     NavigationUtil.openHomePage(context);
@@ -191,7 +236,7 @@ class _Drawer extends ConsumerWidget {
   }
 
   void _openProfilePage(BuildContext context){
-    NavigationUtil.push(context, const ProfilePage());
+    NavigationUtil.push(context, ProfilePage(user: user,));
   }
 
   void _openRegisterPage(BuildContext context) {
@@ -208,7 +253,7 @@ class _Drawer extends ConsumerWidget {
       child: ListView(
         padding: EdgeInsets.zero,
         children:  [
-          _DrawerHeader(),
+          _DrawerHeader(user: user, userImage: userImage),
           MenuItem(
             name: StringConstants.drawerHomeItemName,
             icon: Icons.home_outlined,
@@ -236,13 +281,15 @@ class _Drawer extends ConsumerWidget {
   }
 }
 
-class _DrawerHeader extends ConsumerWidget {
-
+class _DrawerHeader extends StatelessWidget {
+  final User user;
+  final ImageProvider userImage;
+  const _DrawerHeader({
+    required this.user,
+    required this.userImage,
+  });
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final user = ref.watch(authNotifireProvider) ?? User.emptyUser;
-    final userImage = ref.watch(userImageProvider);
-
+  Widget build(BuildContext context) {
     return SizedBox(
       height: 250,
       child: DrawerHeader(

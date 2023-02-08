@@ -7,7 +7,7 @@ import 'package:profile_app/model/appstate.dart';
 import 'package:profile_app/model/student.dart';
 import 'package:profile_app/model/user.dart';
 import 'package:profile_app/view_model/student_list.dart';
-import 'package:profile_app/view_model/user_manager.dart';
+import 'package:profile_app/view_model/auth_notifier.dart';
 
 
 
@@ -26,14 +26,24 @@ final studentsListNotifireProvider = StateNotifierProvider<StudentsListNotifire,
   return StudentsListNotifire(0, repo);
 });
 
+final userRepoProvider = Provider<UserRepository>((_){
+  return UserRepositoryLocal(AuthenticatorLocal());
+});
 
-final authNotifireProvider = StateNotifierProvider<AuthNotifire, User?>(
-  (ref)=> AuthNotifire(null, UserRepositoryLocal(AuthenticatorLocal()))
-);
+final userProvider = FutureProvider<User?>((ref) async {
+  ref.watch(authNotifireProvider);
+
+  return await ref.read(userRepoProvider).getCurrentUser();
+});
+
+final authNotifireProvider = StateNotifierProvider<AuthNotifire, int>((ref) {
+  final reop = ref.watch(userRepoProvider);
+  return AuthNotifire(0, reop);
+});
 
 final initialAppStateProvider = FutureProvider<AppState>((ref) async {
-  await ref.read(authNotifireProvider.notifier).refressUser();
-  return AppState(user: ref.read(authNotifireProvider));
+  final User? user = await ref.read(userRepoProvider).getCurrentUser();
+  return AppState(user: user);
 });
 
 final userImageProvider = Provider<ImageProvider>((ref) {

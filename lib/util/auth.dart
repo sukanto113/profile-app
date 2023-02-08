@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:profile_app/util/build.dart';
 import 'package:profile_app/util/dialog.dart';
 import 'package:profile_app/values/providers.dart';
-import 'package:profile_app/view_model/user_manager.dart';
+import 'package:profile_app/view_model/auth_notifier.dart';
 
 
 

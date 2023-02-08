@@ -63,4 +63,6 @@ class StringConstants{
   static const String studentEditFormNameValidationText = "Please enter name";
 
   static const String studentEditFormRollValidationText = "Please enter roll";
+
+  static const String errorTryLater = "Error please try again later";
 }
