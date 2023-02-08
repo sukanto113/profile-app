@@ -3,13 +3,12 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:profile_app/model/user.dart';
 import 'package:profile_app/values/providers.dart';
 import 'package:profile_app/util/dialog.dart';
-import 'package:profile_app/util/navigation.dart';
 import 'package:profile_app/values/strings.dart';
-import 'package:profile_app/view/page/profile.dart';
 import 'package:profile_app/view/page/login.dart';
-import 'package:profile_app/view/page/registration.dart';
-import 'package:profile_app/view/widget/buttons.dart';
-import 'package:profile_app/view/widget/layout.dart';
+import 'package:profile_app/view/widget/home/body.dart';
+import 'package:profile_app/view/widget/home/drawer.dart';
+import 'package:profile_app/view/widget/loading.dart';
+import 'package:profile_app/view/widget/error.dart';
 import 'package:profile_app/view/widget/student_crud/student_list.dart';
 
 class HomePage extends ConsumerWidget {
@@ -30,45 +29,12 @@ class HomePage extends ConsumerWidget {
         return const LoadingWidget();
       },
       error: (error, stackTrace) {
-        return const ErrorWidget();
+        return const TryAgainErrorWidget();
       },
     );
   }
 }
 
-class ErrorWidget extends StatelessWidget {
-  const ErrorWidget({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return const Center(
-      child: Text(StringConstants.errorTryLater),
-    );
-  }
-}
-
-class LoadingWidget extends StatelessWidget {
-  const LoadingWidget({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      children:const [
-        Opacity(
-          opacity: 1,
-          child: ModalBarrier(dismissible: false, color: Colors.white),
-        ),
-        Center(
-          child: CircularProgressIndicator(),
-        ),
-      ],
-    );
-  }
-}
 
 class HomeWidget extends StatefulWidget {
   final User user;
@@ -116,7 +82,7 @@ class _HomeWidgetState extends State<HomeWidget> {
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      endDrawer: _Drawer(user: widget.user, userImage: widget.userImage),
+      endDrawer: HomePageDrawer(user: widget.user, userImage: widget.userImage),
       bottomNavigationBar: _BottomAppBar(
         selectedIndex: _selectedTabIndex,
         onItemTapped: _onItemBottomAppBarItemTapped,
@@ -161,187 +127,6 @@ class _BottomAppBar extends StatelessWidget {
         selectedItemColor: Theme.of(context).primaryColor,
         onTap: onItemTapped,
       ),
-    );
-  }
-}
-
-class HomeBody extends StatelessWidget {
-  final User user;
-  const HomeBody({
-    Key? key,
-    required this.user
-  }) : super(key: key);
-
-  void _onViewProfileTab(BuildContext context) {
-    _openProfilePage(context);
-  }
-
-  void _openProfilePage(BuildContext context){
-    NavigationUtil.push(context, ProfilePage(user: user,));
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Text(
-            StringConstants.welcomeToHomeText,
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 20
-            ),
-          ),
-          Container(
-            margin: const EdgeInsets.all(10),
-            child: ElevatedTextButton(
-              onPressed: () => _onViewProfileTab(context),
-              text: StringConstants.viewProfileButtonText,
-            )
-          )
-        ],
-      ),
-    );
-  }
-}
-
-class _Drawer extends ConsumerWidget {
-
-  final User user;
-  final ImageProvider userImage;
-  const _Drawer({
-    required this.user,
-    required this.userImage,
-  });
-
-  void _onNavHomeTab(BuildContext context){
-    _closeDrawer(context);
-    NavigationUtil.openHomePage(context);
-  }
-
-  void _onNavProfileTab(BuildContext context) {
-    _closeDrawer(context);
-    _openProfilePage(context);
-  }
-
-  void _onNavRegisterTab(BuildContext context) {
-    _closeDrawer(context);
-    _openRegisterPage(context);
-  }
-
-  _onNavLogoutTab(BuildContext context, WidgetRef ref) async {
-    _closeDrawer(context);
-    ref.read(authNotifireProvider.notifier).logout();
-  }
-
-  void _openProfilePage(BuildContext context){
-    NavigationUtil.push(context, ProfilePage(user: user,));
-  }
-
-  void _openRegisterPage(BuildContext context) {
-    NavigationUtil.push(context, RegistrationPage());
-  }
-
-  void _closeDrawer(BuildContext context){
-    Navigator.pop(context);
-  }
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return Drawer(
-      child: ListView(
-        padding: EdgeInsets.zero,
-        children:  [
-          _DrawerHeader(user: user, userImage: userImage),
-          MenuItem(
-            name: StringConstants.drawerHomeItemName,
-            icon: Icons.home_outlined,
-            onTap:() =>  _onNavHomeTab(context),
-          ),
-          MenuItem(
-            name: StringConstants.drawerProfileItemName,
-            icon: Icons.person_outline,
-            onTap: () => _onNavProfileTab(context),
-          ),
-          MenuItem(
-            name: StringConstants.drawerLogoutItemName,
-            icon: Icons.logout_outlined,
-            onTap: () =>  _onNavLogoutTab(context, ref),
-          ),
-          const Divider(color: Colors.black,),
-          MenuItem(
-            name: StringConstants.drawerRegisterItemName,
-            icon: Icons.add_outlined,
-            onTap: () => _onNavRegisterTab(context),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _DrawerHeader extends StatelessWidget {
-  final User user;
-  final ImageProvider userImage;
-  const _DrawerHeader({
-    required this.user,
-    required this.userImage,
-  });
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: 250,
-      child: DrawerHeader(
-        decoration: const BoxDecoration(
-          color: Colors.blue,
-        ),
-        child: Column(
-          children:  [
-            Expanded(
-              child: CirculerImage(
-                image: userImage,
-              ),
-            ),
-            const SizedBox(height: 10,),
-            Text(
-              user.name,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 28,
-              ),
-            ),
-            Text(
-              user.email,
-              style: const TextStyle(
-                color: Colors.white,
-              ),
-            ),
-            const SizedBox(height: 10,),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class MenuItem extends StatelessWidget{
-  const MenuItem({required this.name, required this.icon, required this.onTap, super.key});
-  final String name;
-  final IconData icon;
-  final VoidCallback onTap; 
-  
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      title: Text(
-        name,
-        style: const TextStyle(
-          fontSize: 17
-        ),
-      ),
-      leading: Icon(icon),
-      onTap: onTap,
     );
   }
 }

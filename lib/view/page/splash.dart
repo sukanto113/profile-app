@@ -3,6 +3,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:profile_app/values/providers.dart';
 import 'package:profile_app/view/page/home.dart';
 import 'package:profile_app/view/page/login.dart';
+import 'package:profile_app/view/widget/error.dart';
 
 
 class SplashPage extends ConsumerWidget {
@@ -19,7 +20,7 @@ class SplashPage extends ConsumerWidget {
         }
       },
       error: (error, stackTrace) {
-        return const SplashView();
+        return const TryAgainErrorWidget();
       },
       loading: () {
         return const SplashView();
