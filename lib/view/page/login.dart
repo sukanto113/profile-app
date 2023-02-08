@@ -30,12 +30,6 @@ class LoginPage extends HookConsumerWidget {
 
     final isLoading = ref.watch(loadingProvider);
 
-    ref.listen(authNotifireProvider, (previous, next) {
-      if(next != null){
-        NavigationUtil.openHomePage(context);
-      }
-    });
-
     final LoginExecutor executor = LoginExecutor(
       buildInfo: FormBuildInfo(
         context: context,

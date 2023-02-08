@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:profile_app/util/build.dart';
 import 'package:profile_app/util/dialog.dart';
+import 'package:profile_app/util/navigation.dart';
 import 'package:profile_app/values/providers.dart';
 import 'package:profile_app/notifiers/auth_notifier.dart';
 
@@ -76,8 +77,10 @@ class LoginExecutor{
 
     buildInfo.ref.read(loadingProvider.notifier).state = false;
 
-    if(!isLoginSuccessfull){
-      if(!buildInfo.isMounted()) return;
+    if(!buildInfo.isMounted()) return;
+    if(isLoginSuccessfull){
+      NavigationUtil.openHomePage(buildInfo.context);
+    }else{
       DialogUtil.showLoginFailedDialog(buildInfo.context);
     }
 

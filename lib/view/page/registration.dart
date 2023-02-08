@@ -28,11 +28,6 @@ class RegistrationPage extends HookConsumerWidget {
     final passwordController = useTextEditingController(text: "");
     final isMounted = useIsMounted();
     final isLoading = ref.watch(loadingProvider);
-    ref.listen(authNotifireProvider,(previous, next) {
-      if(next != null){
-        NavigationUtil.openHomePage(context);
-      }
-    },);
 
     RegistrationExecutor executor = RegistrationExecutor(
       buildInfo: FormBuildInfo(context: context, 
