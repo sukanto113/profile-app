@@ -10,7 +10,7 @@ import 'package:profile_app/view/page/login.dart';
 import 'package:profile_app/view/page/registration.dart';
 import 'package:profile_app/view/widget/buttons.dart';
 import 'package:profile_app/view/widget/layout.dart';
-import 'package:profile_app/view/widget/student_crud.dart';
+import 'package:profile_app/view/widget/student_crud/student_list.dart';
 
 class HomePage extends ConsumerStatefulWidget{
   const HomePage({super.key});

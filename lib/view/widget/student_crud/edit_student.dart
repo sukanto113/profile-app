@@ -4,11 +4,11 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:profile_app/model/student.dart';
 import 'package:profile_app/values/providers.dart';
 import 'package:profile_app/values/strings.dart';
-import 'package:profile_app/util/dialog.dart';
 import 'package:profile_app/util/snackbar.dart';
 import 'package:profile_app/view/widget/buttons.dart';
 import 'package:profile_app/view/widget/form.dart';
 import 'package:profile_app/view/widget/layout.dart';
+
 
 
 typedef EditStudentFieldsCallback =
@@ -18,84 +18,6 @@ class StudentEditableFields{
   const StudentEditableFields({required this.name, required this.roll});
   final String name;
   final String roll;
-}
-
-class StudentListView extends ConsumerWidget {
-  const StudentListView({super.key});
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return ref.watch(studentsListProvider).when(
-      data: (students) {
-        return ListView.builder(
-          itemCount: students.length,
-          itemBuilder: (context, index) {
-            return Card(
-              child: StudentListItem(student: students.elementAt(index)),
-            );
-          },
-        );
-      },
-      error: (error, stackTrace) {
-        return const Center(
-          child: Text(
-            "Error!",
-            style: TextStyle(color: Colors.red),
-          )
-        );
-      }, 
-      loading: () {
-        return const Center(child: CircularProgressIndicator());
-      },
-    );
-
-  }
-}
-
-class StudentListItem extends ConsumerWidget {
-  const StudentListItem({
-    Key? key,
-    required this.student,
-  }) : super(key: key);
-
-  final Student student;
-
-  void _onEditTap(BuildContext context){
-    DialogUtil.showStudentEditDialog(context, student);
-  }
-
-  void _onDeleteTap(BuildContext context, WidgetRef ref){
-    DialogUtil.showConfirmDeleteDialog(
-      context: context,
-      onDeleteConfirm:(){
-        _deleteStudent(ref);
-        SnackBarUitl.showStudentDeleteSnackBar(context);
-      }
-    );
-  }
-
-  void _onListItemTap(BuildContext context){
-    DialogUtil.showStudentDialog(context, student);
-  }
-
-  void _deleteStudent(WidgetRef ref) {
-    ref.read(studentsListNotifireProvider.notifier).removeStudent(student);
-  }
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return ListTile(
-      title: Text(student.name),
-      trailing: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          EditIconButton(onPressed: ()=> _onEditTap(context)),
-          DeleteIconButton(onPressed: () => _onDeleteTap(context, ref)),
-        ],
-      ),
-      subtitle: Text(student.id.toString()),
-      onTap: ()=> _onListItemTap(context),
-    );
-  }
 }
 
 
@@ -128,36 +50,6 @@ class EditStudentView extends ConsumerWidget {
       oldFieldsValue: StudentEditableFields(
         name: student.name, roll: student.roll
       )
-    );
-  }
-}
-
-class AddStudentView extends ConsumerWidget {
-  const AddStudentView({super.key});
-
-  void _onNewStudentAdd(
-     BuildContext context,
-     WidgetRef ref,
-     StudentEditableFields fields
-  ){
-    _addNewStudent(ref, fields);
-    SnackBarUitl.showStudentAddSnackBar(context);
-  }
-
-  void _addNewStudent(WidgetRef ref, StudentEditableFields fields){
-    ref.read(studentsListNotifireProvider.notifier).addStudent(
-      name: fields.name,
-      roll: fields.roll,
-    );
-  }
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return EditStudentFieldsWidget(
-      headerText: StringConstants.addStudentFormHeader,   
-      onEditStudentSave: (editedFields) =>
-       _onNewStudentAdd(context, ref, editedFields),
-      oldFieldsValue: const StudentEditableFields(name: "", roll: "")
     );
   }
 }
@@ -233,20 +125,4 @@ class EditStudentFieldsWidget extends HookWidget {
     Navigator.pop(context);
   }
 
-}
-
-class StudentView extends StatelessWidget {
-  final Student student;
-  const StudentView({super.key, required this.student});
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Text("Name: ${student.name}"),
-        Text("Roll: ${student.roll}"),
-      ],
-    );
-  }
 }
