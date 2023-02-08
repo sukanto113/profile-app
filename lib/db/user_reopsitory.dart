@@ -2,14 +2,14 @@ import 'package:profile_app/auth/authenticator.dart';
 import 'package:profile_app/model/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-abstract class UserRepository{
+abstract class IUserRepository{
   Future<User?> getCurrentUser();
   Future<bool> login(String email, String password);
   Future<void> logout();
   Future<bool> register(String name, String email, String password);
 }
 
-class UserRepositoryLocal implements UserRepository{
+class UserRepositoryLocal implements IUserRepository{
   static const currentUserEmailSharedPrefKey= 'currentUser/email';
   static const currentUserNameSharedPrefKey= 'currentUser/name';
   static const hasCurrentUserSharedPrefKey = 'hasUser';

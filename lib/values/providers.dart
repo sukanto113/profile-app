@@ -6,9 +6,8 @@ import 'package:profile_app/db/user_reopsitory.dart';
 import 'package:profile_app/model/appstate.dart';
 import 'package:profile_app/model/student.dart';
 import 'package:profile_app/model/user.dart';
-import 'package:profile_app/view_model/student_list.dart';
-import 'package:profile_app/view_model/auth_notifier.dart';
-
+import 'package:profile_app/notifiers/student_list.dart';
+import 'package:profile_app/notifiers/auth_notifier.dart';
 
 
 final studentRepositoryProvider = Provider<IStudentRepository>((_){
@@ -26,7 +25,7 @@ final studentsListNotifireProvider = StateNotifierProvider<StudentsListNotifire,
   return StudentsListNotifire(0, repo);
 });
 
-final userRepoProvider = Provider<UserRepository>((_){
+final userRepoProvider = Provider<IUserRepository>((_){
   return UserRepositoryLocal(AuthenticatorLocal());
 });
 

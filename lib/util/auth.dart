@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:profile_app/util/build.dart';
 import 'package:profile_app/util/dialog.dart';
 import 'package:profile_app/values/providers.dart';
-import 'package:profile_app/view_model/auth_notifier.dart';
-
-
+import 'package:profile_app/notifiers/auth_notifier.dart';
 
 class RegistrationExecutor{
 
@@ -27,16 +25,19 @@ class RegistrationExecutor{
   );
 
   void register() async {
+
     if(!buildInfo.formKey.currentState!.validate()) return;
-    AuthNotifire userVM = buildInfo.ref.read(authNotifireProvider.notifier);
+
     buildInfo.ref.read(loadingProvider.notifier).state = true;
 
+    AuthNotifire userVM = buildInfo.ref.read(authNotifireProvider.notifier);
     bool isRegistrationSuccessfull = 
       await userVM.register(
         nameController.text,
         emailController.text,
         passwordController.text
       );
+
     buildInfo.ref.read(loadingProvider.notifier).state = false;
 
     if(isRegistrationSuccessfull){
@@ -45,6 +46,7 @@ class RegistrationExecutor{
       if(!buildInfo.isMounted()) return;
       DialogUtil.showRegistrationFailedDialog(buildInfo.context);
     }
+
   }
 
 }
@@ -63,17 +65,21 @@ class LoginExecutor{
 
   void login() async {
     if(!buildInfo.formKey.currentState!.validate()) return;
+
     buildInfo.ref.read(loadingProvider.notifier).state = true;
+
     final bool isLoginSuccessfull = 
       await buildInfo.ref.read(authNotifireProvider.notifier).login(
         emailController.text,
         passwordController.text
       );
+
     buildInfo.ref.read(loadingProvider.notifier).state = false;
 
     if(!isLoginSuccessfull){
       if(!buildInfo.isMounted()) return;
       DialogUtil.showLoginFailedDialog(buildInfo.context);
     }
+
   }
 }

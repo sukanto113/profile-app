@@ -2,7 +2,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:profile_app/db/user_reopsitory.dart';
 
 class AuthNotifire extends StateNotifier<int>{
-  final UserRepository userRepository;
+  final IUserRepository userRepository;
 
   AuthNotifire(super.state, this.userRepository);
 
