@@ -11,9 +11,9 @@ class AuthenticatorLocal implements Authenticator {
   Future<bool> authenticate(String email, String password) async {
     final prefs = await SharedPreferences.getInstance();
     final authPassword = prefs.getString('user/$email/password');
-    if(authPassword == password){
+    if (authPassword == password) {
       return true;
-    }else{
+    } else {
       return false;
     }
   }
@@ -22,10 +22,10 @@ class AuthenticatorLocal implements Authenticator {
   Future<UserInfo> getUserInfo(String email, String password) async {
     final prefs = await SharedPreferences.getInstance();
 
-    if(await authenticate(email, password)){
+    if (await authenticate(email, password)) {
       String userName = prefs.getString('user/$email/name') ?? "";
       return UserInfo(email: email, userName: userName);
-    }else{
+    } else {
       return const UserInfo(email: "", userName: "");
     }
   }
@@ -39,8 +39,7 @@ class AuthenticatorLocal implements Authenticator {
   }
 }
 
-class UserInfo{
-
+class UserInfo {
   final String email;
   final String userName;
 

@@ -9,7 +9,7 @@ abstract class IUserRepository{
   Future<bool> register(String name, String email, String password);
 }
 
-class UserRepositoryLocal implements IUserRepository{
+class UserRepositoryLocal implements IUserRepository {
   static const currentUserEmailSharedPrefKey= 'currentUser/email';
   static const currentUserNameSharedPrefKey= 'currentUser/name';
   static const hasCurrentUserSharedPrefKey = 'hasUser';

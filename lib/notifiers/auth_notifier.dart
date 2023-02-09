@@ -1,11 +1,10 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:profile_app/db/user_reopsitory.dart';
 
-class AuthNotifire extends StateNotifier<int>{
+class AuthNotifire extends StateNotifier<int> {
   final IUserRepository userRepository;
 
   AuthNotifire(super.state, this.userRepository);
-
 
   Future<bool> login(String email, String password) async {
     bool isSuccess = await userRepository.login(email, password);

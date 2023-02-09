@@ -78,7 +78,7 @@ class LoginExecutor{
     buildInfo.ref.read(loadingProvider.notifier).state = false;
 
     if(!buildInfo.isMounted()) return;
-    if(isLoginSuccessfull){
+    if(isLoginSuccessfull) {
       NavigationUtil.openHomePage(buildInfo.context);
     }else{
       DialogUtil.showLoginFailedDialog(buildInfo.context);

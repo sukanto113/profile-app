@@ -16,7 +16,7 @@ class HookConsumerWidgetBuildInfo {
 }
 
 
-class FormBuildInfo extends HookConsumerWidgetBuildInfo{
+class FormBuildInfo extends HookConsumerWidgetBuildInfo {
 
   final GlobalKey<FormState> formKey;
 

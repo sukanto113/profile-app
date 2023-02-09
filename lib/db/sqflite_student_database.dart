@@ -29,7 +29,7 @@ class StudentFields{
 
   static Map<String, Object?> convertToMap({
     required String name, required String roll
-    }) {
+  }) {
     return {
       StudentFields.name: name,
       StudentFields.roll: roll 
@@ -81,7 +81,7 @@ CREATE TABLE $studentsTable(
   Future<Student> create({
     required String name,
     required String roll,
-    }) async{
+  }) async {
     
     final db = await instance.database;
 
@@ -156,4 +156,3 @@ CREATE TABLE $studentsTable(
     ).toList();
   }
 }
-

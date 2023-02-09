@@ -4,7 +4,7 @@ abstract class IStudentRepository{
   Future<Student> create({
     required String name,
     required String roll,
-    });
+  });
   Future<Student> read(int id);
   Future<Iterable<Student>> readAll();
   Future<int> update(Student student);
@@ -55,7 +55,7 @@ class InMemoryStudentRepo extends IStudentRepository {
     return index;
   }
 
-  int _getIndex(Student student){
+  int _getIndex(Student student) {
     for(var i = 0; i < students.length; ++i){
       if(student.id == students[i].id) return i;
     }
