@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:profile_app/notifiers/student_list.dart';
 import 'package:profile_app/values/providers.dart';
 import 'package:profile_app/values/strings.dart';
 import 'package:profile_app/util/snackbar.dart';
@@ -20,7 +21,7 @@ class AddStudentView extends ConsumerWidget {
   }
 
   void _addNewStudent(WidgetRef ref, StudentEditableFields fields){
-    ref.read(studentsListNotifireProvider.notifier).addStudent(
+    ref.read<StudentsListNotifire>(studentsListNotifireProvider.notifier).addStudent(
       name: fields.name,
       roll: fields.roll,
     );

@@ -10,7 +10,7 @@ class StudentListView extends ConsumerWidget {
   const StudentListView({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return ref.watch(studentsListProvider).when(
+    return ref.watch<AsyncValue<Iterable<Student>>>(studentsListProvider).when(
       data: (students) {
         return ListView.builder(
           itemCount: students.length,
