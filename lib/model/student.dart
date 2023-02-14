@@ -10,6 +10,13 @@ class Student{
     required this.roll
   });
 
+  @override
+  bool operator == (Object other) =>
+    other is Student &&
+    other.id == id &&
+    other.name == name &&
+    other.roll == roll;
+
   Student copyWith({String? name, String? roll}){
     return Student(
       id: id,
@@ -17,6 +24,9 @@ class Student{
       roll: roll ?? this.roll,
     );
   }
+  
+  @override
+  int get hashCode => Object.hash(id, name, roll);
 }
 
 class StudentsListState{
