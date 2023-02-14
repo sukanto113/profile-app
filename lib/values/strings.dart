@@ -15,7 +15,7 @@ class StringConstants{
   static const String simpleSaveButtonText = "Save";
   static const String simpleDeleteButtonText = "Delete";
   static const String viewProfileButtonText = "View Profile";
-  static const String goBackButtonText = "View Profile";
+  static const String goBackButtonText = "Go Back";
   static const String loginButtonText = "LOGIN";
   static const String registerButtonText = "REGISTER";
   static const String needAccountButtonText = "Need an account? REGISTER";
@@ -31,7 +31,7 @@ class StringConstants{
   static const String editStudentFormRollLabel = "Roll";
   
   static const String registerUserFormNameLabel = 'NAME *';
-  static const String registerUserFormNameHint = 'NAME *';
+  static const String registerUserFormNameHint = 'John Doe';
   static const String registerUserFormNameValidationText = 
   "Please enter your name" ;
 
