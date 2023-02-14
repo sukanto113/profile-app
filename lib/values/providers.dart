@@ -18,7 +18,7 @@ final studentRepositoryProvider = Provider<IStudentRepository>((_){
 final studentsListProvider = FutureProvider<Iterable<Student>>((ref) async {
   final repo = ref.watch(studentRepositoryProvider);
   ref.watch(studentsListNotifireProvider);
-  return await repo.readAll();
+  return repo.readAll();
 });
 
 final studentsListNotifireProvider = StateNotifierProvider<StudentsListNotifire, int>((ref) {
@@ -33,7 +33,7 @@ final userRepoProvider = Provider<IUserRepository>((_){
 final userProvider = FutureProvider<User?>((ref) async {
   ref.watch(authNotifireProvider);
 
-  return await ref.read(userRepoProvider).getCurrentUser();
+  return ref.read(userRepoProvider).getCurrentUser();
 });
 
 final authNotifireProvider = StateNotifierProvider<AuthNotifire, int>((ref) {
