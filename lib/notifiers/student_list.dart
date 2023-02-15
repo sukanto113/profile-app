@@ -9,18 +9,20 @@ class StudentsListNotifire extends StateNotifier<int> {
 
   Future<void> removeStudent(Student student) async {
     await repository.delete(student.id);
-    state++;
+    updateState();
   }
 
   Future<void> addStudent({String? name, String? roll}) async {
     await repository.create(name: name ?? "", roll: roll ?? "");
-    state++;
+    updateState();
   }
 
   Future<void> editStudent(Student student,
       {String? name, String? roll}) async {
     final newStudent = student.copyWith(name: name, roll: roll);
     await repository.update(newStudent);
-    state++;
+    updateState();
   }
+
+  void updateState() => state++;
 }

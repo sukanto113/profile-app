@@ -10,23 +10,26 @@ import 'package:profile_app/model/user.dart';
 import 'package:profile_app/notifiers/student_list.dart';
 import 'package:profile_app/notifiers/auth_notifier.dart';
 
-
-final studentRepositoryProvider = Provider<IStudentRepository>((_){
+final Provider<IStudentRepository> studentRepositoryProvider =
+    Provider<IStudentRepository>((_) {
   return SqfliteStudentsRepository.instance;
 });
 
-final studentsListProvider = FutureProvider<Iterable<Student>>((ref) async {
-  final repo = ref.watch(studentRepositoryProvider);
+final FutureProvider<Iterable<Student>> studentsListProvider =
+    FutureProvider<Iterable<Student>>((ref) async {
   ref.watch(studentsListNotifireProvider);
+  final repo = ref.read(studentRepositoryProvider);
   return repo.readAll();
 });
 
-final studentsListNotifireProvider = StateNotifierProvider<StudentsListNotifire, int>((ref) {
-  final repo = ref.watch(studentRepositoryProvider);
+final StateNotifierProvider<StudentsListNotifire, int>
+    studentsListNotifireProvider =
+    StateNotifierProvider<StudentsListNotifire, int>((ref) {
+  final repo = ref.read(studentRepositoryProvider);
   return StudentsListNotifire(0, repo);
 });
 
-final userRepoProvider = Provider<IUserRepository>((_){
+final userRepoProvider = Provider<IUserRepository>((_) {
   return UserRepositoryLocal(AuthenticatorLocal());
 });
 
@@ -37,7 +40,7 @@ final userProvider = FutureProvider<User?>((ref) async {
 });
 
 final authNotifireProvider = StateNotifierProvider<AuthNotifire, int>((ref) {
-  final reop = ref.watch(userRepoProvider);
+  final reop = ref.read(userRepoProvider);
   return AuthNotifire(0, reop);
 });
 
@@ -52,8 +55,8 @@ final userImageProvider = Provider<ImageProvider>((ref) {
 
 final userBioProvider = Provider<String>((ref) {
   return "Hi, I'm Sukanto Saha, I'm M.Sc. student of Rajshahi "
-    "University. I completed my graduation in "
-    "Mathematics from Rajshahi University.";
+      "University. I completed my graduation in "
+      "Mathematics from Rajshahi University.";
 });
 
-final loadingProvider = StateProvider<bool>((_)=>false);
+final loadingProvider = StateProvider<bool>((_) => false);
