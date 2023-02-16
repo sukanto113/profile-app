@@ -5,7 +5,8 @@ import 'package:mockito/mockito.dart';
 import 'package:profile_app/db/user_reopsitory.dart';
 import 'package:profile_app/values/providers.dart';
 
-import 'provider_test_util.dart';
+import '../../lib/riverpod/future_provider.dart';
+import '../../lib/riverpod/test_util.dart';
 
 @GenerateNiceMocks([MockSpec<IUserRepository>()])
 import 'user_provider_test.mocks.dart';
@@ -13,30 +14,27 @@ import 'user_provider_test.mocks.dart';
 void main() {
   group('userProvider', () {
     late ProviderContainer container;
-    late Listener listener;
+    late MockListener listener;
     late MockIUserRepository userRepository;
 
     setUp(() async {
-      listener = Listener();
+      listener = MockListener();
       userRepository = MockIUserRepository();
-      container = ProviderContainer(
+      container = buildProviderContainerForTest(
+        addTearDown: addTearDown,
         overrides: [
           userRepoProvider.overrideWithValue(userRepository),
         ]
       );
-      addTearDown(container.dispose);
     });
     test('watch authNotifire', () async {
-      container.listen(userProvider, listener, fireImmediately: true);
-      await container.read(userProvider.future);
-      verify(listener(null, isA<AsyncLoading>())).called(1);
-      verify(listener(isA<AsyncLoading>(), isA<AsyncData>())).called(1);
-      verifyNoMoreInteractions(listener);
-
-      container.read(authNotifireProvider.notifier).state ++;
-      await  container.read(userProvider.future);
-      verify(listener(isA<AsyncData>(), isA<AsyncLoading>())).called(1);
-      verify(listener(isA<AsyncLoading>(), isA<AsyncData>())).called(1);
+      await verifyFutureProviderWatchingOn(
+        container: container,
+        provider: userProvider,
+        onUpdate: (){
+          container.read(authNotifireProvider.notifier).state++;
+        }
+      );
     });
   });
 }
