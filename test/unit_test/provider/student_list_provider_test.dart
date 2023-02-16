@@ -6,12 +6,10 @@ import 'package:profile_app/db/students_database.dart';
 import 'package:profile_app/model/student.dart';
 import 'package:profile_app/values/providers.dart';
 
+import 'provider_test_util.dart';
+
 @GenerateNiceMocks([MockSpec<IStudentRepository>()])
 import 'student_list_provider_test.mocks.dart';
-
-class Listener extends Mock{
-  void call(prev, value);
-}
 
 void main() {
   group('studentListProvider', () {
