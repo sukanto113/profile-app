@@ -27,6 +27,11 @@ class Student{
   
   @override
   int get hashCode => Object.hash(id, name, roll);
+
+  @override
+  String toString() {
+    return "{ id: $id, name: $name, roll: $roll }";
+  }
 }
 
 class StudentsListState{
