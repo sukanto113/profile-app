@@ -7,7 +7,7 @@ import 'package:profile_app/db/user_reopsitory.dart';
 import 'package:profile_app/model/appstate.dart';
 import 'package:profile_app/model/student.dart';
 import 'package:profile_app/model/user.dart';
-import 'package:profile_app/notifiers/student_list.dart';
+import 'package:profile_app/notifiers/student_list_notifire.dart';
 import 'package:profile_app/notifiers/auth_notifier.dart';
 
 final Provider<IStudentRepository> studentRepositoryProvider =

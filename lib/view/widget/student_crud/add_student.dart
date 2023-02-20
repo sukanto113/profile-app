@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:profile_app/notifiers/student_list.dart';
+import 'package:profile_app/notifiers/student_list_notifire.dart';
 import 'package:profile_app/values/providers.dart';
 import 'package:profile_app/values/strings.dart';
 import 'package:profile_app/util/snackbar.dart';
