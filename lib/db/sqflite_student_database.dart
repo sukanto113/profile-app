@@ -101,7 +101,7 @@ CREATE TABLE $studentsTable(
     if(result.isNotEmpty){
       return StudentFields.convertMapToStudent(result.first);
     }else{
-      throw Exception('Id $id not found');
+      throw ArgumentError('Id $id not found');
     }
   }
 
