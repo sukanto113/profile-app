@@ -12,7 +12,7 @@ import 'package:profile_app/notifiers/auth_notifier.dart';
 
 final Provider<IStudentRepository> studentRepositoryProvider =
     Provider<IStudentRepository>((_) {
-  return SqfliteStudentsRepository.instance;
+  return SqfliteStudentsRepository();
 });
 
 final FutureProvider<Iterable<Student>> studentsListProvider =

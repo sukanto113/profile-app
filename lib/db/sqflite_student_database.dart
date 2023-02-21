@@ -43,11 +43,8 @@ class StudentFields{
 }
 
 class SqfliteStudentsRepository implements IStudentRepository{
-  static final SqfliteStudentsRepository instance = SqfliteStudentsRepository._init();
 
-  static Database? _database;
-
-  SqfliteStudentsRepository._init();
+  Database? _database;
 
   Future<Database> get database async {
     if(_database != null) return _database!;
@@ -82,10 +79,9 @@ CREATE TABLE $studentsTable(
     required String name,
     required String roll,
   }) async {
-    
-    final db = await instance.database;
+      
 
-    final id = await db.insert(studentsTable, StudentFields.convertToMap(
+    final id = await (await database).insert(studentsTable, StudentFields.convertToMap(
       name: name, roll: roll
     ));
 
@@ -94,9 +90,8 @@ CREATE TABLE $studentsTable(
 
   @override
   Future<Student> read(int id) async {
-    final db = await instance.database;
 
-    final result = await db.query(
+    final result = await (await database).query(
       studentsTable,
       columns: StudentFields.toList(),
       where: '${StudentFields.id} = ?',
@@ -112,9 +107,7 @@ CREATE TABLE $studentsTable(
 
   @override
   Future<List<Student>> readAll() async {
-    final db = await instance.database;
-
-    final result = await db.query(
+    final result = await (await database).query(
       studentsTable,
       orderBy: '${StudentFields.id} ASC'
     );
@@ -124,8 +117,7 @@ CREATE TABLE $studentsTable(
 
   @override
   Future<int> update(Student student) async {
-    final db = await instance.database;
-    return await db.update(
+    return await (await database).update(
       studentsTable,
       StudentFields.convertStudentToMap(student),
       where: '${StudentFields.id} = ?',
@@ -135,9 +127,7 @@ CREATE TABLE $studentsTable(
 
   @override
   Future<int> delete(int id) async {
-    final db = await instance.database;
-
-    return await db.delete(
+    return await (await database).delete(
       studentsTable,
       where: '${StudentFields.id} = ?',
       whereArgs: [id],
@@ -146,8 +136,7 @@ CREATE TABLE $studentsTable(
 
   @override
   Future<void> close() async {
-    final db = await instance.database;
-    db.close();
+    (await database).close();
   }
 
   List<Student> _convertMapsToStudents(List<Map<String, Object?>> result) {
