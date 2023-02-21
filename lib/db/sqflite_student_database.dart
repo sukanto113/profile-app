@@ -5,6 +5,7 @@ import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart' as p;
 
 const studentsTable = 'students';
+const databaseFileName = 'notes.db';
 
 class StudentFields{
   static const id = '_id';
@@ -46,19 +47,18 @@ class SqfliteStudentsRepository implements IStudentRepository{
 
   Database? _database;
 
+  static Future<String> getDatabaseFilePath() async {
+    final dbPath = await getDatabasesPath();
+    final path = p.join(dbPath, databaseFileName);
+    return path;
+  }
+
   Future<Database> get database async {
     if(_database != null) return _database!;
-
-    _database = await _initDB('notes.db');
-
+    
+    final path = await getDatabaseFilePath();
+    _database = await openDatabase(path, version: 1, onCreate: _createDB);
     return _database!;
-  }
-  
-  Future<Database> _initDB(String filePath) async {
-    final dbPath = await getDatabasesPath();
-    final path = p.join(dbPath, filePath);
-
-    return await openDatabase(path, version: 1, onCreate: _createDB);
   }
 
   Future<void> _createDB(Database db, int version) async {
