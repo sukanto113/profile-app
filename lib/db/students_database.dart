@@ -9,17 +9,12 @@ abstract class IStudentRepository{
   Future<Iterable<Student>> readAll();
   Future<int> update(Student student);
   Future<int> delete(int id);
-  Future<void> close();
-
 }
+
 class InMemoryStudentRepo extends IStudentRepository {
   
   List<Student> students = [];
   int nextIndex = 1;
-  
-  @override
-  Future<void> close() async {
-  }
 
   @override
   Future<Student> create({required String name, required String roll}) async {

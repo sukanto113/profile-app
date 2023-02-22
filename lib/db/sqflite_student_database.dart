@@ -134,7 +134,6 @@ CREATE TABLE $studentsTable(
     );
   }
 
-  @override
   Future<void> close() async {
     (await database).close();
   }
