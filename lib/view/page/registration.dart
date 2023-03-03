@@ -52,6 +52,7 @@ class RegistrationPage extends HookConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 ElevatedFormActionButton(
+                  key: const Key("registerButoon"),
                   buttonText: StringConstants.registerButtonText,
                   onPressed: executor.register,
                 ),
@@ -70,9 +71,9 @@ class RegistrationPage extends HookConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   const FormHeaderText(text: StringConstants.registerFormHeader),
-                  NameFormField(controller: nameController),
-                  EmailFormField(controller: emailController),
-                  PasswordFormField(controller: passwordController,),
+                  NameFormField(key: const Key("RegistrationNameFormField"), controller: nameController),
+                  EmailFormField(key: const Key("RegistrationEmailFormField"), controller: emailController),
+                  PasswordFormField(key: const Key("RegistrationPasswordFormField"), controller: passwordController,),
                   const SizedBox(height: 50,),
                 ],
               ),

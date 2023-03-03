@@ -36,27 +36,37 @@ class SplashView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(     
-      alignment: Alignment.center,                 
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          colors: [
-            Colors.blue, 
-            Color.fromARGB(255, 115, 30, 227)
-          ],
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-        )
-      ),
-      child: const SizedBox(
-        height: 100,
-        child: FittedBox(
-          child: CircleAvatar(                            
-            backgroundColor: Colors.white,
-            child: Icon(Icons.home),
+    return Stack(
+      alignment: Alignment.bottomCenter,
+      children: [
+        Container(     
+          alignment: Alignment.center,                 
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Colors.blue, 
+                Color.fromARGB(255, 115, 30, 227)
+              ],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+            )
+          ),
+          child: const SizedBox(
+            height: 100,
+            child: FittedBox(
+              child: CircleAvatar(                            
+                backgroundColor: Colors.white,
+                child: Icon(Icons.home),
+              ),
+            ),
           ),
         ),
-      ),
+
+        const Positioned(
+          bottom: 50,
+          child: CircularProgressIndicator(),
+        ),
+      ]
     );
   }
 }

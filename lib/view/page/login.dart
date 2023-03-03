@@ -53,11 +53,13 @@ class LoginPage extends HookConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 ElevatedFormActionButton(
+                  key: const Key("loginButoon"),
                   buttonText: StringConstants.loginButtonText,
                   onPressed: executor.login,
                 ),
                 const SizedBox(height: 10,),
                 SimpleTextButton(
+                  key: const Key("needAccountRegisterButton"),
                   onPressed: () => _openRegisterPage(context),
                   text: StringConstants.needAccountButtonText,
                 ),
@@ -76,8 +78,8 @@ class LoginPage extends HookConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   const FormHeaderText(text: StringConstants.loginFormHeader),
-                  EmailFormField(controller: emailController),
-                  PasswordFormField(controller: passwordController),
+                  EmailFormField(key: const Key("LoginEmailFormField"), controller: emailController),
+                  PasswordFormField(key: const Key("LoginPasswordFormField"), controller: passwordController),
                   const SizedBox(height: 50,)
                 ],
               ),

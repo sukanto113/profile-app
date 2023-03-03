@@ -121,13 +121,4 @@ class MockIStudentRepository extends _i1.Mock
         returnValue: _i4.Future<int>.value(0),
         returnValueForMissingStub: _i4.Future<int>.value(0),
       ) as _i4.Future<int>);
-  @override
-  _i4.Future<void> close() => (super.noSuchMethod(
-        Invocation.method(
-          #close,
-          [],
-        ),
-        returnValue: _i4.Future<void>.value(),
-        returnValueForMissingStub: _i4.Future<void>.value(),
-      ) as _i4.Future<void>);
 }
