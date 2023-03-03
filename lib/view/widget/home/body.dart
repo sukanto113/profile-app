@@ -37,6 +37,7 @@ class HomeBody extends StatelessWidget {
           Container(
             margin: const EdgeInsets.all(10),
             child: ElevatedTextButton(
+              key: const Key("viewProfileButton"),
               onPressed: () => _onViewProfileTab(context),
               text: StringConstants.viewProfileButtonText,
             )
