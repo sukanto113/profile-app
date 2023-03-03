@@ -31,7 +31,10 @@ class ProfilePage extends StatelessWidget {
             const _UserImage(),
             _UserName(user: user,),
             const _UserBio(),
-            GoBackElevatedButton(onPressed: () => _onGoBackPressed(context))
+            GoBackElevatedButton(
+              key: const Key("goBackButton"),
+              onPressed: () => _onGoBackPressed(context)
+            ),
           ],
         ),
       ),
